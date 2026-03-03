@@ -18,8 +18,9 @@ print("Loading Llama-3.2 brain (this takes a moment)...")
 llm = LlamaCpp(
     model_path=MODEL_PATH,
     n_ctx=2048,      # Context window for Pi 4
+    n_batch= 128,
     n_threads=4,     # Use all 4 cores of the Pi 4
-    temperature=0.7,
+    temperature=0.1,
     verbose=False
 )
 
