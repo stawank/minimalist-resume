@@ -254,6 +254,23 @@
       </section>
     </div>
 
+    <div class="chatbot">
+      <div class="chatbot-header">
+        💬 Ask about my resume
+      </div>
+      <div class="chatbot-messages" id="chat-messages"></div>
+      <form id="chat-form">
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="Ask a question about my experience..."
+          autocomplete="off"
+          required
+        />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+
     <script>
       // Theme toggle functionality
       function toggleTheme() {
@@ -385,11 +402,68 @@
         setLanguage(savedLang)
       }
 
+      const CHAT_API_URL = "http://127.0.0.1:8000/chat"
+
+      function appendMessage(role, text) {
+        const container = document.getElementById("chat-messages")
+        if (!container) return
+
+        const div = document.createElement("div")
+        div.className = `chat-message chat-message-${role}`
+        div.textContent = text
+        container.appendChild(div)
+        container.scrollTop = container.scrollHeight
+      }
+
       // Initialize
       document.addEventListener("DOMContentLoaded", function () {
         loadTheme()
         loadLanguage()
         animateCards()
+
+        const form = document.getElementById("chat-form")
+        const input = document.getElementById("chat-input")
+
+        if (form && input) {
+          form.addEventListener("submit", async function (e) {
+            e.preventDefault()
+            const question = input.value.trim()
+            if (!question) return
+
+            appendMessage("user", question)
+            input.value = ""
+
+            appendMessage("assistant", "Thinking...")
+
+            try {
+              const res = await fetch(CHAT_API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ question }),
+              })
+
+              const data = await res.json()
+              const container = document.getElementById("chat-messages")
+              const last = container ? container.lastElementChild : null
+              const answer = data.answer || "No answer."
+              if (last && last.textContent === "Thinking...") {
+                last.textContent = answer
+              } else {
+                appendMessage("assistant", answer)
+              }
+            } catch (err) {
+              const container = document.getElementById("chat-messages")
+              const last = container ? container.lastElementChild : null
+              const errorText = "Error contacting chatbot backend."
+              if (last && last.textContent === "Thinking...") {
+                last.textContent = errorText
+              } else {
+                appendMessage("assistant", errorText)
+              }
+              console.error(err)
+            }
+          })
+        }
       })
     </script>
   </body>
