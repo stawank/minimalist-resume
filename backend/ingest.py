@@ -1,7 +1,7 @@
 import os
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_community.vectorstores import Chroma
 
 # 1. Setup paths
@@ -31,12 +31,7 @@ text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
 chunks = text_splitter.split_documents(documents)
 
 # 4. Create Embeddings (Math version of your text)
-print("Downloading embedding model (MiniLM)...")
-model_kwargs = {'device': 'cpu'}
-encode_kwargs = {'normalize_embeddings': False}
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2", 
-    model_kwargs=model_kwargs,
-    encode_kwargs=encode_kwargs)
+embeddings = FastEmbedEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 
 # 5. Save to Vector Database
 print(f"Creating database at {DB_PATH}...")
