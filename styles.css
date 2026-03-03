@@ -67,6 +67,36 @@ body {
   z-index: 1000;
 }
 
+.language-toggle {
+  position: fixed;
+  top: 1.5rem;
+  right: 5.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  box-shadow: var(--shadow-light);
+  z-index: 1000;
+}
+
+.language-toggle button {
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.75rem;
+}
+
+.language-toggle button.active {
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
 .theme-toggle:hover {
   transform: scale(1.1);
   box-shadow: var(--shadow-medium);
