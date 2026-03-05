@@ -7,6 +7,12 @@ from langchain_community.llms import LlamaCpp
 from langchain_community.vectorstores import Chroma
 from langchain.chains.retrieval_qa.base import RetrievalQA
 from pydantic import BaseModel
+import asyncio
+from fastapi import HTTPException
+
+
+# Semaphore allows max 2 concurrent chat requests
+semaphore = asyncio.Semaphore(2)
 
 # 1. Paths
 MODEL_PATH = "/home/stawan/.cache/llama.cpp/bartowski_Llama-3.2-1B-Instruct-GGUF_Llama-3.2-1B-Instruct-Q4_K_M.gguf"
@@ -56,9 +62,12 @@ app.add_middleware(
 
 
 @app.post("/chat", response_model=ChatResponse)
-def chat(req: ChatRequest) -> ChatResponse:
-    answer = qa_chain.run(req.question)
-    return ChatResponse(answer=answer)
+async def chat(req: ChatRequest) -> ChatResponse:
+    if not semaphore._value:
+        raise HTTPException(status_code=429, detail="Too busy right now, please try again in a moment.")
+    async with semaphore:
+        result = qa_chain.invoke({"query": req.question})
+        return ChatResponse(answer=result["result"].strip())
 
 
 @app.get("/health")
