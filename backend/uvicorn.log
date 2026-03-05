@@ -1,0 +1,16 @@
+PyTorch was not found. Models won't be available and only tokenizers, configuration and file/data utilities can be used.
+[0;93m2026-03-05 14:02:54.264753157 [W:onnxruntime:Default, device_discovery.cc:211 DiscoverDevicesForPlatform] GPU device discovery failed: device_discovery.cc:91 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+/home/stawan/minimalist-resume/backend/app.py:18: LangChainDeprecationWarning: The class `Chroma` was deprecated in LangChain 0.2.9 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-chroma package and should be used instead. To use it run `pip install -U :class:`~langchain-chroma` and import as `from :class:`~langchain_chroma import Chroma``.
+  vector_db = Chroma(persist_directory=DB_PATH, embedding_function=embeddings)
+llama_context: n_ctx_per_seq (2048) < n_ctx_train (131072) -- the full capacity of the model will not be utilized
+INFO:     Started server process [16622]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+Loading resume memory...
+Loading Llama-3.2 brain (this takes a moment)...
+INFO:     127.0.0.1:45930 - "GET /chat HTTP/1.1" 405 Method Not Allowed
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [16622]
