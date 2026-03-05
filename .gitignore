@@ -2,5 +2,7 @@ backend/__pycache__/
 backend/chroma_db/
 backend/uvicorn.log
 backend/venv/
+backend/*.xlsx
+
 *.pyc
 *.log
