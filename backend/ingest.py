@@ -16,9 +16,7 @@ CHUNK_SIZE   = 300
 CHUNK_OVERLAP = 30
 
 SKIP_PDFS = {
-    "master_thesis_kulkarni_419106.pdf",
-    "419106_Report.pdf",
-    "Report_Kulkarni_Rangani_Mohite.pdf",
+
     "Bachelor_Thesis_Report.pdf",
     "stawan-master-thesis-presentation.pdf",
     "DAQ File_2019.pdf",
