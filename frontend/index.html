@@ -256,7 +256,7 @@
 
     <div class="chatbot">
       <div class="chatbot-header">
-        💬 Ask about my resume
+        💬 Ask about me here!
       </div>
       <div class="chatbot-messages" id="chat-messages"></div>
       <form id="chat-form">
@@ -402,7 +402,7 @@
         setLanguage(savedLang)
       }
 
-      const CHAT_API_URL = "http://127.0.0.1:8000/chat"
+      const CHAT_API_URL = "/chat"
 
       function appendMessage(role, text) {
         const container = document.getElementById("chat-messages")
