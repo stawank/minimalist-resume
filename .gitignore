@@ -6,3 +6,4 @@ backend/*.xlsx
 
 *.pyc
 *.log
+.env
