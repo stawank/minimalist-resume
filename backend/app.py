@@ -11,6 +11,8 @@ from dotenv import load_dotenv
 import openpyxl
 from functools import lru_cache
 import hashlib
+from fastapi.responses import StreamingResponse
+import json
 import os
 
 MODEL_PATH = os.getenv("MODEL_PATH")
@@ -136,4 +138,28 @@ def chat(req: ChatRequest) -> ChatResponse:
     question_hash = hashlib.md5(req.question.lower().strip().encode()).hexdigest()
     answer = cached_rag(question_hash, req.question)
     log_to_excel(req.question, answer)
-    return ChatResponse(answer=answer)
+    return ChatResponse(answer=answer)#
+
+@app.post("/chat/stream")
+def chat_stream(req: ChatRequest):
+    docs    = vector_db.similarity_search(req.question, k=5)
+    # Filter blocked sources
+    safe_docs = [d for d in docs if d.metadata.get("source", "") not in BLOCKED_SOURCES]
+    if not safe_docs:
+        def empty():
+            yield f"data: {json.dumps({'token': 'I dont have that information.'})}\n\n"
+            yield "data: [DONE]\n\n"
+        return StreamingResponse(empty(), media_type="text/event-stream")
+
+    context = "\n\n".join([d.page_content for d in safe_docs])
+    filled  = prompt_template.replace("{context}", context).replace("{question}", req.question)
+
+    def generate():
+        full_answer = ""
+        for token in llm.stream(filled):
+            full_answer += token
+            yield f"data: {json.dumps({'token': token})}\n\n"
+        log_to_excel(req.question, full_answer.strip())
+        yield "data: [DONE]\n\n"
+
+    return StreamingResponse(generate(), media_type="text/event-stream")

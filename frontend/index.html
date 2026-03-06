@@ -244,7 +244,7 @@
           <p class="card-subtitle">Dr. Babasaheb Ambedkar Marathwada University, Aurangabad, India</p>
           <p class="card-meta">📅 Aug 2014 - Apr 2018</p>
           <p class="card-description" data-i18n="edu_bachelor_desc">
-            I earned my Bachelor’s degree in an academically rigorous
+            I earned my Bachelor's degree in an academically rigorous
             environment, developing a strong foundation in mechatronics,
             robotics, automotive engineering, and control systems. Studies at
             GECA strengthened my technical knowledge and practical
@@ -267,7 +267,7 @@
           autocomplete="off"
           required
         />
-        <button type="submit">Send</button>
+        <button type="submit" id="chat-submit">Send</button>
       </form>
     </div>
 
@@ -348,7 +348,7 @@
           edu_master_desc:
             "I had the opportunity to pursue my master studies in the city of Kaiserslautern, Germany, known for its strong academic environment and vibrant international community. During my studies, I focused on automotive software, autonomous systems, and electric and hybrid vehicles.",
           edu_bachelor_desc:
-            "I earned my Bachelor’s degree in an academically rigorous environment, developing a strong foundation in mechatronics, robotics, automotive engineering, and control systems. Studies at GECA strengthened my technical knowledge and practical problem-solving abilities.",
+            "I earned my Bachelor's degree in an academically rigorous environment, developing a strong foundation in mechatronics, robotics, automotive engineering, and control systems. Studies at GECA strengthened my technical knowledge and practical problem-solving abilities.",
         },
         de: {
           section_about_title: "👋 Über mich",
@@ -402,16 +402,77 @@
         setLanguage(savedLang)
       }
 
-      const CHAT_API_URL = "/chat"
-
+      // ── Chat with streaming ───────────────────────────────────────────────
       function appendMessage(role, text) {
         const container = document.getElementById("chat-messages")
         if (!container) return
-
         const div = document.createElement("div")
         div.className = `chat-message chat-message-${role}`
         div.textContent = text
         container.appendChild(div)
+        container.scrollTop = container.scrollHeight
+        return div
+      }
+
+      async function sendStreamingMessage(question) {
+        const container = document.getElementById("chat-messages")
+        const submitBtn = document.getElementById("chat-submit")
+
+        appendMessage("user", question)
+        submitBtn.disabled = true
+        submitBtn.textContent = "..."
+
+        // Create empty bot message div that we'll fill token by token
+        const botDiv = document.createElement("div")
+        botDiv.className = "chat-message chat-message-assistant"
+        botDiv.textContent = "▍"  // blinking cursor
+        container.appendChild(botDiv)
+        container.scrollTop = container.scrollHeight
+
+        try {
+          const res = await fetch("/chat/stream", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question }),
+          })
+
+          if (!res.ok) throw new Error("Server error")
+
+          const reader = res.body.getReader()
+          const decoder = new TextDecoder()
+          let fullText = ""
+
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+
+            const chunk = decoder.decode(value)
+            const lines = chunk.split("\n")
+
+            for (const line of lines) {
+              if (line.startsWith("data: ")) {
+                const data = line.slice(6).trim()
+                if (data === "[DONE]") break
+                try {
+                  const parsed = JSON.parse(data)
+                  fullText += parsed.token
+                  botDiv.textContent = fullText + "▍"
+                  container.scrollTop = container.scrollHeight
+                } catch {}
+              }
+            }
+          }
+
+          // Remove cursor when done
+          botDiv.textContent = fullText || "I don't have that information."
+
+        } catch (err) {
+          botDiv.textContent = "Error contacting chatbot backend."
+          console.error(err)
+        }
+
+        submitBtn.disabled = false
+        submitBtn.textContent = "Send"
         container.scrollTop = container.scrollHeight
       }
 
@@ -429,39 +490,8 @@
             e.preventDefault()
             const question = input.value.trim()
             if (!question) return
-
-            appendMessage("user", question)
             input.value = ""
-
-            appendMessage("assistant", "Thinking...")
-
-            try {
-              const res = await fetch(CHAT_API_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ question }),
-              })
-
-              const data = await res.json()
-              const container = document.getElementById("chat-messages")
-              const last = container ? container.lastElementChild : null
-              const answer = data.answer || "No answer."
-              if (last && last.textContent === "Thinking...") {
-                last.textContent = answer
-              } else {
-                appendMessage("assistant", answer)
-              }
-            } catch (err) {
-              const container = document.getElementById("chat-messages")
-              const last = container ? container.lastElementChild : null
-              const errorText = "Error contacting chatbot backend."
-              if (last && last.textContent === "Thinking...") {
-                last.textContent = errorText
-              } else {
-                appendMessage("assistant", errorText)
-              }
-              console.error(err)
-            }
+            await sendStreamingMessage(question)
           })
         }
       })
