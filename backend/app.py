@@ -56,16 +56,7 @@ PROMPT = PromptTemplate(
     template=prompt_template,
     input_variables=["context", "question"]
 )
-BLOCKED_SOURCES = {
-    "Arbeitszeugnis_FPraktikum_Kulkarni.pdf",
-    "Arbeitszeugnis_PPraktikum_Kulkarni.pdf",
-    "Arbeitszeugnis_Werkstudent_Kulkarni.pdf",
-    "Zwischenzeugnis_EDAG.pdf",
-    "InterimReport_EDAG.pdf",
-    "MastersZeugnisComplete.pdf",
-    "GECA_TRANSCRIPT.pdf",
-    "FINAL DEGREE CERTIFICATE (1).pdf",
-}
+
 # ── Excel logger ──────────────────────────────────────────────────────────────
 def log_to_excel(question: str, answer: str):
     try:
