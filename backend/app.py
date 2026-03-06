@@ -9,6 +9,8 @@ from pydantic import BaseModel
 from datetime import datetime
 from dotenv import load_dotenv
 import openpyxl
+from functools import lru_cache
+import hashlib
 import os
 
 MODEL_PATH = os.getenv("MODEL_PATH")
@@ -117,3 +119,21 @@ def download_questions():
     if os.path.exists(LOG_PATH):
         return FileResponse(LOG_PATH, filename="hr_questions.xlsx")
     return {"error": "No questions logged yet"}
+
+
+
+# Cache last 50 unique questions
+@lru_cache(maxsize=50)
+def cached_rag(question_hash: str, question: str):
+    docs = vector_db.similarity_search(question, k=5)
+    context = "\n\n".join([d.page_content for d in docs])
+    filled  = prompt_template.replace("{context}", context).replace("{question}", question)
+    raw     = llm.invoke(filled).strip()
+    return validate_answer(raw, context)
+
+@app.post("/chat", response_model=ChatResponse)
+def chat(req: ChatRequest) -> ChatResponse:
+    question_hash = hashlib.md5(req.question.lower().strip().encode()).hexdigest()
+    answer = cached_rag(question_hash, req.question)
+    log_to_excel(req.question, answer)
+    return ChatResponse(answer=answer)
