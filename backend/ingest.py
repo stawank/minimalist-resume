@@ -109,4 +109,19 @@ URL: {r.get('html_url', '')}
 except Exception as e:
     print(f"   GitHub failed: {e}")
 
+# 4. Ingest TXT files
+txt_files = [f for f in os.listdir(DOCS_PATH) if f.endswith(".txt")]
+print(f"\nFound {len(txt_files)} TXT files...")
+for filename in sorted(txt_files):
+    path = os.path.join(DOCS_PATH, filename)
+    try:
+        with open(path, "r") as f:
+            text = f.read()
+        doc = Document(page_content=text, metadata={"source": filename})
+        chunks = splitter.split_documents([doc])
+        db.add_documents(chunks)
+        total_chunks += len(chunks)
+        print(f"   OK {filename} -> {len(chunks)} chunks")
+    except Exception as e:
+        print(f"   FAIL {filename} -> {e}")
 print(f"\nDone! {total_chunks} total chunks stored.")
