@@ -7,12 +7,13 @@ from langchain_community.llms import LlamaCpp
 from langchain.prompts import PromptTemplate
 from pydantic import BaseModel
 from datetime import datetime
+from dotenv import load_dotenv
 import openpyxl
 import os
 
-MODEL_PATH = "/home/stawan/.cache/llama.cpp/bartowski_Llama-3.2-1B-Instruct-GGUF_Llama-3.2-1B-Instruct-Q4_K_M.gguf"
-DB_PATH    = "/home/stawan/minimalist-resume/backend/chroma_db"
-LOG_PATH   = "/home/stawan/minimalist-resume/backend/hr_questions.xlsx"
+MODEL_PATH = os.getenv("MODEL_PATH")
+DB_PATH    = os.getenv("DB_PATH")
+LOG_PATH   = os.getenv("LOG_PATH")
 
 print("Loading resume memory...")
 embeddings = FastEmbedEmbeddings(model_name="BAAI/bge-small-en-v1.5")
