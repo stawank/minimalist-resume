@@ -56,7 +56,10 @@ PROMPT = PromptTemplate(
     template=prompt_template,
     input_variables=["context", "question"]
 )
+BLOCKED_SOURCES = {
 
+    "FINAL DEGREE CERTIFICATE (1).pdf",
+}
 # ── Excel logger ──────────────────────────────────────────────────────────────
 def log_to_excel(question: str, answer: str):
     try:
