@@ -14,7 +14,7 @@ import hashlib
 from fastapi.responses import StreamingResponse
 import json
 import os
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 MODEL_PATH = os.getenv("MODEL_PATH")
 DB_PATH    = os.getenv("DB_PATH")
@@ -27,7 +27,9 @@ embeddings = FastEmbedEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 vector_db  = Chroma(persist_directory=DB_PATH, embedding_function=embeddings)
 
 print("Loading Gemini-3-flash brain...")
-llm = ChatOpenAI(model="gemini-3-flash")
+llm = ChatGoogleGenerativeAI(model="gemini-3-flash",
+google_api_key=GEMINI_API_KEY,
+temperature= 0.0)
 
 prompt_template = """<|begin_of_text|><|start_header_id|>system<|end_header_id|>
 You are a factual assistant on Stawan Kulkarni's resume website.
