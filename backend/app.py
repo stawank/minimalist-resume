@@ -19,7 +19,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 MODEL_PATH = os.getenv("MODEL_PATH")
 DB_PATH    = os.getenv("DB_PATH")
 LOG_PATH   = os.getenv("LOG_PATH")
-GEMINI_API_KEY = os.getenv("OPENROUTER_API_KEY")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 
 print("Loading resume memory...")
@@ -105,15 +105,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.post("/chat", response_model=ChatResponse)
-def chat(req: ChatRequest) -> ChatResponse:
-    docs    = vector_db.similarity_search(req.question, k=5)
-    context = "\n\n".join([d.page_content for d in docs])
-    filled  = prompt_template.replace("{context}", context).replace("{question}", req.question)
-    raw     = llm.invoke(filled).strip()
-    answer  = validate_answer(raw, context)
-    log_to_excel(req.question, answer)
-    return ChatResponse(answer=answer)
+
 
 @app.get("/health")
 def health() -> dict:
@@ -136,12 +128,7 @@ def cached_rag(question_hash: str, question: str):
     raw     = llm.invoke(filled).strip()
     return validate_answer(raw, context)
 
-@app.post("/chat", response_model=ChatResponse)
-def chat(req: ChatRequest) -> ChatResponse:
-    question_hash = hashlib.md5(req.question.lower().strip().encode()).hexdigest()
-    answer = cached_rag(question_hash, req.question)
-    log_to_excel(req.question, answer)
-    return ChatResponse(answer=answer)#
+
 
 @app.post("/chat/stream")
 def chat_stream(req: ChatRequest):
