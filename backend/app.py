@@ -14,24 +14,20 @@ import hashlib
 from fastapi.responses import StreamingResponse
 import json
 import os
+from langchain_openai import ChatOpenAI
 
 MODEL_PATH = os.getenv("MODEL_PATH")
 DB_PATH    = os.getenv("DB_PATH")
 LOG_PATH   = os.getenv("LOG_PATH")
+GEMINI_API_KEY = os.getenv("OPENROUTER_API_KEY")
+
 
 print("Loading resume memory...")
 embeddings = FastEmbedEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 vector_db  = Chroma(persist_directory=DB_PATH, embedding_function=embeddings)
 
-print("Loading Llama-3.2 brain...")
-llm = LlamaCpp(
-    model_path=MODEL_PATH,
-    n_ctx=2048,
-    n_batch=128,
-    n_threads=4,
-    temperature=0.0,
-    verbose=False,
-)
+print("Loading Gemini-3-flash brain...")
+llm = ChatOpenAI(model="gemini-3-flash")
 
 prompt_template = """<|begin_of_text|><|start_header_id|>system<|end_header_id|>
 You are a factual assistant on Stawan Kulkarni's resume website.
