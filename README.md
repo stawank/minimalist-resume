@@ -1,6 +1,6 @@
-# Minimalist Resume Website with Local LLM Chatbot
+# Minimalist Resume Website with AI Chatbot
 
-A personal resume website served from a Raspberry Pi with a fully offline AI chatbot powered by Llama 3.2. Recruiters can ask questions about my experience, skills, and projects directly on the site.
+A personal resume website served from a Raspberry Pi with an AI-powered chatbot. Recruiters can ask questions about my experience, skills, and projects directly on the site.
 
 **Live:** [stawank.cv](https://stawank.cv)
 
@@ -13,10 +13,10 @@ A personal resume website served from a Raspberry Pi with a fully offline AI cha
 | Frontend | HTML, CSS, Vanilla JS |
 | Web Server | Nginx |
 | Backend | FastAPI (Python) |
-| LLM | Llama 3.2 1B via llama.cpp |
+| LLM | Claude API (Anthropic) |
 | RAG | LangChain + ChromaDB |
-| Embeddings | sentence-transformers (BAAI/bge-small-en-v1.5) |
-| Tunnel | Cloudflare Tunnel / Tailscale Funnel |
+| Embeddings | BAAI/bge-small-en-v1.5 |
+| Tunnel | Tailscale Funnel |
 | Hardware | Raspberry Pi 4 |
 
 ---
@@ -34,13 +34,13 @@ Tailscale Funnel (bypasses CG-NAT)
   │
   ▼
 Nginx (port 80)
-  ├── /          → serves static frontend
-  └── /chat      → proxies to FastAPI (port 8000)
-                      │
-                      ├── ChromaDB (vector search)
-                      │     └── resume docs + website + GitHub
-                      │
-                      └── Llama 3.2 1B (llama.cpp)
+  ├── /              → serves static frontend
+  └── /chat/stream   → proxies to FastAPI (port 8000)
+                          │
+                          ├── ChromaDB (vector search)
+                          │     └── resume docs + website + GitHub
+                          │
+                          └── Claude API
 ```
 
 ---
@@ -55,6 +55,7 @@ minimalist-resume/
 ├── backend/
 │   ├── app.py              # FastAPI backend, RAG chain, Excel logger
 │   ├── ingest.py           # PDF/HTML/TXT/GitHub → ChromaDB
+│   ├── .env.example        # environment variable template
 │   ├── chroma_db/          # vector database (gitignored)
 │   └── hr_questions.xlsx   # logged recruiter questions (gitignored)
 └── README.md
@@ -64,11 +65,13 @@ minimalist-resume/
 
 ## Features
 
-- **Fully offline LLM** — Llama 3.2 1B runs locally on Raspberry Pi, no API costs
-- **RAG chatbot** — answers questions based on resume docs, website, and GitHub repos
+- **AI chatbot** — answers recruiter questions using RAG over resume docs, website, and GitHub
+- **Streaming responses** — tokens stream word by word for fast UX
 - **Multilingual** — responds in the same language as the question (EN/DE)
-- **HR question logging** — all chatbot questions saved to Excel, downloadable at `/download-questions`
-- **Auto-ingestion** — cron job re-ingests docs daily at 3 AM to stay up to date
+- **HR question logging** — all questions saved to Excel, downloadable at `/download-questions`
+- **Visitor logging** — logs visitor IPs and timestamps
+- **Response caching** — repeated questions served instantly from cache
+- **Auto-ingestion** — cron job re-ingests docs daily to stay up to date
 - **Dark/light mode** — toggle between themes
 - **Auto-deploy** — `deploy.sh` pulls from git and copies to nginx web root
 
@@ -80,8 +83,8 @@ minimalist-resume/
 
 - Raspberry Pi 4 (4GB+ RAM recommended)
 - Python 3.10+
-- llama.cpp built from source
-- nginx
+- Nginx
+- Anthropic API key (get one at [console.anthropic.com](https://console.anthropic.com))
 
 ### 1. Clone the repo
 
@@ -99,10 +102,20 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 3. Download the model
+### 3. Configure environment variables
 
 ```bash
-~/llama.cpp/build/bin/llama-cli -hf bartowski/Llama-3.2-1B-Instruct-GGUF:Q4_K_M
+cp backend/.env.example backend/.env
+nano backend/.env
+```
+
+Fill in your values:
+
+```env
+DB_PATH=$HOME/minimalist-resume/backend/chroma_db
+LOG_PATH=$HOME/minimalist-resume/backend/hr_questions.xlsx
+VISITOR_LOG=$HOME/minimalist-resume/backend/visitors.xlsx
+ANTHROPIC_API_KEY=your_key_here
 ```
 
 ### 4. Add your documents
@@ -126,21 +139,22 @@ uvicorn app:app --host 127.0.0.1 --port 8000
 
 ### 7. Configure nginx
 
+Copy the nginx config and reload:
+
 ```bash
-sudo cp /etc/nginx/sites-available/minimalist-resume /etc/nginx/sites-available/minimalist-resume
+sudo nano /etc/nginx/sites-available/minimalist-resume
 sudo nginx -t && sudo systemctl reload nginx
 ```
 
 ---
 
-## Daily Startup
+## Running as a Service
 
-Everything starts automatically on boot via systemd:
+The backend runs automatically on boot via systemd:
 
 ```bash
 sudo systemctl status nginx
 sudo systemctl status resume-backend
-sudo systemctl status cloudflared
 ```
 
 To deploy latest changes:
@@ -156,7 +170,7 @@ To deploy latest changes:
 Documents are re-ingested every day at 3 AM:
 
 ```
-0 3 * * * cd /home/stawan/minimalist-resume/backend && /home/stawan/minimalist-resume/backend/venv/bin/python3 ingest.py >> ingest.log 2>&1 && sudo systemctl restart resume-backend
+0 3 * * * cd $HOME/minimalist-resume/backend && ./venv/bin/python3 ingest.py >> ingest.log 2>&1 && sudo systemctl restart resume-backend
 ```
 
 ---
@@ -171,9 +185,12 @@ https://stawank.cv/download-questions
 
 ---
 
-## License
-
-MIT
 ## Credits
 
 - Frontend design inspired by [KeelanJon](https://github.com/KeelanJon) — thank you for the clean minimalist aesthetic
+
+---
+
+## License
+
+MIT
