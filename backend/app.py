@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_anthropic import ChatAnthropic
 from pydantic import BaseModel
 from datetime import datetime
 from dotenv import load_dotenv
@@ -14,12 +14,10 @@ import os
 
 load_dotenv()
 
-# ── Config ────────────────────────────────────────────────────────────────────
 DB_PATH        = os.getenv("DB_PATH")
 LOG_PATH       = os.getenv("LOG_PATH")
 VISITOR_LOG    = os.getenv("VISITOR_LOG", "/home/stawan/minimalist-resume/backend/visitors.xlsx")
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 BLOCKED_SOURCES = {
     "Arbeitszeugnis_FPraktikum_Kulkarni.pdf",
     "Arbeitszeugnis_PPraktikum_Kulkarni.pdf",
@@ -30,45 +28,49 @@ BLOCKED_SOURCES = {
     "FINAL DEGREE CERTIFICATE (1).pdf",
 }
 
-# ── Load vector DB ────────────────────────────────────────────────────────────
 print("Loading resume memory...")
 embeddings = FastEmbedEmbeddings(model_name="BAAI/bge-small-en-v1.5")
 vector_db  = Chroma(persist_directory=DB_PATH, embedding_function=embeddings)
 print(f"Loaded {vector_db._collection.count()} chunks")
 
-# ── Load Gemini ───────────────────────────────────────────────────────────────
-print("Loading Gemini...")
-llm = ChatGoogleGenerativeAI(
-    model="gemini-3-flash-preview",
-    google_api_key=GEMINI_API_KEY,
+print("Loading Anthropic...")
+llm = ChatAnthropic(
+    model="claude-haiku-4-5",
+    anthropic_api_key=ANTHROPIC_API_KEY,
     temperature=0.0,
 )
-print("Gemini ready!")
+print("LLM Model ready!")
 
-# ── Prompt ────────────────────────────────────────────────────────────────────
-SYSTEM_PROMPT = f"""You are a professional assistant on Stawan Kulkarni's resume website.
+SYSTEM_PROMPT = """You are a professional assistant on Stawan Kulkarni's resume website.
 Answer questions from recruiters about Stawan's background.
-For Example,
-Question: Do you know "any name than Stawan"?
-Answer: I dont know, I am supposed to answer questions about Stawan's Professional Career.
 
 STRICT RULES:
 - Answer ONLY using facts explicitly stated in the context below
 - Detect the question language and reply in the SAME language
-- If the answer is NOT in the context, say only: "I don't have that information."
-- NEVER calculate years of experience from dates — only use what is explicitly written
+- If the answer is NOT in the context, say only: I don't have that information.
+- NEVER calculate years of experience from dates
 - NEVER mention people unrelated to Stawan
-- NEVER make up or infer anything not in the context
-- Keep answers concise — maximum 3 sentences
-- Stawan's full name is Stawan Chandrashekhar Kulkarni, surname is Kulkarni
+- NEVER make up anything not in the context
+- Keep answers concise, maximum 3 sentences
+- Stawan's full name is Stawan Chandrashekhar Kulkarni
 - He has 2+ years of professional experience"""
 
-def build_prompt(context: str, question: str, history: list = []) -> str:
+def extract_text(response):
+    content = response.content
+    if isinstance(content, list):
+        for item in content:
+            if isinstance(item, dict) and item.get("type") == "text":
+                return item["text"].strip()
+            if isinstance(item, str):
+                return item.strip()
+        return ""
+    return content.strip()
+
+def build_prompt(context, question, history=[]):
     history_text = "\n".join(history[-4:]) + "\n" if history else ""
     return f"{SYSTEM_PROMPT}\n\nContext:\n{context}\n\n{history_text}Question: {question}\nAnswer:"
 
-# ── Excel logger ──────────────────────────────────────────────────────────────
-def log_to_excel(path: str, headers: list, row: list):
+def log_to_excel(path, headers, row):
     try:
         if os.path.exists(path):
             wb = openpyxl.load_workbook(path)
@@ -84,37 +86,29 @@ def log_to_excel(path: str, headers: list, row: list):
     except Exception as e:
         print(f"Excel log error: {e}")
 
-def log_question(question: str, answer: str):
-    log_to_excel(LOG_PATH,
-        ["Timestamp", "Question", "Answer"],
+def log_question(question, answer):
+    log_to_excel(LOG_PATH, ["Timestamp", "Question", "Answer"],
         [datetime.now().strftime("%Y-%m-%d %H:%M:%S"), question, answer])
 
-def log_visitor(ip: str, user_agent: str):
-    log_to_excel(VISITOR_LOG,
-        ["Timestamp", "IP", "User Agent"],
+def log_visitor(ip, user_agent):
+    log_to_excel(VISITOR_LOG, ["Timestamp", "IP", "User Agent"],
         [datetime.now().strftime("%Y-%m-%d %H:%M:%S"), ip, user_agent])
 
-# ── RAG retrieval ─────────────────────────────────────────────────────────────
-def retrieve_context(question: str, history: list = []) -> tuple:
+def retrieve_context(question, history=[]):
     search_query = " ".join(history[-4:]) + " " + question if history else question
     docs = vector_db.similarity_search(search_query, k=5)
     safe_docs = [d for d in docs if d.metadata.get("source", "") not in BLOCKED_SOURCES]
     context = "\n\n".join([d.page_content for d in safe_docs])
     return context, safe_docs
 
-# ── Cache for repeated questions ──────────────────────────────────────────────
 @lru_cache(maxsize=50)
-def cached_answer(question: str) -> str:
+def cached_answer(question):
     context, safe_docs = retrieve_context(question)
     if not safe_docs:
         return "I don't have that information."
     prompt = build_prompt(context, question)
-    response = llm.invoke(prompt)
-    if isinstance(response, list):
-        return response[0].content.strip()
-    return response.content.strip()
+    return extract_text(llm.invoke(prompt))
 
-# ── Schemas ───────────────────────────────────────────────────────────────────
 class ChatRequest(BaseModel):
     question: str
     history: list[str] = []
@@ -122,7 +116,6 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     answer: str
 
-# ── App ───────────────────────────────────────────────────────────────────────
 app = FastAPI(title="Resume Chatbot")
 app.add_middleware(
     CORSMiddleware,
@@ -132,13 +125,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ── Streaming endpoint ────────────────────────────────────────────────────────
 @app.post("/chat/stream")
 def chat_stream(req: ChatRequest, request: Request):
     ip = request.headers.get("X-Real-IP", request.client.host)
     log_visitor(ip, request.headers.get("User-Agent", "unknown"))
 
-    # Serve from cache for repeated questions (no history)
     if not req.history:
         cached = cached_answer(req.question.lower().strip())
         def serve_cached():
@@ -160,7 +151,11 @@ def chat_stream(req: ChatRequest, request: Request):
     def generate():
         full_answer = ""
         for chunk in llm.stream(prompt):
-            token = chunk.content or ""
+            raw = chunk.content
+            if isinstance(raw, list):
+                token = next((i["text"] for i in raw if isinstance(i, dict) and i.get("type") == "text"), "")
+            else:
+                token = raw or ""
             if token:
                 full_answer += token
                 yield f"data: {json.dumps({'token': token})}\n\n"
@@ -169,14 +164,9 @@ def chat_stream(req: ChatRequest, request: Request):
 
     return StreamingResponse(generate(), media_type="text/event-stream")
 
-# ── Utility endpoints ─────────────────────────────────────────────────────────
 @app.get("/health")
 def health():
-    return {
-        "status": "ok",
-        "mode": "gemini" if GEMINI_API_KEY else "local",
-        "chunks": vector_db._collection.count(),
-    }
+    return {"status": "ok", "mode": "gemini" if GEMINI_API_KEY else "local", "chunks": vector_db._collection.count()}
 
 @app.get("/download-questions")
 def download_questions():
