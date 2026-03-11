@@ -109,7 +109,10 @@ def cached_answer(question: str) -> str:
     if not safe_docs:
         return "I don't have that information."
     prompt = build_prompt(context, question)
-    return llm.invoke(prompt).content.strip()
+    response = llm.invoke(prompt)
+    if isinstance(response, list):
+        return response[0].content.strip()
+    return response.content.strip()
 
 # ── Schemas ───────────────────────────────────────────────────────────────────
 class ChatRequest(BaseModel):
