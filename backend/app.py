@@ -39,15 +39,18 @@ print(f"Loaded {vector_db._collection.count()} chunks")
 # ── Load Gemini ───────────────────────────────────────────────────────────────
 print("Loading Gemini...")
 llm = ChatGoogleGenerativeAI(
-    model="gemini-3-flash",
+    model="gemini-3-flash-preview",
     google_api_key=GEMINI_API_KEY,
     temperature=0.0,
 )
 print("Gemini ready!")
 
 # ── Prompt ────────────────────────────────────────────────────────────────────
-SYSTEM_PROMPT = """You are a professional assistant on Stawan Kulkarni's resume website.
+SYSTEM_PROMPT = f"""You are a professional assistant on Stawan Kulkarni's resume website.
 Answer questions from recruiters about Stawan's background.
+For Example,
+Question: Do you know "any name than Stawan"?
+Answer: I dont know, I am supposed to answer questions about Stawan's Professional Career.
 
 STRICT RULES:
 - Answer ONLY using facts explicitly stated in the context below
