@@ -7,265 +7,241 @@
     <title>Stawan Kulkarni - Automotive Software Engineer</title>
   </head>
   <body>
-    <div class="theme-toggle" onclick="toggleTheme()">
+    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
       <span class="icon">🌙</span>
     </div>
     <div class="language-toggle">
-      <button type="button" data-lang-btn="en" onclick="setLanguage('en')">
-        EN
-      </button>
+      <button type="button" data-lang-btn="en" onclick="setLanguage('en')">EN</button>
       <span>|</span>
-      <button type="button" data-lang-btn="de" onclick="setLanguage('de')">
-        DE
-      </button>
+      <button type="button" data-lang-btn="de" onclick="setLanguage('de')">DE</button>
     </div>
 
     <div class="container">
+
+      <!-- HEADER -->
       <header class="header fade-in">
         <div class="avatar">
-          <img src="photo.jpg" alt="Photo of Stawan Chandrashekhar Kulkarni" />
+          <img src="photo.jpg" alt="Stawan Chandrashekhar Kulkarni" />
         </div>
         <h1 class="name">Stawan Chandrashekhar Kulkarni</h1>
-        <p class="title">Automotive Software Engineer</p>
+        <p class="title">Automotive Software Engineer · ADAS · Test Automation</p>
         <p class="location">📍 Regensburg, Germany</p>
         <div class="contact-links">
-          <a href="mailto:stawank@zohomail.eu" class="contact-link">
-            📧 stawank@zohomail.eu
-          </a>
-          <a
-            href="https://www.linkedin.com/in/stawan-chandrashekhar-kulkarni-810646102/"
-            target="_blank"
-            class="contact-link"
-          >
-            💼 LinkedIn
-          </a>
-          <a
-            href="https://github.com/stawank"
-            target="_blank"
-            class="contact-link"
-          >
-            🐙 GitHub
-          </a>
-          <a href="tel:+4915785088336" class="contact-link">
-            🇩🇪 +49 157 85088336
-          </a>
-          <a href="tel:+919823635080" class="contact-link">
-            🇮🇳 +91 9823635080
-          </a>
+          <a href="mailto:stawank@zohomail.eu" class="contact-link">📧 stawank@zohomail.eu</a>
+          <a href="https://www.linkedin.com/in/stawan-chandrashekhar-kulkarni-810646102/" target="_blank" class="contact-link">💼 LinkedIn</a>
+          <a href="https://github.com/stawank" target="_blank" class="contact-link">🐙 GitHub</a>
+          <a href="tel:+4915785088336" class="contact-link">🇩🇪 +49 157 85088336</a>
+          <a href="tel:+919823635080" class="contact-link">🇮🇳 +91 9823635080</a>
         </div>
       </header>
 
+      <!-- ABOUT -->
       <section class="section fade-in stagger-1">
-        <h2 class="section-title" data-i18n="section_about_title">👋 About Me</h2>
+        <h2 class="section-title" data-i18n="section_about_title">About Me</h2>
         <div class="card">
           <p class="about-text" data-i18n="about_text">
-            Passionate software engineer with 2+ years of experience in
-            automotive software development. I love learning new technologies
-            and now I am learning LLMs in my free time. You will find me either
-            enjoying a good cup of coffee while debugging the latest challenge
-            or binge watching movies.
+            Automotive software engineer with 2+ years of hands-on experience at
+            Tier-1 suppliers (EDAG, Continental ADC). Focused on ADAS software
+            development, sensor data processing, and test automation — spanning
+            Python-based analysis, C++ implementation, MBD/C unit testing with
+            TPT and Cmocka, and CANoe/CAPL simulation. Experienced across the
+            full V-cycle in agile, international teams. Currently exploring edge
+            LLM inference as a side project — running Llama 3.2 locally on a
+            Raspberry Pi.
           </p>
         </div>
       </section>
 
+      <!-- EXPERIENCE -->
       <section class="section fade-in stagger-2">
-        <h2 class="section-title" data-i18n="section_experience_title">
-          💼 Experience
-        </h2>
+        <h2 class="section-title" data-i18n="section_experience_title">Experience</h2>
+
         <div class="card">
           <div class="card-header">
             <div>
               <h3 class="card-title">Systems Engineer</h3>
-              <p class="card-subtitle">EDAG Engineering GmbH, Regensburg, Germany</p>
+              <p class="card-subtitle">EDAG Engineering GmbH · Regensburg, Germany</p>
             </div>
           </div>
-          <p class="card-meta">📅 Feb 2024 - Present</p>
+          <p class="card-meta">Feb 2024 — Present</p>
           <p class="card-description" data-i18n="exp_edag_desc">
-            Developing Python-based data fusion and sensor-processing concepts
-            for ADAS functions, owning unit-test design in TPT/Cmocka and MBD/C
-            components, and improving automated test infrastructure and
-            reporting in an agile, international team.
+            Contributing to concept development in raw data fusion and sensor
+            data processing, supported by Python-based analyses. Responsible for
+            creating and maintaining unit test specifications for MBD/C
+            components against software requirements. Designing and implementing
+            automated unit tests using TPT and Cmocka frameworks. Performing
+            test execution, error analysis, and bug fixing. Maintaining and
+            improving automated test infrastructure. Producing test reports,
+            status reports, and metrics documentation. Participating in code
+            reviews, model reviews, and test strategy discussions within an
+            agile, international, interdisciplinary engineering team.
           </p>
         </div>
+
         <div class="card">
           <div class="card-header">
             <div>
-              <h3 class="card-title">Software Developer (Working Student)</h3>
-              <p class="card-subtitle">Continental ADC GmbH, Ulm, Germany</p>
+              <h3 class="card-title">Software Developer — Working Student</h3>
+              <p class="card-subtitle">Continental ADC GmbH · Ulm, Germany</p>
             </div>
           </div>
-          <p class="card-meta">📅 Nov 2022 - Dec 2023</p>
+          <p class="card-meta">Nov 2022 — Dec 2023</p>
           <p class="card-description" data-i18n="exp_cont_ws_desc">
-            Prototyped ADAS concepts in MATLAB to simplify architectures and
-            reduce test effort, implemented C++ interval-arithmetic and Python
-            tooling for data analysis and automation, and wrote CMake/gTest unit
-            tests validated with in-house tools.
+            Analysed and prototyped architecture simplification concepts for
+            ADAS service-oriented systems in MATLAB, evaluating transitions
+            between isochronous and service-based components and presenting
+            findings to the team. Independently designed, implemented, and
+            tested a C++ class for interval arithmetic, and verified correctness
+            of a production-grade Floating Point Overflow module. Contributed to
+            an experimental C++ software testing library. Set up CMake and gTest
+            from scratch and authored complete unit tests validated with an
+            in-house tool. Developed a Python module for statistical analysis
+            and visualisation of lane marking position consistency from vehicle
+            measurement data.
           </p>
         </div>
+
         <div class="card">
           <div class="card-header">
             <div>
-              <h3 class="card-title">Software Developer (Intern)</h3>
-              <p class="card-subtitle">Continental ADC GmbH, Ulm, Germany</p>
+              <h3 class="card-title">Software Developer — Intern</h3>
+              <p class="card-subtitle">Continental ADC GmbH · Ulm, Germany</p>
             </div>
           </div>
-          <p class="card-meta">📅 Jan 2022 - Oct 2022</p>
+          <p class="card-meta">Jan 2022 — Oct 2022</p>
           <p class="card-description" data-i18n="exp_cont_intern_desc">
-            Automated Python/OpenCV test scenarios for Ethernet-based camera
-            driver-assistance, ran CANoe rest-bus simulations and HiL
-            tests with integrated OEM components, and performed functional
-            testing of camera calibration features.
+            Automated test scenarios for two Ethernet-based camera
+            driver-assistance systems using Python and OpenCV. Created,
+            validated, and extended test automation scripts. Performed manual
+            testing via CANoe/CAPL rest-bus simulations. Integrated OEM
+            components into existing test setups. Onboarded into the camera
+            calibration feature area and contributed to its test validation.
+            Optimised and documented testbenches throughout both internship
+            periods (Jan–Jul 2022 and Aug–Oct 2022).
           </p>
         </div>
       </section>
 
+      <!-- PROJECTS -->
       <section class="section fade-in stagger-3">
-        <h2 class="section-title" data-i18n="section_projects_title">
-          🚀 Projects
-        </h2>
+        <h2 class="section-title" data-i18n="section_projects_title">Projects</h2>
+
         <div class="card">
-          <h3 class="card-title">
-            Energy Management System for Mild Parallel Hybrid Electric Vehicle
-          </h3>
-          <p class="card-meta">🛠️ MATLAB, Simulink</p>
+          <h3 class="card-title">Edge LLM Resume Chatbot — Raspberry Pi + Llama 3.2</h3>
+          <p class="card-meta">Python · Llama 3.2 · Nginx · HTML · CSS · JavaScript · Raspberry Pi 4</p>
+          <p class="card-description" data-i18n="proj_site_desc">
+            Self-hosted personal resume site served from a Raspberry Pi 4 via
+            Nginx with dark/light theme and bilingual (EN/DE) support. Integrated
+            a locally-quantised Llama 3.2 model — no cloud API — that streams
+            answers to recruiter questions in real time via a custom SSE chat
+            widget. Demonstrates edge inference, server-side Python, and
+            full-stack deployment on constrained hardware.
+          </p>
+          <div class="project-links">
+            <a href="#" class="project-link">Live →</a>
+            <a href="https://github.com/stawank/minimalist-resume" target="_blank" class="project-link">GitHub →</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">SysML v2 Architecture — Adaptive Cruise Control System</h3>
+          <p class="card-meta">SysMD · SysML v2 · OOSEM · Master Thesis</p>
+          <p class="card-description" data-i18n="proj_thesis_desc">
+            Master thesis: modelled the full logical and physical architecture of
+            an ACC system in SysML v2 using OOSEM methodology. Covered detailed
+            component interfaces, pin-level signal routing, and
+            installation-space geometric models for weight distribution analysis.
+            Derived quantitative cost and weight metrics directly from the
+            architecture to support early-stage design decisions.
+          </p>
+          <div class="project-links">
+            <a href="https://stawank.wordpress.com/master-thesis/" target="_blank" class="project-link">Thesis →</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">Energy Management System — Mild Parallel HEV</h3>
+          <p class="card-meta">MATLAB · Simulink · NEDC · FTP-75</p>
           <p class="card-description" data-i18n="proj_hybrid_desc">
             Developed a simulation-based energy management system for a mild
             parallel hybrid electric vehicle as part of the Seminar
-            Electromobility course at TU Kaiserslautern. Implemented the
-            controller and state logic in MATLAB/Simulink, integrated them into
-            a full vehicle model, and evaluated fuel consumption under different
-            driving cycles (NEDC and FTP-75).
+            Electromobility at TU Kaiserslautern. Implemented controller and
+            state logic in MATLAB/Simulink, integrated into a full vehicle plant
+            model, and evaluated fuel consumption across NEDC and FTP-75 drive
+            cycles.
           </p>
           <div class="project-links">
-            <a
-              href="https://github.com/stawank/TU_KL_SeminarElectromobility"
-              target="_blank"
-              class="project-link"
-            >
-              📂 GitHub
-            </a>
-          </div>
-        </div>
-        <div class="card">
-          <h3 class="card-title">
-            Model-Based Development of a System Architecture for Vehicle Platforms
-          </h3>
-          <p class="card-meta">🛠️ SysMD, SysML v2, OOSEM</p>
-          <p class="card-description" data-i18n="proj_thesis_desc">
-            Built SysMD/SysML v2 models for the logical and physical
-            architecture of an adaptive cruise control system using OOSEM
-            principles, including detailed component interfaces, pin-level
-            connections, and signal routing. Defined installation-space based
-            geometric models to analyze weight distribution, and derived
-            quantitative weight and cost metrics directly from the architecture
-            to support early design decisions.
-          </p>
-          <div class="project-links">
-            <a
-              href="https://stawank.wordpress.com/master-thesis/"
-              target="_blank"
-              class="project-link"
-            >
-              🔗 Thesis Website
-            </a>
-          </div>
-        </div>
-        <div class="card">
-          <h3 class="card-title">Minimalist Resume Website with Local LLM Chatbot</h3>
-          <p class="card-meta">
-            🛠️ HTML, CSS, JavaScript, Nginx, Raspberry Pi, Llama 3.2
-          </p>
-          <p class="card-description" data-i18n="proj_site_desc">
-            Minimalist, responsive personal resume site served from a Raspberry
-            Pi using Nginx, including dark/light theme support and animated
-            sections. Integrating a local chatbot that runs a small Llama 3.2
-            model on the Pi to answer recruiter questions about my experience
-            and projects via a custom chat widget.
-          </p>
-          <div class="project-links">
-            <a href="#" class="project-link">🔗 Live Demo</a>
-            <a
-              href="https://github.com/stawank/minimalist-resume"
-              target="_blank"
-              class="project-link"
-            >
-              📂 GitHub
-            </a>
+            <a href="https://github.com/stawank/TU_KL_SeminarElectromobility" target="_blank" class="project-link">GitHub →</a>
           </div>
         </div>
       </section>
 
+      <!-- SKILLS -->
       <section class="section fade-in stagger-4">
-        <h2 class="section-title" data-i18n="section_skills_title">
-          🛠️ Skills
-        </h2>
+        <h2 class="section-title" data-i18n="section_skills_title">Skills</h2>
         <div class="skills-grid">
-          <div class="skill-item">
-            <span class="skill-emoji">🐍</span>
-            Python
-          </div>
-          <div class="skill-item">
-            <span class="skill-emoji">➕</span>
-            C++ (11)
-          </div>
-          <div class="skill-item">
-            <span class="skill-emoji">🏗️</span>
-            CMake
-          </div>
-          <div class="skill-item">
-            <span class="skill-emoji">🔧</span>
-            Git
-          </div>
-          <div class="skill-item">
-            <span class="skill-emoji">🚗</span>
-            Vector CANoe
-          </div>
+          <div class="skill-item"><span class="skill-emoji"></span>Python</div>
+          <div class="skill-item"><span class="skill-emoji"></span>C++ (11/14)</div>
+          <div class="skill-item"><span class="skill-emoji"></span>MATLAB</div>
+          <div class="skill-item"><span class="skill-emoji"></span>Simulink</div>
+          <div class="skill-item"><span class="skill-emoji"></span>TPT</div>
+          <div class="skill-item"><span class="skill-emoji"></span>Cmocka</div>
+          <div class="skill-item"><span class="skill-emoji"></span>gTest</div>
+          <div class="skill-item"><span class="skill-emoji"></span>CMake</div>
+          <div class="skill-item"><span class="skill-emoji"></span>Vector CANoe</div>
+          <div class="skill-item"><span class="skill-emoji"></span>CAPL</div>
+          <div class="skill-item"><span class="skill-emoji"></span>OpenCV</div>
+          <div class="skill-item"><span class="skill-emoji"></span>Linux / Bash</div>
+          <div class="skill-item"><span class="skill-emoji"></span>Git</div>
+          <div class="skill-item"><span class="skill-emoji"></span>SysML v2</div>
+          <div class="skill-item"><span class="skill-emoji"></span>ROS</div>
+          <div class="skill-item"><span class="skill-emoji"></span>AUTOSAR</div>
+          <div class="skill-item"><span class="skill-emoji"></span>ISO 26262</div>
         </div>
       </section>
 
+      <!-- EDUCATION -->
       <section class="section fade-in stagger-5">
-        <h2 class="section-title" data-i18n="section_education_title">
-          🎓 Education
-        </h2>
+        <h2 class="section-title" data-i18n="section_education_title">Education</h2>
+
         <div class="card">
-          <h3 class="card-title">Master of Science (Commercial Vehicle Technology)</h3>
-          <p class="card-subtitle">Technical University of Kasierslautern, Kaiserslautern</p>
-          <p class="card-meta">📅 Oct 2020 - Jan 2024</p>
+          <h3 class="card-title">M.Sc. Commercial Vehicle Technology</h3>
+          <p class="card-subtitle">Technical University of Kaiserslautern, Germany</p>
+          <p class="card-meta">Oct 2020 — Jan 2024</p>
           <p class="card-description" data-i18n="edu_master_desc">
-            I had the opportunity to pursue my master studies in the city of
-            Kaiserslautern, Germany, known for its strong academic environment
-            and vibrant international community. During my studies, I focused on
-            automotive software, autonomous systems, and electric and hybrid
-            vehicles.
+            Specialised in automotive software engineering, autonomous systems,
+            and electric/hybrid powertrains. Thesis on model-based system
+            architecture using SysML v2. Coursework included ADAS, control
+            theory, embedded systems, and electromobility.
           </p>
         </div>
+
         <div class="card">
-          <h3 class="card-title">Bachelor of Engineering (Mechanical Engineering)</h3>
-          <p class="card-subtitle">Dr. Babasaheb Ambedkar Marathwada University, Aurangabad, India</p>
-          <p class="card-meta">📅 Aug 2014 - Apr 2018</p>
+          <h3 class="card-title">B.E. Mechanical Engineering</h3>
+          <p class="card-subtitle">Dr. Babasaheb Ambedkar Marathwada University, India</p>
+          <p class="card-meta">Aug 2014 — Apr 2018</p>
           <p class="card-description" data-i18n="edu_bachelor_desc">
-            I earned my Bachelor's degree in an academically rigorous
-            environment, developing a strong foundation in mechatronics,
-            robotics, automotive engineering, and control systems. Studies at
-            GECA strengthened my technical knowledge and practical
-            problem-solving abilities.
+            Core foundation in mechatronics, robotics, automotive engineering,
+            and control systems.
           </p>
         </div>
       </section>
-    </div>
 
+    </div><!-- /container -->
+
+    <!-- CHATBOT -->
     <div class="chatbot">
       <div class="chatbot-header">
-        💬 Ask about me here!
+        Ask about my experience
         <br/>
-        <small style="font-size:11px; opacity:0.7;">🍓 Hosted on a Raspberry Pi on my desk — expect couple of seconds to respond</small>
+        <small style="font-size:10px; opacity:0.5; font-weight:400;">Running Llama 3.2 on a Raspberry Pi — ~3–5s response</small>
       </div>
       <div class="chatbot-messages" id="chat-messages"></div>
       <form id="chat-form">
         <input
           type="text"
           id="chat-input"
-          placeholder="Ask a question about my experience..."
+          placeholder="Ask anything..."
           autocomplete="off"
           required
         />
@@ -274,160 +250,102 @@
     </div>
 
     <script>
-      // Theme toggle functionality
+      // ── Theme ──────────────────────────────────────────────────────────────
       function toggleTheme() {
         const html = document.documentElement
-        const themeToggle = document.querySelector(".theme-toggle .icon")
-
-        if (html.getAttribute("data-theme") === "dark") {
+        const icon = document.querySelector(".theme-toggle .icon")
+        const isDark = html.getAttribute("data-theme") === "dark"
+        if (isDark) {
           html.removeAttribute("data-theme")
-          themeToggle.textContent = "🌙"
+          icon.textContent = "🌙"
           localStorage.setItem("theme", "light")
         } else {
           html.setAttribute("data-theme", "dark")
-          themeToggle.textContent = "☀️"
+          icon.textContent = "☀️"
           localStorage.setItem("theme", "dark")
         }
       }
 
-      // Load saved theme
       function loadTheme() {
-        const savedTheme = localStorage.getItem("theme")
-        const html = document.documentElement
-        const themeToggle = document.querySelector(".theme-toggle .icon")
-
-        if (savedTheme === "dark") {
-          html.setAttribute("data-theme", "dark")
-          themeToggle.textContent = "☀️"
+        const saved = localStorage.getItem("theme")
+        const icon  = document.querySelector(".theme-toggle .icon")
+        if (saved === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark")
+          icon.textContent = "☀️"
         } else {
-          themeToggle.textContent = "🌙"
+          icon.textContent = "🌙"
         }
       }
 
-      // Smooth scrolling for internal links
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault()
-          const target = document.querySelector(this.getAttribute("href"))
-          if (target) {
-            target.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            })
-          }
-        })
-      })
-
-      // Add stagger animation to cards
-      function animateCards() {
-        const cards = document.querySelectorAll(".card")
-        cards.forEach((card, index) => {
-          card.style.animationDelay = `${index * 0.1}s`
-        })
-      }
-
+      // ── i18n ───────────────────────────────────────────────────────────────
       const translations = {
         en: {
-          section_about_title: "👋 About Me",
-          section_experience_title: "💼 Experience",
-          section_projects_title: "🚀 Projects",
-          section_skills_title: "🛠️ Skills",
-          section_education_title: "🎓 Education",
-          about_text:
-            "Passionate software engineer with 2+ years of experience in automotive software development. I love learning new technologies and now I am learning LLMs in my free time. You will find me either enjoying a good cup of coffee while debugging the latest challenge or binge watching movies.",
-          exp_edag_desc:
-            "Developing Python-based data fusion and sensor-processing concepts for ADAS functions, owning unit-test design in TPT/Cmocka and MBD/C components, and improving automated test infrastructure and reporting in an agile, international team.",
-          exp_cont_ws_desc:
-            "Prototyped ADAS concepts in MATLAB to simplify architectures and reduce test effort, implemented C++ interval-arithmetic and Python tooling for data analysis and automation, and wrote CMake/gTest unit tests validated with in-house tools.",
-          exp_cont_intern_desc:
-            "Automated Python/OpenCV test scenarios for Ethernet-based camera driver-assistance, ran CANoe/CAPL rest-bus simulations and HiL tests with integrated OEM components, and performed functional testing of camera calibration features.",
-          proj_hybrid_desc:
-            "Developed a simulation-based energy management system for a mild parallel hybrid electric vehicle as part of the Seminar Electromobility course at TU Kaiserslautern. Implemented the controller and state logic in MATLAB/Simulink, integrated them into a full vehicle model, and evaluated fuel consumption under different driving cycles (NEDC and FTP-75).",
-          proj_thesis_desc:
-            "Built SysMD/SysML v2 models for the logical and physical architecture of an adaptive cruise control system using OOSEM principles, including detailed component interfaces, pin-level connections, and signal routing. Defined installation-space based geometric models to analyze weight distribution, and derived quantitative weight and cost metrics directly from the architecture to support early design decisions.",
-          proj_site_desc:
-            "Minimalist, responsive personal resume site served from a Raspberry Pi using Nginx, including dark/light theme support and animated sections. Integrating a local chatbot that runs a small Llama 3.2 model on the Pi to answer recruiter questions about my experience and projects via a custom chat widget.",
-          edu_master_desc:
-            "I had the opportunity to pursue my master studies in the city of Kaiserslautern, Germany, known for its strong academic environment and vibrant international community. During my studies, I focused on automotive software, autonomous systems, and electric and hybrid vehicles.",
-          edu_bachelor_desc:
-            "I earned my Bachelor's degree in an academically rigorous environment, developing a strong foundation in mechatronics, robotics, automotive engineering, and control systems. Studies at GECA strengthened my technical knowledge and practical problem-solving abilities.",
+          section_about_title:      "About Me",
+          section_experience_title: "Experience",
+          section_projects_title:   "Projects",
+          section_skills_title:     "Skills",
+          section_education_title:  "Education",
+          about_text: "Automotive software engineer with 2+ years of hands-on experience at Tier-1 suppliers (EDAG, Continental ADC). Focused on ADAS software development, sensor data processing, and test automation — spanning Python-based analysis, C++ implementation, MBD/C unit testing with TPT and Cmocka, and CANoe/CAPL simulation. Experienced across the full V-cycle in agile, international teams. Currently exploring edge LLM inference as a side project — running Llama 3.2 locally on a Raspberry Pi.",
+          exp_edag_desc: "Contributing to concept development in raw data fusion and sensor data processing, supported by Python-based analyses. Responsible for creating and maintaining unit test specifications for MBD/C components against software requirements. Designing and implementing automated unit tests using TPT and Cmocka frameworks. Performing test execution, error analysis, and bug fixing. Maintaining and improving automated test infrastructure. Producing test reports, status reports, and metrics documentation. Participating in code reviews, model reviews, and test strategy discussions within an agile, international, interdisciplinary engineering team.",
+          exp_cont_ws_desc: "Analysed and prototyped architecture simplification concepts for ADAS service-oriented systems in MATLAB, evaluating transitions between isochronous and service-based components and presenting findings to the team. Independently designed, implemented, and tested a C++ class for interval arithmetic, and verified correctness of a production-grade Floating Point Overflow module. Contributed to an experimental C++ software testing library. Set up CMake and gTest from scratch and authored complete unit tests validated with an in-house tool. Developed a Python module for statistical analysis and visualisation of lane marking position consistency from vehicle measurement data.",
+          exp_cont_intern_desc: "Automated test scenarios for two Ethernet-based camera driver-assistance systems using Python and OpenCV. Created, validated, and extended test automation scripts. Performed manual testing via CANoe/CAPL rest-bus simulations. Integrated OEM components into existing test setups. Onboarded into the camera calibration feature area and contributed to its test validation. Optimised and documented testbenches throughout both internship periods.",
+          proj_site_desc: "Self-hosted personal resume site served from a Raspberry Pi 4 via Nginx with dark/light theme and bilingual (EN/DE) support. Integrated a locally-quantised Llama 3.2 model — no cloud API — that streams answers to recruiter questions in real time via a custom SSE chat widget. Demonstrates edge inference, server-side Python, and full-stack deployment on constrained hardware.",
+          proj_thesis_desc: "Master thesis: modelled the full logical and physical architecture of an ACC system in SysML v2 using OOSEM methodology. Covered detailed component interfaces, pin-level signal routing, and installation-space geometric models for weight distribution analysis. Derived quantitative cost and weight metrics directly from the architecture to support early-stage design decisions.",
+          proj_hybrid_desc: "Developed a simulation-based energy management system for a mild parallel hybrid electric vehicle as part of the Seminar Electromobility at TU Kaiserslautern. Implemented controller and state logic in MATLAB/Simulink, integrated into a full vehicle plant model, and evaluated fuel consumption across NEDC and FTP-75 drive cycles.",
+          edu_master_desc: "Specialised in automotive software engineering, autonomous systems, and electric/hybrid powertrains. Thesis on model-based system architecture using SysML v2. Coursework included ADAS, control theory, embedded systems, and electromobility.",
+          edu_bachelor_desc: "Core foundation in mechatronics, robotics, automotive engineering, and control systems.",
         },
         de: {
-          section_about_title: "👋 Über mich",
-          section_experience_title: "💼 Berufserfahrung",
-          section_projects_title: "🚀 Projekte",
-          section_skills_title: "🛠️ Kenntnisse",
-          section_education_title: "🎓 Ausbildung",
-          about_text:
-            "Leidenschaftlicher Softwareentwickler mit mehr als 2 Jahren Erfahrung in der automobilen Softwareentwicklung. Ich lerne gerne neue Technologien und beschäftige mich in meiner Freizeit mit LLMs. Man findet mich entweder mit einer guten Tasse Kaffee beim Debuggen der nächsten Herausforderung oder beim Filmschauen.",
-          exp_edag_desc:
-            "Entwicklung von Python-basierten Datenfusions- und Sensorverarbeitungskonzepten für ADAS-Funktionen, Verantwortung für das Design von Unit-Tests in TPT/Cmocka und MBD/C-Komponenten sowie Verbesserung der automatisierten Testinfrastruktur und des Reportings in einem agilen, internationalen Team.",
-          exp_cont_ws_desc:
-            "Prototypische Umsetzung von ADAS-Konzepten in MATLAB zur Vereinfachung von Architekturen und Reduzierung des Testaufwands, Implementierung von C++-Intervallarithmetik und Python-Tools für Datenanalyse und Automatisierung sowie Erstellung von CMake/gTest-Unit-Tests, validiert mit hausinternen Tools.",
-          exp_cont_intern_desc:
-            "Automatisierung von Python/OpenCV-Testfällen für Ethernet-basierte kameraunterstützte Fahrerassistenzsysteme, Durchführung von CANoe Restbussimulationen und HiL-Tests mit integrierten OEM-Komponenten sowie funktionale Tests von Kamerakalibrierfunktionen.",
-          proj_hybrid_desc:
-            "Entwicklung eines simulationsbasierten Energiemanagementsystems für ein Mild-Hybridfahrzeug in Parallelausführung im Rahmen des Seminars Elektromobilität an der TU Kaiserslautern. Implementierung von Regelungs- und Zustandslogik in MATLAB/Simulink, Integration in ein vollständiges Fahrzeugmodell und Bewertung des Kraftstoffverbrauchs unter verschiedenen Fahrzyklen (NEDC und FTP-75).",
-          proj_thesis_desc:
-            "Erstellung von SysMD/SysML-v2-Modellen für die logische und physikalische Architektur eines Adaptive-Cruise-Control-Systems nach OOSEM-Grundsätzen, einschließlich detaillierter Komponenteninterfaces, Pin-Verschaltungen und Signalleitungen. Aufbau installationsraum-basierter Geometriemodelle zur Analyse der Gewichtsverteilung und Ableitung quantitativer Gewichts- und Kostenkennzahlen direkt aus der Architektur zur Unterstützung früher Entwicklungsentscheidungen.",
-          proj_site_desc:
-            "Minimalistische, responsive persönliche Lebenslauf-Website, bereitgestellt von einem Raspberry Pi mit Nginx, inklusive Hell/Dunkel-Theme und animierten Abschnitten. Integration eines lokalen Chatbots, der ein kleines Llama-3.2-Modell auf dem Pi ausführt, um Recruiterfragen zu meiner Erfahrung und zu Projekten über ein eigenes Chat-Widget zu beantworten.",
-          edu_master_desc:
-            "Ich hatte die Möglichkeit, mein Masterstudium in der Stadt Kaiserslautern in Deutschland zu absolvieren, die für ihr starkes akademisches Umfeld und eine lebendige internationale Community bekannt ist. Während des Studiums lag mein Schwerpunkt auf automobilen Softwaresystemen, autonomen Systemen sowie Elektro- und Hybridfahrzeugen.",
-          edu_bachelor_desc:
-            "Ich habe meinen Bachelorabschluss in einem anspruchsvollen akademischen Umfeld erworben und mir dabei ein starkes Fundament in Mechatronik, Robotik, Fahrzeugtechnik und Regelungstechnik aufgebaut. Das Studium an der GECA hat mein technisches Wissen und meine praktische Problemlösungsfähigkeit deutlich gestärkt.",
-        },
+          section_about_title:      "Über mich",
+          section_experience_title: "Berufserfahrung",
+          section_projects_title:   "Projekte",
+          section_skills_title:     "Kenntnisse",
+          section_education_title:  "Ausbildung",
+          about_text: "Automotive Software Engineer mit 2+ Jahren Erfahrung bei Tier-1-Zulieferern (EDAG, Continental ADC). Schwerpunkte: ADAS-Softwareentwicklung, Sensordatenverarbeitung und Testautomatisierung — von Python-basierten Analysen über C++-Implementierung bis hin zu MBD/C-Unit-Tests mit TPT und Cmocka sowie CANoe/CAPL-Simulation. Erfahrung über den gesamten V-Zyklus in agilen, internationalen Teams. Aktuell: Edge-LLM-Inferenz mit Llama 3.2 auf einem Raspberry Pi als Nebenprojekt.",
+          exp_edag_desc: "Mitarbeit an der Konzeptentwicklung im Bereich Rohdatenfusion und Sensordatenverarbeitung, unterstützt durch Python-basierte Analysen. Erstellung und Pflege von Unit-Test-Spezifikationen für MBD/C-Komponenten auf Basis von Softwareanforderungen. Design und Implementierung automatisierter Unit-Tests mit TPT und Cmocka. Testdurchführung, Fehleranalyse und Bug-Fixing. Pflege und Verbesserung der automatisierten Testinfrastruktur. Erstellung von Testreports, Statusberichten und Metriken. Teilnahme an Code-Reviews, Modellprüfungen und Teststrategiediskussionen in einem agilen, internationalen, interdisziplinären Entwicklungsteam.",
+          exp_cont_ws_desc: "Analyse und prototypische Implementierung von Architekturvereinfachungskonzepten für serviceorientierte ADAS-Systeme in MATLAB, inklusive Auswertung von Übergängen zwischen isochromen und service-basierten Komponenten mit Präsentation der Ergebnisse im Team. Eigenständiger Entwurf, Implementierung und Test einer C++-Klasse für Intervall-Arithmetik sowie Verifikation der Fehlerfreiheit eines produktionsreifen Floating-Point-Overflow-Moduls. Mitarbeit an einer experimentellen C++-Testbibliothek. Eigenständige Einarbeitung in CMake und gTest sowie Erstellung vollständiger Unit-Tests mit In-House-Tool-Validierung. Entwicklung eines Python-Moduls zur statistischen Analyse und Visualisierung der zeitlichen und örtlichen Konsistenz von Spurmarkierungspositionen aus Fahrzeugmessdaten.",
+          exp_cont_intern_desc: "Automatisierung von Testszenarien für zwei Ethernet-basierte Kamerafahrerassistenzsysteme mit Python und OpenCV. Erstellung, Validierung und Weiterentwicklung von Testautomatisierungsskripten. Manuelles Testen mit CANoe/CAPL-Restbussimulationen. Integration von OEM-Komponenten in bestehende Test-Setups. Einarbeitung in das Feature Kamerakalibrierung und Beitrag zur Testvalidierung. Optimierung und Dokumentation der Testbenches in beiden Praktikumszeiträumen.",
+          proj_site_desc: "Self-hosted Lebenslauf-Website auf einem Raspberry Pi 4 mit Nginx, Hell/Dunkel-Theme und zweisprachiger (EN/DE) Unterstützung. Lokal quantisiertes Llama-3.2-Modell ohne Cloud-API beantwortet Recruiterfragen in Echtzeit über ein SSE-Chat-Widget. Demonstriert Edge-Inferenz, serverseitiges Python und Full-Stack-Deployment auf eingeschränkter Hardware.",
+          proj_thesis_desc: "Masterarbeit: vollständige logische und physikalische Architektur eines ACC-Systems in SysML v2 nach OOSEM-Methodik. Detaillierte Komponenteninterfaces, Pin-Verschaltungen und installationsraumbasierte Geometriemodelle für Gewichtsverteilungsanalyse. Ableitung quantitativer Kosten- und Gewichtskennzahlen direkt aus dem Architekturmodell.",
+          proj_hybrid_desc: "Simulation-basiertes Energiemanagementsystem für ein Mild-Hybrid-Parallelfahrzeug im Rahmen des Seminars Elektromobilität an der TU Kaiserslautern. Implementierung von Regler- und Zustandslogik in MATLAB/Simulink, Integration in ein vollständiges Fahrzeugmodell und Bewertung des Kraftstoffverbrauchs unter NEDC und FTP-75.",
+          edu_master_desc: "Schwerpunkte: automotive Software Engineering, autonome Systeme, Elektro-/Hybridantriebe. Masterarbeit zur modellbasierten Systemarchitektur mit SysML v2. Kurse zu ADAS, Regelungstechnik, eingebetteten Systemen und Elektromobilität.",
+          edu_bachelor_desc: "Fundament in Mechatronik, Robotik, Fahrzeugtechnik und Regelungstechnik.",
+        }
       }
 
       function setLanguage(lang) {
-        const html = document.documentElement
-        html.setAttribute("lang", lang)
+        document.documentElement.setAttribute("lang", lang)
         localStorage.setItem("lang", lang)
-
         const dict = translations[lang] || translations.en
-
-        document.querySelectorAll("[data-i18n]").forEach((el) => {
+        document.querySelectorAll("[data-i18n]").forEach(el => {
           const key = el.getAttribute("data-i18n")
-          if (dict[key]) {
-            el.textContent = dict[key]
-          }
+          if (dict[key]) el.textContent = dict[key]
         })
-
-        document.querySelectorAll("[data-lang-btn]").forEach((btn) => {
-          const isActive = btn.getAttribute("data-lang-btn") === lang
-          btn.classList.toggle("active", isActive)
+        document.querySelectorAll("[data-lang-btn]").forEach(btn => {
+          btn.classList.toggle("active", btn.getAttribute("data-lang-btn") === lang)
         })
       }
 
       function loadLanguage() {
-        const savedLang = localStorage.getItem("lang") || "en"
-        setLanguage(savedLang)
+        setLanguage(localStorage.getItem("lang") || "en")
       }
 
-      // ── Chat with streaming ───────────────────────────────────────────────
-      function appendMessage(role, text) {
-        const container = document.getElementById("chat-messages")
-        if (!container) return
-        const div = document.createElement("div")
-        div.className = `chat-message chat-message-${role}`
-        div.textContent = text
-        container.appendChild(div)
-        container.scrollTop = container.scrollHeight
-        return div
-      }
-
+      // ── Chat ───────────────────────────────────────────────────────────────
       async function sendStreamingMessage(question) {
         const container = document.getElementById("chat-messages")
         const submitBtn = document.getElementById("chat-submit")
 
-        appendMessage("user", question)
+        const userDiv = document.createElement("div")
+        userDiv.className = "chat-message chat-message-user"
+        userDiv.textContent = question
+        container.appendChild(userDiv)
+
         submitBtn.disabled = true
         submitBtn.textContent = "..."
 
-        // Create empty bot message div that we'll fill token by token
         const botDiv = document.createElement("div")
         botDiv.className = "chat-message chat-message-assistant"
-        botDiv.textContent = "▍"  // blinking cursor
+        botDiv.textContent = "▍"
         container.appendChild(botDiv)
         container.scrollTop = container.scrollHeight
 
@@ -437,39 +355,31 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ question }),
           })
-
           if (!res.ok) throw new Error("Server error")
 
-          const reader = res.body.getReader()
+          const reader  = res.body.getReader()
           const decoder = new TextDecoder()
-          let fullText = ""
+          let fullText  = ""
 
           while (true) {
             const { done, value } = await reader.read()
             if (done) break
-
-            const chunk = decoder.decode(value)
-            const lines = chunk.split("\n")
-
+            const lines = decoder.decode(value).split("\n")
             for (const line of lines) {
-              if (line.startsWith("data: ")) {
-                const data = line.slice(6).trim()
-                if (data === "[DONE]") break
-                try {
-                  const parsed = JSON.parse(data)
-                  fullText += parsed.token
-                  botDiv.textContent = fullText + "▍"
-                  container.scrollTop = container.scrollHeight
-                } catch {}
-              }
+              if (!line.startsWith("data: ")) continue
+              const data = line.slice(6).trim()
+              if (data === "[DONE]") break
+              try {
+                const parsed = JSON.parse(data)
+                fullText += parsed.token
+                botDiv.textContent = fullText + "▍"
+                container.scrollTop = container.scrollHeight
+              } catch {}
             }
           }
-
-          // Remove cursor when done
           botDiv.textContent = fullText || "I don't have that information."
-
         } catch (err) {
-          botDiv.textContent = "Error contacting chatbot backend."
+          botDiv.textContent = "Could not reach the chatbot backend."
           console.error(err)
         }
 
@@ -478,22 +388,20 @@
         container.scrollTop = container.scrollHeight
       }
 
-      // Initialize
-      document.addEventListener("DOMContentLoaded", function () {
+      // ── Init ───────────────────────────────────────────────────────────────
+      document.addEventListener("DOMContentLoaded", () => {
         loadTheme()
         loadLanguage()
-        animateCards()
 
-        const form = document.getElementById("chat-form")
+        const form  = document.getElementById("chat-form")
         const input = document.getElementById("chat-input")
-
         if (form && input) {
-          form.addEventListener("submit", async function (e) {
+          form.addEventListener("submit", async e => {
             e.preventDefault()
-            const question = input.value.trim()
-            if (!question) return
+            const q = input.value.trim()
+            if (!q) return
             input.value = ""
-            await sendStreamingMessage(question)
+            await sendStreamingMessage(q)
           })
         }
       })
