@@ -7,3 +7,7 @@ backend/*.xlsx
 *.pyc
 *.log
 .env
+__pycache__/
+*.xlsx
+
+.DS_Store
