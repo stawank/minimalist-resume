@@ -401,6 +401,31 @@ body::before {
   line-height: 1.75;
 }
 
+/* Terminal-style bullets in experience cards */
+.card-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.card-bullets li {
+  position: relative;
+  padding-left: 1.4rem;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: var(--text-md);
+}
+.card-bullets li::before {
+  content: ">";
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-weight: 600;
+  font-size: 0.72rem;
+}
+
 /* ════════════════════════════════
    SKILLS — look like shell commands
    ════════════════════════════════ */
