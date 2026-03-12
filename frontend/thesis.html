@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Master Thesis — Stawan Kulkarni</title>
+    <style>
+      /* ── Thesis-specific styles ── */
+      .thesis-hero {
+        text-align: center;
+        padding: 2rem 2rem 1.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .thesis-hero .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.7rem;
+        color: var(--text-lo);
+        text-decoration: none;
+        letter-spacing: 0.08em;
+        margin-bottom: 1.5rem;
+        transition: color 0.2s;
+      }
+      .thesis-hero .back-link:hover { color: var(--green); }
+      .thesis-hero .back-link::before { content: "←"; color: var(--green); }
+
+      .thesis-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--text-hi);
+        letter-spacing: 0.03em;
+        line-height: 1.5;
+        margin-bottom: 0.5rem;
+      }
+      .thesis-subtitle {
+        font-size: 0.7rem;
+        color: var(--text-lo);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 1.25rem;
+      }
+      .thesis-meta-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        font-size: 0.68rem;
+        color: var(--text-lo);
+        margin-bottom: 1.5rem;
+      }
+      .thesis-meta-row span { color: var(--green); margin-right: 0.3rem; }
+
+      /* Photo */
+      .thesis-photo {
+        width: 100%;
+        max-width: 620px;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+        margin: 0 auto 0.75rem;
+        display: block;
+        filter: grayscale(20%);
+        transition: filter 0.3s;
+      }
+      .thesis-photo:hover { filter: grayscale(0%); }
+      .thesis-photo-caption {
+        font-size: 0.65rem;
+        color: var(--text-lo);
+        font-style: italic;
+        text-align: center;
+        margin-bottom: 0;
+      }
+
+      /* Abstract */
+      .abstract-block {
+        background: var(--bg-sunken);
+        border-left: 3px solid var(--green);
+        border-radius: 0 4px 4px 0;
+        padding: 1.25rem 1.5rem;
+        margin: 0;
+      }
+      .abstract-block p {
+        font-size: 0.78rem;
+        color: var(--text-md);
+        line-height: 1.85;
+      }
+      .abstract-block a {
+        color: var(--green);
+        text-decoration: none;
+      }
+      .abstract-block a:hover { text-decoration: underline; }
+
+      /* Key topics */
+      .topics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 0.75rem;
+        margin-top: 0.25rem;
+      }
+      .topic-chip {
+        background: var(--bg-sunken);
+        border: 1px solid var(--border);
+        border-radius: 3px;
+        padding: 0.6rem 0.9rem;
+        font-size: 0.7rem;
+        color: var(--text-md);
+        transition: border-color 0.2s, color 0.2s;
+      }
+      .topic-chip::before {
+        content: "$ ";
+        color: var(--green);
+        font-weight: 600;
+      }
+      .topic-chip:hover {
+        border-color: var(--green);
+        color: var(--text-hi);
+      }
+
+      /* Download buttons */
+      .download-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 0.25rem;
+      }
+      .download-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.65rem 1.2rem;
+        background: var(--bg-sunken);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--text-hi);
+        text-decoration: none;
+        letter-spacing: 0.05em;
+        transition: border-color 0.2s, color 0.2s, background 0.2s;
+      }
+      .download-btn:hover {
+        border-color: var(--green);
+        color: var(--green);
+        background: var(--green-bg);
+      }
+      .download-btn .btn-icon { font-size: 1rem; }
+      .download-btn .btn-label { font-size: 0.62rem; color: var(--text-lo); display: block; font-weight: 400; }
+
+      /* Colloquium section */
+      .colloquium-note {
+        font-size: 0.72rem;
+        color: var(--text-lo);
+        margin-top: 0.5rem;
+        line-height: 1.7;
+      }
+      .colloquium-note span { color: var(--green); }
+
+      /* Section spacing within container */
+      .container > .thesis-hero { padding-top: 2rem; }
+      .container > .section { padding: 1.75rem 2rem; }
+    </style>
+  </head>
+  <body>
+    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+      <span class="icon">🌙</span>
+    </div>
+    <div class="language-toggle">
+      <button type="button" data-lang-btn="en" onclick="setLanguage('en')">EN</button>
+      <span>|</span>
+      <button type="button" data-lang-btn="de" onclick="setLanguage('de')">DE</button>
+    </div>
+
+    <div class="container">
+
+      <!-- HERO -->
+      <div class="thesis-hero fade-in">
+        <a href="index.html" class="back-link" data-i18n="back_link">Back to Resume</a>
+
+        <p class="thesis-subtitle" data-i18n="subtitle">// Master Thesis · RPTU Kaiserslautern · Jan 2024</p>
+        <h1 class="thesis-title" data-i18n="thesis_title">Model-Based Development of a System Architecture<br>for Vehicle Platforms</h1>
+
+        <div class="thesis-meta-row">
+          <div><span>author</span>Stawan Chandrashekhar Kulkarni</div>
+          <div><span>tool</span>SysMD / SysML v2</div>
+          <div><span>method</span>OOSEM</div>
+          <div><span>domain</span>ADAS · ACC System</div>
+          <div><span>university</span>RPTU Kaiserslautern-Landau</div>
+        </div>
+
+        <img
+          class="thesis-photo"
+          src="https://stawank.wordpress.com/wp-content/uploads/2025/05/img_1465.jpg"
+          alt="Stawan presenting his master thesis at RPTU Kaiserslautern"
+        />
+        <p class="thesis-photo-caption" data-i18n="photo_caption">Colloquium presentation at RPTU Kaiserslautern-Landau</p>
+      </div>
+
+      <!-- ABSTRACT -->
+      <section class="section fade-in stagger-1">
+        <h2 class="section-title" data-i18n="section_abstract"># Abstract</h2>
+        <div class="card">
+          <div class="abstract-block">
+            <p>
+              In today's automotive market, significant strides have been made in reducing
+              time-to-market for new software features. The research projects
+              <a href="https://project.edacentrum.de/genial/en" target="_blank">GENIAL!</a>
+              and
+              <a href="https://project.edacentrum.de/ki4boardnet/" target="_blank">KI4Boardnet</a>
+              tackle this challenge by offering solutions to issues encountered during the
+              initial phases of developing automotive microelectronic components.
+              The <a href="https://dvcon-proceedings.org/wp-content/uploads/SysML-v2-An-Overview-with-SysMD-Demonstration.pdf" target="_blank">SysMD</a>
+              modelling language, developed by the Chair of Design of Cyber-Physical Systems
+              at RPTU Kaiserslautern-Landau, plays a crucial role by ensuring completeness
+              and consistency during the specification phase.
+            </p>
+            <br/>
+            <p>
+              This thesis creates specification models of the logical and physical architecture
+              of an adaptive cruise control (ACC) system using SysMD. The models detail
+              component specifications and their connections at the pin level, enabling precise
+              specification of how components interconnect within the system. Additionally,
+              the models support assessment of overall weight and cost parameters for involved
+              components. The geometric perspective is grounded in installation-space models,
+              facilitating weight distribution analysis that indirectly influences the vehicle's
+              dynamic performance. The developed models also demonstrate SysMD's capability
+              to enhance multiple phases of the systems engineering process.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- KEY TOPICS -->
+      <section class="section fade-in stagger-2">
+        <h2 class="section-title" data-i18n="section_topics"># Key Topics</h2>
+        <div class="card">
+          <div class="topics-grid">
+            <div class="topic-chip">SysML v2 / SysMD</div>
+            <div class="topic-chip">OOSEM Methodology</div>
+            <div class="topic-chip">Adaptive Cruise Control</div>
+            <div class="topic-chip">Logical Architecture</div>
+            <div class="topic-chip">Physical Architecture</div>
+            <div class="topic-chip">Pin-level Interfaces</div>
+            <div class="topic-chip">Installation-space Models</div>
+            <div class="topic-chip">Weight Distribution</div>
+            <div class="topic-chip">Cost & Weight Metrics</div>
+            <div class="topic-chip">ADAS Systems Engineering</div>
+            <div class="topic-chip">Model-Based Development</div>
+            <div class="topic-chip">Cyber-Physical Systems</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- DOWNLOADS -->
+      <section class="section fade-in stagger-3">
+        <h2 class="section-title" data-i18n="section_downloads"># Downloads</h2>
+        <div class="card">
+          <div class="download-row">
+            <a
+              class="download-btn"
+              href="https://stawank.wordpress.com/wp-content/uploads/2025/05/master_thesis_kulkarni_419106.pdf"
+              target="_blank"
+            >
+              <span class="btn-icon">📄</span>
+              <span>
+                <span data-i18n="btn_thesis">Full Thesis</span>
+                <span class="btn-label">master_thesis_kulkarni_419106.pdf</span>
+              </span>
+            </a>
+            <a
+              class="download-btn"
+              href="https://stawank.wordpress.com/wp-content/uploads/2025/05/stawan-master-thesis-presentation.pdf"
+              target="_blank"
+            >
+              <span class="btn-icon">📊</span>
+              <span>
+                <span data-i18n="btn_presentation">Colloquium Presentation</span>
+                <span class="btn-label">stawan-master-thesis-presentation.pdf</span>
+              </span>
+            </a>
+          </div>
+          <p class="colloquium-note" data-i18n="colloquium_note" style="margin-top:1rem;">> Presented at RPTU Kaiserslautern-Landau as part of the M.Sc. Commercial Vehicle Technology programme, January 2024.</p>
+        </div>
+      </section>
+
+    </div><!-- /container -->
+
+    <script>
+      // ── Theme ──────────────────────────────────────────────────────────────
+      function toggleTheme() {
+        const html = document.documentElement
+        const icon = document.querySelector(".theme-toggle .icon")
+        const isDark = html.getAttribute("data-theme") === "dark"
+        if (isDark) {
+          html.removeAttribute("data-theme")
+          icon.textContent = "🌙"
+          localStorage.setItem("theme", "light")
+        } else {
+          html.setAttribute("data-theme", "dark")
+          icon.textContent = "☀️"
+          localStorage.setItem("theme", "dark")
+        }
+      }
+
+      function loadTheme() {
+        const saved = localStorage.getItem("theme")
+        const icon  = document.querySelector(".theme-toggle .icon")
+        if (saved === "dark") {
+          document.documentElement.setAttribute("data-theme", "dark")
+          icon.textContent = "☀️"
+        }
+      }
+
+      // ── i18n ───────────────────────────────────────────────────────────────
+      const translations = {
+        en: {
+          back_link:        "Back to Resume",
+          subtitle:         "// Master Thesis · RPTU Kaiserslautern · Jan 2024",
+          thesis_title:     "Model-Based Development of a System Architecture for Vehicle Platforms",
+          photo_caption:    "Colloquium presentation at RPTU Kaiserslautern-Landau",
+          section_abstract: "# Abstract",
+          section_topics:   "# Key Topics",
+          section_downloads:"# Downloads",
+          btn_thesis:       "Full Thesis",
+          btn_presentation: "Colloquium Presentation",
+          colloquium_note:  "> Presented at RPTU Kaiserslautern-Landau as part of the M.Sc. Commercial Vehicle Technology programme, January 2024.",
+        },
+        de: {
+          back_link:        "Zurück zum Lebenslauf",
+          subtitle:         "// Masterarbeit · RPTU Kaiserslautern · Jan 2024",
+          thesis_title:     "Modellbasierte Entwicklung einer Systemarchitektur für Fahrzeugplattformen",
+          photo_caption:    "Kolloquiumsvortrag an der RPTU Kaiserslautern-Landau",
+          section_abstract: "# Zusammenfassung",
+          section_topics:   "# Themengebiete",
+          section_downloads:"# Downloads",
+          btn_thesis:       "Vollständige Arbeit",
+          btn_presentation: "Kolloquiumspräsentation",
+          colloquium_note:  "> Präsentiert an der RPTU Kaiserslautern-Landau im Rahmen des M.Sc.-Studiengangs Nutzfahrzeugtechnologie, Januar 2024.",
+        }
+      }
+
+      function setLanguage(lang) {
+        document.documentElement.setAttribute("lang", lang)
+        localStorage.setItem("lang", lang)
+        const dict = translations[lang] || translations.en
+        document.querySelectorAll("[data-i18n]").forEach(el => {
+          const key = el.getAttribute("data-i18n")
+          if (dict[key]) el.textContent = dict[key]
+        })
+        document.querySelectorAll("[data-lang-btn]").forEach(btn => {
+          btn.classList.toggle("active", btn.getAttribute("data-lang-btn") === lang)
+        })
+      }
+
+      function loadLanguage() {
+        setLanguage(localStorage.getItem("lang") || "en")
+      }
+
+      loadTheme()
+      loadLanguage()
+    </script>
+  </body>
+</html>
