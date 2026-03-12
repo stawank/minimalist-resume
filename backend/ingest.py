@@ -1,10 +1,10 @@
 import os
 import shutil
 from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from langchain_community.vectorstores import Chroma
-from langchain.schema import Document
+from langchain_core.documents import Document
 from bs4 import BeautifulSoup
 from gitingest import ingest
 
@@ -61,7 +61,35 @@ else:
     print(f"   SKIP: not found at {WEBSITE_HTML}")
 
 # ── 2. PDFs ───────────────────────────────────────────────────────────────────
-print(f"\n[2/4] Loading PDFs from {DOCS_PATH}")
+
+BATCH_SIZE = 5
+
+# Get list of all PDF files
+pdf_files = [f for f in os.listdir(DOCS_PATH) if f.endswith('.pdf')]
+
+for i in range(0, len(pdf_files), BATCH_SIZE):
+    batch = pdf_files[i:i + BATCH_SIZE]
+    batch_docs = []
+    
+    print(f"--- Processing batch {i//BATCH_SIZE + 1}: {batch} ---")
+    
+    for pdf_name in batch:
+        loader = PyPDFLoader(os.path.join(DOCS_PATH, pdf_name))
+        try:
+            # Load and split immediately to keep objects small
+            batch_docs.extend(loader.load_and_split())
+        except Exception as e:
+            print(f"Error loading {pdf_name}: {e}")
+
+    # Add this specific batch to Chroma and persist
+    if batch_docs:
+        db.add_documents(batch_docs)
+        print(f"Successfully indexed {len(batch_docs)} chunks from this batch.")
+    
+    # Explicitly clear the list to help the Garbage Collector
+    del batch_docs
+
+"""print(f"\n[2/4] Loading PDFs from {DOCS_PATH}")
 if os.path.exists(DOCS_PATH):
     pdfs = sorted([f for f in os.listdir(DOCS_PATH) if f.endswith(".pdf")])
     print(f"   Found {len(pdfs)} PDFs")
@@ -80,7 +108,7 @@ if os.path.exists(DOCS_PATH):
         except Exception as e:
             print(f"   FAIL: {filename} -> {e}")
 else:
-    print(f"   SKIP: {DOCS_PATH} not found")
+    print(f"   SKIP: {DOCS_PATH} not found")"""
 
 # ── 3. GitHub repos via GitIngest ─────────────────────────────────────────────
 print(f"\n[3/4] Ingesting GitHub repos via GitIngest...")
