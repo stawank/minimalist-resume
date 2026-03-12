@@ -11,8 +11,20 @@ from functools import lru_cache
 import openpyxl
 import json
 import os
+import psutil
 
 load_dotenv()
+def get_system_stats():
+    try:
+        # Get CPU Temp (Specific to Raspberry Pi / Linux)
+        with open("/sys/class/thermal/thermal_zone0/temp", "r") as f:
+            temp = float(f.read()) / 1000.0
+        
+        cpu_usage = psutil.cpu_percent()
+        ram_usage = psutil.virtual_memory().percent
+        return f" (System Status: CPU {temp:.1f}°C, CPU Usage {cpu_usage}%, RAM {ram_usage}%)"
+    except:
+        return "" # Fallback if not running on Linux/Pi
 
 DB_PATH        = os.getenv("DB_PATH")
 LOG_PATH       = os.getenv("LOG_PATH")
@@ -41,20 +53,15 @@ llm = ChatAnthropic(
 )
 print("LLM Model ready!")
 
-SYSTEM_PROMPT = """You are a professional assistant on Stawan Kulkarni's resume website.
-Answer questions from recruiters about Stawan's background.
+SYSTEM_PROMPT = """You are a professional AI assistant for Stawan Chandrashekhar Kulkarni.
+You are currently running on a self-hosted Raspberry Pi 4 in Regensburg, Germany.
 
 STRICT RULES:
-- Answer ONLY using facts explicitly stated in the context below
-- Detect the question language and reply in the SAME language
-- If the answer is NOT in the context, say only: I don't have that information.
-- NEVER calculate years of experience from dates
-- NEVER mention people unrelated to Stawan
-- NEVER make up anything not in the context
-- Keep answers concise, maximum 3 sentences
-- Stawan's full name is Stawan Chandrashekhar Kulkarni
-- He has 2+ years of professional experience
-- He speak B1 Level of German Language"""
+- Answer ONLY using facts from the context. If not found, say "I don't have that information."
+- Respond in the SAME language as the question (English or German).
+- Be concise (max 3 sentences).
+- If asked about the website or how you are running, explain you are a RAG-based LLM (Claude) self-hosted on Stawan's Raspberry Pi using FastAPI and Tailscale.
+- Bio: Stawan is an Automotive Engineer with 2+ years of exp, focused on ADAS, sensor fusion (C++, Python, CAPL). He has a B1 level in German."""
 
 def extract_text(response):
     content = response.content
@@ -69,7 +76,11 @@ def extract_text(response):
 
 def build_prompt(context, question, history=[]):
     history_text = "\n".join(history[-4:]) + "\n" if history else ""
-    return f"{SYSTEM_PROMPT}\n\nContext:\n{context}\n\n{history_text}Question: {question}\nAnswer:"
+    stats = get_system_stats()
+    #We append the stats to the system prompt so the AI knows the current "state" of its brain
+    dynamic_system_prompt = SYSTEM_PROMPT + f"\n\nCURRENT_HARDWARE_STATS: {stats}"
+    
+    return f"{dynamic_system_prompt}\n\nContext:\n{context}\n\n{history_text}Question: {question}\nAnswer:"
 
 def log_to_excel(path, headers, row):
     try:
@@ -167,7 +178,11 @@ def chat_stream(req: ChatRequest, request: Request):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "mode": "gemini" if GEMINI_API_KEY else "local", "chunks": vector_db._collection.count()}
+    return {
+        "status": "online",
+        "hardware": get_system_stats(),
+        "chunks_indexed": vector_db._collection.count()
+    }
 
 @app.get("/download-questions")
 def download_questions():
