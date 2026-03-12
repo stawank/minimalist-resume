@@ -157,8 +157,8 @@ body::before {
 /* Theme toggle — bottom right, clear of chatbot */
 .theme-toggle {
   position: fixed;
-  bottom: 1.25rem;
-  left: 1.25rem;
+  top: 1.25rem;
+  right: 1.25rem;
   background: var(--bg-raised);
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -179,8 +179,8 @@ body::before {
 /* Language toggle — bottom left, just above theme toggle */
 .language-toggle {
   position: fixed;
-  bottom: 4rem;
-  left: 1.25rem;
+  top: 4rem;
+  right: 1.25rem;
   background: var(--bg-raised);
   border: 1px solid var(--border);
   border-radius: 4px;
