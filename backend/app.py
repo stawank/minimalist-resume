@@ -53,7 +53,8 @@ STRICT RULES:
 - NEVER make up anything not in the context
 - Keep answers concise, maximum 3 sentences
 - Stawan's full name is Stawan Chandrashekhar Kulkarni
-- He has 2+ years of professional experience"""
+- He has 2+ years of professional experience
+- He speak B1 Level of German Language"""
 
 def extract_text(response):
     content = response.content
