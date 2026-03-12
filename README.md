@@ -2,7 +2,7 @@
 
 A personal resume website served from a Raspberry Pi with an AI-powered chatbot. Recruiters can ask questions about my experience, skills, and projects directly on the site.
 
-**Live:** [stawank.cv](https://stawank.cv)
+**Live:** [stawank.cv](https://https://raspberrypi.tail1b2b1f.ts.net/)
 
 ---
 
@@ -25,9 +25,6 @@ A personal resume website served from a Raspberry Pi with an AI-powered chatbot.
 
 ```
 Visitor
-  │
-  ▼
-stawank.cv
   │
   ▼
 Tailscale Funnel (bypasses CG-NAT)
