@@ -310,11 +310,12 @@
       function loadTheme() {
         const saved = localStorage.getItem("theme")
         const icon  = document.querySelector(".theme-toggle .icon")
-        if (saved === "dark") {
+        if (saved === "light") {
+          html.removeAttribute("data-theme")
+          icon.textContent = "🌙"
+        } else {
           document.documentElement.setAttribute("data-theme", "dark")
           icon.textContent = "☀️"
-        } else {
-          icon.textContent = "🌙"
         }
       }
 
