@@ -603,6 +603,31 @@ body::before {
 }
 .chatbot-toggle-icon { display: none; }
 
+/* $ prompt + blinking cursor */
+.chatbot-toggle-prompt {
+  font-size: 0.82rem;
+  color: var(--prompt);
+  opacity: 0.9;
+}
+.chatbot-toggle-cursor {
+  font-size: 0.82rem;
+  color: var(--green);
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+}
+
+/* Stop blinking when active */
+.chatbot-toggle-active .chatbot-toggle-cursor { animation: none; opacity: 0; }
+
+/* Pulse glow */
+@keyframes borderPulse {
+  0%,100% { box-shadow: 0 0 6px rgba(104,216,62,0.15), var(--shadow-sm); }
+  50%      { box-shadow: 0 0 16px rgba(104,216,62,0.45), var(--shadow-sm); }
+}
+.chatbot-toggle { animation: borderPulse 2.5s ease-in-out infinite; }
+.chatbot-toggle-active,
+.chatbot-toggle-seen { animation: none; box-shadow: var(--shadow-sm); }
+
 /* Pulse ring — hidden, not terminal-like */
 .chatbot-toggle-ping { display: none; }
 

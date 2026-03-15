@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 — stawan@portfolio</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="favicon.ico" sizes="32x32" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <style>
+      .error-wrap {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 60vh;
+        padding: 3rem 2rem;
+      }
+      .error-code {
+        font-size: 0.7rem;
+        color: var(--text-lo);
+        letter-spacing: 0.1em;
+        margin-bottom: 1.5rem;
+      }
+      .error-code::before { content: "[ "; }
+      .error-code::after  { content: " ]"; }
+      .error-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--text-hi);
+        margin-bottom: 0.4rem;
+        letter-spacing: 0.02em;
+      }
+      .error-desc {
+        font-size: 0.82rem;
+        color: var(--text-lo);
+        margin-bottom: 2.5rem;
+        line-height: 1.7;
+      }
+      .error-desc::before { content: "> "; color: var(--prompt); }
+      .error-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        margin-bottom: 2.5rem;
+      }
+      .error-stack-line {
+        font-size: 0.75rem;
+        color: var(--text-lo);
+        opacity: 0.6;
+        letter-spacing: 0.04em;
+      }
+      .error-stack-line.warn { color: #d4a017; opacity: 0.8; }
+      .error-stack-line::before { content: "  at "; }
+      .error-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.78rem;
+        color: var(--green);
+        text-decoration: none;
+        letter-spacing: 0.06em;
+        border: 1px solid var(--green-dim);
+        border-radius: 2px;
+        padding: 0.4rem 0.85rem;
+        transition: var(--t);
+        width: fit-content;
+      }
+      .error-back::before { content: "$ "; opacity: 0.7; }
+      .error-back:hover {
+        background: var(--green);
+        color: var(--bg);
+        border-color: var(--green);
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+      <span class="icon">☀️</span>
+    </div>
+
+    <!-- BOOT SEQUENCE -->
+    <div class="boot-overlay" id="boot-overlay">
+      <div class="boot-lines" id="boot-lines"></div>
+      <div class="boot-prompt" id="boot-prompt"></div>
+    </div>
+
+    <div class="container" id="main-container" style="visibility:hidden">
+      <div class="error-wrap">
+
+        <p class="error-code">ERROR 404</p>
+        <h1 class="error-title">file not found</h1>
+        <p class="error-desc">the path you requested does not exist on this server.</p>
+
+        <div class="error-stack">
+          <span class="error-stack-line">nginx · stawan@pi4</span>
+          <span class="error-stack-line">request → 404 not found</span>
+          <span class="error-stack-line warn">[ WARN ] no route matched the requested path</span>
+        </div>
+
+        <a href="index.html" class="error-back">cd ~/resume</a>
+
+      </div>
+    </div><!-- /container -->
+
+    <script>
+      // ── Theme ──────────────────────────────────────────────────────────────
+      function toggleTheme() {
+        const html = document.documentElement
+        const icon = document.querySelector(".theme-toggle .icon")
+        const isDark = html.getAttribute("data-theme") === "dark"
+        if (isDark) {
+          html.removeAttribute("data-theme")
+          icon.textContent = "🌙"
+          localStorage.setItem("theme", "light")
+        } else {
+          html.setAttribute("data-theme", "dark")
+          icon.textContent = "☀️"
+          localStorage.setItem("theme", "dark")
+        }
+      }
+
+      function loadTheme() {
+        const saved = localStorage.getItem("theme")
+        const icon  = document.querySelector(".theme-toggle .icon")
+        if (saved === "light") {
+          document.documentElement.removeAttribute("data-theme")
+          icon.textContent = "🌙"
+        } else {
+          document.documentElement.setAttribute("data-theme", "dark")
+          icon.textContent = "☀️"
+        }
+      }
+
+      // ── Boot sequence ──────────────────────────────────────────────────────
+      const BOOT_LINES = [
+        { text: "BIOS v2.4.1 — stawan@portfolio",  color: "lo" },
+        { text: "[  OK  ] Loaded resume.service",   color: "ok" },
+        { text: "[ WARN ] requested path not found",color: "warn" },
+        { text: "[ FAIL ] 404 — no route matched",  color: "warn" },
+        { text: "",                                 color: "lo" },
+        { text: "redirecting to error handler...",  color: "lo" },
+      ]
+      const BOOT_PROMPT = "$ ls ~/resume/"
+
+      function runBootSequence() {
+        if (sessionStorage.getItem("booted-404")) {
+          document.getElementById("boot-overlay").style.display = "none"
+          document.getElementById("main-container").style.visibility = ""
+          return
+        }
+
+        const overlay  = document.getElementById("boot-overlay")
+        const linesEl  = document.getElementById("boot-lines")
+        const promptEl = document.getElementById("boot-prompt")
+
+        BOOT_LINES.forEach(({ text, color }, i) => {
+          setTimeout(() => {
+            if (text === "") { linesEl.appendChild(document.createElement("br")); return }
+            const line = document.createElement("div")
+            line.className = `boot-line boot-line--${color}`
+            line.textContent = text
+            linesEl.appendChild(line)
+          }, i * 180)
+        })
+
+        setTimeout(() => {
+          let i = 0
+          promptEl.textContent = ""
+          const cursor = document.createElement("span")
+          cursor.className = "boot-cursor"
+          cursor.textContent = "█"
+          promptEl.appendChild(cursor)
+          const type = () => {
+            if (i < BOOT_PROMPT.length) {
+              cursor.before(BOOT_PROMPT[i++])
+              setTimeout(type, 45)
+            } else {
+              setTimeout(() => {
+                overlay.classList.add("boot-overlay--done")
+                setTimeout(() => {
+                  overlay.style.display = "none"
+                  document.getElementById("main-container").style.visibility = ""
+                  sessionStorage.setItem("booted-404", "1")
+                }, 600)
+              }, 400)
+            }
+          }
+          type()
+        }, BOOT_LINES.length * 180 + 200)
+      }
+
+      // ── Init ───────────────────────────────────────────────────────────────
+      document.addEventListener("DOMContentLoaded", () => {
+        loadTheme()
+        runBootSequence()
+      })
+    </script>
+  </body>
+</html>
