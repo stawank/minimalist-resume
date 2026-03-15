@@ -84,10 +84,28 @@
       // ── JSON loader ────────────────────────────────────────────────────────
       async function loadData(lang) {
         if (cache[lang]) return cache[lang]
-        const res  = await fetch(`${lang}.json`)
-        const data = await res.json()
-        cache[lang] = data
-        return data
+        try {
+          const res = await fetch(`${lang}.json`)
+          if (!res.ok) throw new Error(`HTTP ${res.status}`)
+          const data = await res.json()
+          cache[lang] = data
+          return data
+        } catch (err) {
+          console.error(`Failed to load ${lang}.json:`, err)
+          // Show visible error on page so it's not a silent blank screen
+          document.getElementById("main-container").innerHTML = `
+            <div style="padding:2rem;font-family:monospace;color:#68d83e;">
+              <p style="color:#d4a017;">[ ERROR ] failed to load ${lang}.json</p>
+              <p style="opacity:0.6;margin-top:0.5rem;">${err.message}</p>
+              <p style="opacity:0.5;margin-top:1rem;font-size:0.8rem;">
+                Make sure en.json and de.json are in the same folder as index.html<br>
+                and served via a web server (not opened as file://)
+              </p>
+            </div>`
+          document.getElementById("main-container").style.visibility = ""
+          document.getElementById("boot-overlay").style.display = "none"
+          return null
+        }
       }
 
       // ── Renderers ──────────────────────────────────────────────────────────
@@ -409,6 +427,7 @@
         document.documentElement.setAttribute("lang", lang)
 
         const data = await loadData(lang)
+        if (!data) return
         render(data)
 
         const form  = document.getElementById("chat-form")
