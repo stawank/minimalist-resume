@@ -1,331 +1,324 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Baja SAE — Stawan Kulkarni</title>
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    /* ── Baja-page-only additions (not in styles.css) ── */
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baja SAE — Stawan Kulkarni</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S8FDWEFYGB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-S8FDWEFYGB');
+    </script>
+    <style>
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.68rem;
+        color: var(--text-lo);
+        text-decoration: none;
+        letter-spacing: 0.08em;
+        margin-bottom: 2rem;
+        transition: var(--t);
+      }
+      .back-link::before { content: "< "; color: var(--green); }
+      .back-link:hover { color: var(--green); }
 
-    /* Back link — terminal style */
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.65rem;
-      color: var(--text-lo);
-      text-decoration: none;
-      letter-spacing: 0.08em;
-      margin-bottom: 1.75rem;
-      transition: var(--t);
-    }
-    .back-link::before { content: "< "; color: var(--green); }
-    .back-link:hover { color: var(--green); }
+      .page-eyebrow {
+        font-size: 0.68rem;
+        color: var(--text-lo);
+        letter-spacing: 0.08em;
+        margin-bottom: 0.5rem;
+      }
+      .page-eyebrow::before { content: "// "; color: var(--green); opacity: 0.6; }
 
-    /* Eyebrow — like thesis page */
-    .eyebrow {
-      font-size: 0.62rem;
-      color: var(--text-lo);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 0.6rem;
-    }
-    .eyebrow::before { content: "// "; color: var(--green); opacity: 0.6; }
+      .page-title {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: var(--text-hi);
+        letter-spacing: 0.02em;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+      }
 
-    /* Page h1 */
-    .page-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--text-hi);
-      letter-spacing: 0.02em;
-      line-height: 1.3;
-      margin-bottom: 1.5rem;
-    }
+      /* Meta table */
+      .meta-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .meta-table td {
+        font-size: 0.72rem;
+        padding: 0.22rem 0;
+        vertical-align: top;
+        line-height: 1.6;
+        color: var(--text-md);
+      }
+      .meta-table td:first-child {
+        color: var(--text-lo);
+        white-space: nowrap;
+        padding-right: 1.5rem;
+        width: 1%;
+      }
+      .meta-table td:first-child::before { content: "[ "; }
+      .meta-table td:first-child::after  { content: " ]"; }
 
-    /* Meta table — key/value like thesis */
-    .meta-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 1.75rem;
-      padding-bottom: 1.75rem;
-      border-bottom: 1px solid var(--border);
-    }
-    .meta-table td {
-      font-size: 0.7rem;
-      padding: 0.2rem 0;
-      vertical-align: top;
-      line-height: 1.6;
-    }
-    .meta-table td:first-child {
-      color: var(--text-lo);
-      white-space: nowrap;
-      padding-right: 1.5rem;
-      letter-spacing: 0.06em;
-      width: 1%;
-    }
-    .meta-table td:first-child::before { content: "[ "; }
-    .meta-table td:first-child::after  { content: " ]"; }
-    .meta-table td:last-child { color: var(--text-md); }
+      /* Badge */
+      .badge {
+        display: inline-block;
+        font-size: 0.58rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: var(--green);
+        border: 1px solid var(--green-dim);
+        border-radius: 2px;
+        padding: 0.05rem 0.4rem;
+        margin-left: 0.35rem;
+        vertical-align: middle;
+      }
 
-    /* Badge */
-    .badge {
-      display: inline-block;
-      font-size: 0.58rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--green);
-      border: 1px solid var(--green-dim);
-      border-radius: 2px;
-      padding: 0.05rem 0.4rem;
-      margin-left: 0.35rem;
-      vertical-align: middle;
-      text-transform: uppercase;
-    }
-    .badge.intl { color: #4ade80; border-color: #2d6b45; }
-    [data-theme="light"] .badge.intl { color: #166534; border-color: #16a34a; }
+      /* Achievement */
+      .achievement {
+        background: var(--green-bg);
+        border-left: 2px solid var(--green);
+        border-radius: 2px;
+        padding: 0.85rem 1rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .achievement.intl { border-left-color: var(--green-dim); opacity: 0.85; }
+      .achievement-rank {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--green);
+        line-height: 1;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .achievement-label { font-size: 0.72rem; color: var(--text-md); line-height: 1.6; }
+      .achievement-label strong { display: block; color: var(--text-hi); margin-bottom: 0.1rem; font-size: 0.77rem; }
 
-    /* Achievement callout */
-    .achievement {
-      background: var(--green-bg);
-      border-left: 2px solid var(--green);
-      border-radius: 2px;
-      padding: 0.75rem 1rem;
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .achievement.intl {
-      border-left-color: var(--green-dim);
-      opacity: 0.85;
-    }
-    .achievement-rank {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--green);
-      line-height: 1;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .achievement-label { font-size: 0.7rem; color: var(--text-md); line-height: 1.6; }
-    .achievement-label strong { display: block; color: var(--text-hi); margin-bottom: 0.1rem; font-size: 0.75rem; }
+      /* Hero image */
+      .hero-wrap {
+        width: 100%;
+        aspect-ratio: 16/7;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 2px;
+        margin-bottom: 0.4rem;
+        cursor: zoom-in;
+        background: var(--bg-sunken);
+      }
+      .hero-wrap img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+      }
+      .hero-wrap:hover img { transform: scale(1.02); }
 
-    /* Hero image */
-    .hero-wrap {
-      width: 100%;
-      aspect-ratio: 16/7;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      margin-bottom: 0.4rem;
-      cursor: zoom-in;
-      background: var(--bg-sunken);
-    }
-    .hero-wrap img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.4s ease;
-      filter: none;
-      text-shadow: none;
-    }
-    .hero-wrap:hover img { transform: scale(1.02); }
+      .img-caption {
+        font-size: 0.63rem;
+        color: var(--text-lo);
+        letter-spacing: 0.06em;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+      .img-caption::before { content: "> "; color: var(--prompt); }
 
-    .img-caption {
-      font-size: 0.62rem;
-      color: var(--text-lo);
-      letter-spacing: 0.06em;
-      margin-bottom: 1.75rem;
-      text-align: center;
-    }
-    .img-caption::before { content: "> "; color: var(--prompt); }
+      /* Timeline */
+      .timeline { list-style: none; }
+      .timeline li {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 1rem;
+        font-size: 0.78rem;
+        color: var(--text-md);
+        line-height: 1.7;
+      }
+      .timeline li::before {
+        content: ">";
+        position: absolute;
+        left: 0;
+        color: var(--text-lo);
+        font-size: 0.72rem;
+      }
+      .timeline li.highlight::before {
+        content: "▶";
+        color: var(--green);
+        font-size: 0.6rem;
+        top: 0.3rem;
+      }
+      .timeline-year {
+        font-size: 0.63rem;
+        color: var(--text-lo);
+        letter-spacing: 0.08em;
+        margin-bottom: 0.2rem;
+      }
 
-    /* Timeline */
-    .timeline { list-style: none; }
-    .timeline li {
-      position: relative;
-      padding-left: 1.5rem;
-      margin-bottom: 0.9rem;
-      font-size: 0.75rem;
-      color: var(--text-md);
-      line-height: 1.7;
-    }
-    .timeline li::before {
-      content: ">";
-      position: absolute;
-      left: 0;
-      color: var(--text-lo);
-      font-size: 0.72rem;
-    }
-    .timeline li.highlight::before { color: var(--green); content: "▶"; font-size: 0.6rem; top: 0.25rem; }
-    .timeline-year {
-      font-size: 0.62rem;
-      color: var(--text-lo);
-      letter-spacing: 0.08em;
-      margin-bottom: 0.15rem;
-    }
+      /* Gallery */
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.4rem;
+      }
+      .gallery-item {
+        aspect-ratio: 4/3;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        border-radius: 2px;
+        cursor: zoom-in;
+        position: relative;
+        background: var(--bg-sunken);
+        transition: border-color 0.2s;
+      }
+      .gallery-item:hover { border-color: var(--green-dim); }
+      .gallery-item.wide { grid-column: span 3; aspect-ratio: 21/7; }
+      .gallery-item img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.35s ease;
+      }
+      .gallery-item:hover img { transform: scale(1.05); }
+      .gallery-item .overlay {
+        position: absolute; inset: 0;
+        background: rgba(0,0,0,0);
+        transition: background 0.3s;
+        display: flex;
+        align-items: flex-end;
+        padding: 0.4rem;
+      }
+      .gallery-item:hover .overlay { background: rgba(0,0,0,0.5); }
+      .gallery-item .cap {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.58rem;
+        color: #fff;
+        opacity: 0;
+        transition: opacity 0.3s;
+        letter-spacing: 0.04em;
+      }
+      .gallery-item:hover .cap { opacity: 1; }
 
-    /* Gallery */
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.4rem;
-      margin-bottom: 0.5rem;
-    }
-    .gallery-item {
-      aspect-ratio: 4/3;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      cursor: zoom-in;
-      position: relative;
-      background: var(--bg-sunken);
-      transition: border-color 0.2s;
-    }
-    .gallery-item:hover { border-color: var(--green-dim); }
-    .gallery-item.wide { grid-column: span 3; aspect-ratio: 21/7; }
-    .gallery-item img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.35s ease;
-      filter: none;
-      text-shadow: none;
-    }
-    .gallery-item:hover img { transform: scale(1.05); }
-    .gallery-item .overlay {
-      position: absolute; inset: 0;
-      background: rgba(0,0,0,0);
-      transition: background 0.3s;
-      display: flex; align-items: flex-end;
-      padding: 0.4rem;
-    }
-    .gallery-item:hover .overlay { background: rgba(0,0,0,0.45); }
-    .gallery-item .cap {
-      font-size: 0.58rem;
-      color: #fff;
-      opacity: 0;
-      transition: opacity 0.3s;
-      letter-spacing: 0.05em;
-      text-shadow: none;
-      font-family: "JetBrains Mono", monospace;
-    }
-    .gallery-item:hover .cap { opacity: 1; }
+      /* Tags */
+      .tags { display: flex; flex-wrap: wrap; gap: 0.3rem 1.1rem; }
+      .tag {
+        font-size: 0.78rem;
+        color: var(--text-md);
+        cursor: default;
+        transition: color 0.15s;
+      }
+      .tag::before {
+        content: "#";
+        color: var(--green);
+        margin-right: 0.2rem;
+        opacity: 0.6;
+      }
+      .tag:hover { color: var(--green); }
 
-    /* Placeholder text */
-    .placeholder {
-      color: var(--text-lo);
-      font-style: italic;
-      font-size: 0.7rem;
-      border-left: 1px solid var(--border-hi);
-      padding-left: 0.75rem;
-      opacity: 0.7;
-    }
+      /* Lightbox */
+      .lightbox {
+        display: none;
+        position: fixed; inset: 0;
+        background: rgba(0,0,0,0.95);
+        z-index: 10000;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 1.5rem;
+      }
+      .lightbox.open { display: flex; }
+      .lightbox img {
+        max-width: 100%;
+        max-height: 80vh;
+        object-fit: contain;
+        border: 1px solid var(--border-hi);
+      }
+      .lb-cap {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.65rem;
+        color: rgba(255,255,255,0.45);
+        letter-spacing: 0.06em;
+        text-align: center;
+      }
+      .lb-cap::before { content: "> "; color: #68d83e; }
+      .lb-close {
+        position: fixed; top: 1rem; right: 1.25rem;
+        background: none; border: none;
+        color: rgba(255,255,255,0.4);
+        font-size: 0.8rem;
+        cursor: pointer;
+        font-family: "JetBrains Mono", monospace;
+        letter-spacing: 0.05em;
+        transition: color 0.2s;
+      }
+      .lb-close:hover { color: #fff; }
+      .lb-nav {
+        position: fixed; top: 50%; transform: translateY(-50%);
+        background: none; border: none;
+        color: rgba(255,255,255,0.3);
+        font-size: 2rem; cursor: pointer;
+        font-family: "JetBrains Mono", monospace;
+        padding: 0.5rem 1rem;
+        transition: color 0.2s;
+        line-height: 1;
+      }
+      .lb-nav:hover { color: #68d83e; }
+      .lb-prev { left: 0; }
+      .lb-next { right: 0; }
 
-    /* Tags */
-    .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-    .tag {
-      font-size: 0.62rem;
-      letter-spacing: 0.06em;
-      color: var(--text-lo);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: 0.2rem 0.55rem;
-      background: var(--bg-raised);
-      transition: var(--t);
-      cursor: default;
-    }
-    .tag::before { content: "#"; color: var(--green); margin-right: 0.2rem; opacity: 0.6; }
-    .tag:hover { border-color: var(--green-dim); color: var(--text-md); }
+      .placeholder {
+        color: var(--text-lo);
+        font-style: italic;
+        font-size: 0.72rem;
+        opacity: 0.6;
+      }
 
-    /* Lightbox */
-    .lightbox {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.94);
-      z-index: 10000;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 0.75rem;
-      padding: 1.5rem;
-    }
-    .lightbox.open { display: flex; }
-    .lightbox img {
-      max-width: 100%;
-      max-height: 80vh;
-      object-fit: contain;
-      border: 1px solid var(--border-hi);
-      filter: none;
-      text-shadow: none;
-    }
-    .lb-cap {
-      font-family: "JetBrains Mono", monospace;
-      font-size: 0.65rem;
-      color: rgba(255,255,255,0.45);
-      letter-spacing: 0.06em;
-      text-align: center;
-    }
-    .lb-cap::before { content: "> "; color: #4ade80; }
-    .lb-close {
-      position: fixed; top: 1rem; right: 1.25rem;
-      background: none; border: none;
-      color: rgba(255,255,255,0.4);
-      font-size: 1.2rem; cursor: pointer;
-      font-family: "JetBrains Mono", monospace;
-      transition: color 0.2s;
-    }
-    .lb-close:hover { color: #fff; }
-    .lb-nav {
-      position: fixed; top: 50%; transform: translateY(-50%);
-      background: none; border: none;
-      color: rgba(255,255,255,0.35);
-      font-size: 2rem; cursor: pointer;
-      font-family: "JetBrains Mono", monospace;
-      padding: 0.5rem 1rem;
-      transition: color 0.2s;
-      line-height: 1;
-    }
-    .lb-nav:hover { color: #68d83e; }
-    .lb-prev { left: 0; }
-    .lb-next { right: 0; }
+      @media (max-width: 520px) {
+        .gallery { grid-template-columns: repeat(2, 1fr); }
+        .gallery-item.wide { grid-column: span 2; aspect-ratio: 16/7; }
+      }
+    </style>
+  </head>
+  <body>
 
-    @media (max-width: 520px) {
-      .gallery { grid-template-columns: repeat(2, 1fr); }
-      .gallery-item.wide { grid-column: span 2; aspect-ratio: 16/7; }
-    }
-  </style>
-</head>
-<body>
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+      <button class="lb-close" onclick="closeLb()">[ ✕ ]</button>
+      <button class="lb-nav lb-prev" onclick="shiftLb(-1)">‹</button>
+      <img id="lb-img" src="" alt="" />
+      <div class="lb-cap" id="lb-cap"></div>
+      <button class="lb-nav lb-next" onclick="shiftLb(1)">›</button>
+    </div>
 
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox">
-    <button class="lb-close" onclick="closeLb()">[ ✕ ]</button>
-    <button class="lb-nav lb-prev" onclick="shiftLb(-1)">‹</button>
-    <img id="lb-img" src="" alt="" />
-    <div class="lb-cap" id="lb-cap"></div>
-    <button class="lb-nav lb-next" onclick="shiftLb(1)">›</button>
-  </div>
+    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+      <span class="icon">☀️</span>
+    </div>
+    <div class="language-toggle">
+      <button type="button" data-lang-btn="en" onclick="setLanguage('en')">EN</button>
+      <span>|</span>
+      <button type="button" data-lang-btn="de" onclick="setLanguage('de')">DE</button>
+    </div>
 
-  <!-- Theme toggle -->
-  <button class="theme-toggle" id="themeBtn" title="Toggle theme">
-    <span class="icon" id="themeIcon">🌙</span>
-  </button>
+    <!-- BOOT SEQUENCE -->
+    <div class="boot-overlay" id="boot-overlay">
+      <div class="boot-lines" id="boot-lines"></div>
+      <div class="boot-prompt" id="boot-prompt"></div>
+    </div>
 
-  <!-- Language toggle -->
-  <div class="language-toggle">
-    <button class="active" onclick="setLang('en')">EN</button>
-    <span>|</span>
-    <button onclick="setLang('de')">DE</button>
-  </div>
-
-  <div class="container">
-    <div><!-- inner padding wrapper -->
+    <div class="container" id="main-container" style="visibility:hidden">
 
       <a href="index.html" class="back-link" data-i18n="back_link">back to resume</a>
 
-      <div class="eyebrow" data-i18n="eyebrow">Baja SAE · Team Aryans · India &amp; Oregon · 2015–2018</div>
+      <p class="page-eyebrow" data-i18n="eyebrow">baja sae · team aryans · india &amp; oregon · 2015–2018</p>
       <h1 class="page-title" data-i18n="page_title">CVT &amp; Powertrain Development<br>for Off-Road Baja Vehicles</h1>
 
       <!-- Meta -->
@@ -346,7 +339,7 @@
           <td data-i18n="meta_comp_key">competitions</td>
           <td>
             Baja SAE India <span class="badge">AIR 2 · 2018</span>
-            &nbsp; Baja SAE Oregon 2018 <span class="badge intl" data-i18n="badge_intl">International</span>
+            &nbsp; Baja SAE Oregon 2018 <span class="badge" data-i18n="badge_intl">International</span>
           </td>
         </tr>
         <tr>
@@ -363,7 +356,7 @@
           <span data-i18n="ach_india_desc">Overall ranking across design, performance &amp; 4-hour endurance — competing against teams from across India.</span>
         </div>
       </div>
-      <div class="achievement intl fade-in stagger-2" style="margin-bottom:1.75rem">
+      <div class="achievement intl fade-in stagger-2" style="margin-bottom:2rem">
         <div class="achievement-rank">🌐</div>
         <div class="achievement-label">
           <strong data-i18n="ach_oregon_title">Baja SAE Oregon 2018 — Washougal MX Park, Portland, OR</strong>
@@ -373,105 +366,82 @@
 
       <!-- Hero -->
       <div class="hero-wrap" onclick="openLb(0)">
-        <img src="baja_01_trophy.png" alt="Xcalibur with trophies — Baja SAE India 2018, IIT Ropar" />
+        <img src="baja_01_trophy.png" alt="Xcalibur with trophies — Baja SAE India 2018" />
       </div>
       <div class="img-caption" data-i18n="hero_caption">Xcalibur (#14) with trophies · Baja SAE India 2018 · IIT Ropar · "Ground to Glory"</div>
 
       <!-- Overview -->
-      <div class="section fade-in stagger-2">
-        <div class="section-title" data-i18n="sec_overview">Overview</div>
-        <p class="about-text" data-i18n="overview_text">
-          During my undergraduate years, I was part of <strong>Team Aryans</strong> at Government College of Engineering,
-          Aurangabad — our university's Baja SAE competition team. Baja SAE challenges student engineers to design,
-          fabricate, and race a single-seat off-road vehicle powered by a fixed Briggs &amp; Stratton 10HP engine,
-          making the drivetrain and CVT the primary competitive differentiator.<br><br>
-          Over three seasons I grew from team member to <strong>CVT &amp; Transmission Head</strong>, responsible
-          for the complete powertrain design — culminating in <strong>All India Rank 2</strong> at Baja SAE India 2018
-          and an international appearance at <strong>Baja SAE Oregon 2018</strong> in Portland, OR.
-        </p>
-      </div>
+      <section class="section fade-in stagger-2">
+        <h2 class="section-title" data-i18n="sec_overview">overview</h2>
+        <div class="card">
+          <p class="card-description" data-i18n="overview_text">
+            During my undergraduate years, I was part of Team Aryans at Government College of Engineering,
+            Aurangabad — our university's Baja SAE competition team. Baja SAE challenges student engineers to design,
+            fabricate, and race a single-seat off-road vehicle powered by a fixed Briggs &amp; Stratton 10HP engine,
+            making the drivetrain and CVT the primary competitive differentiator.
+            Over three seasons I grew from team member to CVT &amp; Transmission Head, responsible
+            for the complete powertrain design — culminating in All India Rank 2 at Baja SAE India 2018
+            and an international appearance at Baja SAE Oregon 2018 in Portland, OR.
+          </p>
+        </div>
+      </section>
 
       <!-- CVT Work -->
-      <div class="section fade-in stagger-3">
-        <div class="section-title" data-i18n="sec_cvt">CVT &amp; Drivetrain Work</div>
+      <section class="section fade-in stagger-3">
+        <h2 class="section-title" data-i18n="sec_cvt">cvt_&amp;_drivetrain</h2>
         <div class="card">
-          <div class="card-title" data-i18n="cvt_title1">Customised CVT Transmission</div>
-          <div class="card-description" data-i18n="cvt_desc1">
+          <h3 class="card-title" data-i18n="cvt_title1">Customised CVT Transmission</h3>
+          <p class="card-description" data-i18n="cvt_desc1">
             Designed and tuned a CVT system tailored to the vehicle's event profile. With the engine locked
             by regulation, the CVT is the critical performance lever — governing acceleration, hill-climb torque,
             and endurance reliability.
-          </div>
+          </p>
         </div>
         <div class="card">
-          <div class="card-title" data-i18n="cvt_title2">Static Speed Reduction Gearbox</div>
-          <div class="card-description" data-i18n="cvt_desc2">
+          <h3 class="card-title" data-i18n="cvt_title2">Static Speed Reduction Gearbox</h3>
+          <p class="card-description" data-i18n="cvt_desc2">
             Engineered a gearbox stage to achieve the target final drive ratio, balancing top speed against
             low-end torque for varied off-road terrain conditions.
-          </div>
+          </p>
         </div>
         <div class="card">
-          <div class="card-title" data-i18n="cvt_title3">Custom Axle Development</div>
-          <div class="card-description" data-i18n="cvt_desc3">
+          <h3 class="card-title" data-i18n="cvt_title3">Custom Axle Development</h3>
+          <p class="card-description" data-i18n="cvt_desc3">
             Designed and fabricated bespoke axles sized to the vehicle's specific load cases and packaging
             constraints — built to survive the sustained stresses of 4-hour endurance races.
-          </div>
+          </p>
         </div>
-        <div class="card" style="margin-top:0.25rem">
-          <div class="card-description placeholder" data-i18n="cvt_placeholder">
-            Add further detail when ready — gear ratios, CVT belt spec, flyweight mass range,
-            sheave angles, axle material, or testing methodology.
-          </div>
-        </div>
-      </div>
+      </section>
 
       <!-- Timeline -->
-      <div class="section fade-in stagger-3">
-        <div class="section-title" data-i18n="sec_timeline">Three Seasons</div>
-        <ul class="timeline">
-          <li>
-            <div class="timeline-year" data-i18n="tl_year1_label">Year 1 · 2015–16</div>
-            <span class="placeholder" data-i18n="tl_year1_desc">Add Year 1 details — first season, learning the build process, initial competition.</span>
-          </li>
-          <li>
-            <div class="timeline-year" data-i18n="tl_year2_label">Year 2 · 2016–17</div>
-            <span class="placeholder" data-i18n="tl_year2_desc">Add Year 2 details — growing drivetrain role, CVT iteration, competition results.</span>
-          </li>
-          <li class="highlight">
-            <div class="timeline-year" data-i18n="tl_year3_label">Year 3 · 2017–18 · Final Season</div>
-            <span data-i18n="tl_year3_desc">Took on the role of <strong>CVT &amp; Transmission Head</strong>. Led full powertrain development
-            of <em>Xcalibur</em>. Achieved <strong>All India Rank 2</strong> at Baja SAE India 2018 (IIT Ropar)
-            and competed internationally at <strong>Baja SAE Oregon 2018</strong> (Washougal MX Park, Portland, OR).</span>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Results -->
-      <div class="section fade-in stagger-4">
-        <div class="section-title" data-i18n="sec_results">Competition Results</div>
-        <div class="achievement" style="margin-bottom:0.5rem">
-          <div class="achievement-rank" style="font-size:1.1rem">AIR 2</div>
-          <div class="achievement-label">
-            <strong data-i18n="res_india_title">Baja SAE India 2018 — IIT Ropar</strong>
-            <span data-i18n="res_india_desc">Overall All India Rank 2 · Mahindra presents "Ground to Glory"</span>
-            <span class="placeholder" style="display:block;margin-top:0.2rem" data-i18n="res_india_placeholder">Add individual event scores — acceleration, hill climb, endurance, design.</span>
-          </div>
+      <section class="section fade-in stagger-3">
+        <h2 class="section-title" data-i18n="sec_timeline">three_seasons</h2>
+        <div class="card">
+          <ul class="timeline">
+            <li>
+              <div class="timeline-year" data-i18n="tl_year1_label">year 1 · 2015–16</div>
+              <span class="placeholder" data-i18n="tl_year1_desc">Add Year 1 details — first season, learning the build process, initial competition.</span>
+            </li>
+            <li>
+              <div class="timeline-year" data-i18n="tl_year2_label">year 2 · 2016–17</div>
+              <span class="placeholder" data-i18n="tl_year2_desc">Add Year 2 details — growing drivetrain role, CVT iteration, competition results.</span>
+            </li>
+            <li class="highlight">
+              <div class="timeline-year" data-i18n="tl_year3_label">year 3 · 2017–18 · final season</div>
+              <span data-i18n="tl_year3_desc">Took on CVT &amp; Transmission Head. Led full powertrain development of Xcalibur.
+              Achieved All India Rank 2 at Baja SAE India 2018 (IIT Ropar) and competed internationally
+              at Baja SAE Oregon 2018 (Washougal MX Park, Portland, OR).</span>
+            </li>
+          </ul>
         </div>
-        <div class="achievement intl">
-          <div class="achievement-rank" style="font-size:1.1rem">🇺🇸</div>
-          <div class="achievement-label">
-            <strong data-i18n="res_oregon_title">Baja SAE Oregon 2018 — Washougal MX Park, Portland, OR</strong>
-            <span data-i18n="res_oregon_desc">International competition · Design judging + dynamic events</span>
-            <span class="placeholder" style="display:block;margin-top:0.2rem" data-i18n="res_oregon_placeholder">Add Oregon final ranking / event scores if available.</span>
-          </div>
-        </div>
-      </div>
+      </section>
 
       <!-- Gallery -->
-      <div class="section fade-in stagger-4">
-        <div class="section-title" data-i18n="sec_photos">Photos</div>
+      <section class="section fade-in stagger-4">
+        <h2 class="section-title" data-i18n="sec_photos">photos</h2>
         <div class="gallery">
           <div class="gallery-item" onclick="openLb(0)">
-            <img src="baja_01_trophy.png" alt="Xcalibur with trophies — Baja SAE India 2018" />
+            <img src="baja_01_trophy.png" alt="Xcalibur with trophies" />
             <div class="overlay"><span class="cap">Baja SAE India 2018 · Trophies · IIT Ropar</span></div>
           </div>
           <div class="gallery-item" onclick="openLb(1)">
@@ -479,11 +449,11 @@
             <div class="overlay"><span class="cap">Team Aryans · Award Ceremony</span></div>
           </div>
           <div class="gallery-item" onclick="openLb(2)">
-            <img src="baja_03_racing_india.png" alt="Xcalibur #14 racing — India" />
+            <img src="baja_03_racing_india.png" alt="Xcalibur #14 racing" />
             <div class="overlay"><span class="cap">Xcalibur #14 · Racing · India</span></div>
           </div>
           <div class="gallery-item" onclick="openLb(3)">
-            <img src="baja_04_oregon_sign.png" alt="Baja SAE Oregon 2018 signage" />
+            <img src="baja_04_oregon_sign.png" alt="Baja SAE Oregon signage" />
             <div class="overlay"><span class="cap">Baja SAE Oregon 2018 · Portland</span></div>
           </div>
           <div class="gallery-item" onclick="openLb(4)">
@@ -491,212 +461,366 @@
             <div class="overlay"><span class="cap">Design Judging · Oregon</span></div>
           </div>
           <div class="gallery-item" onclick="openLb(5)">
-            <img src="baja_06_inspection.png" alt="Xcalibur inspection — Oregon" />
+            <img src="baja_06_inspection.png" alt="Xcalibur inspection" />
             <div class="overlay"><span class="cap">Vehicle Inspection · Oregon</span></div>
           </div>
           <div class="gallery-item wide" onclick="openLb(6)">
-            <img src="baja_07_racing_oregon.png" alt="Racing in mud — Baja SAE Oregon" />
+            <img src="baja_07_racing_oregon.png" alt="Racing in mud — Oregon" />
             <div class="overlay"><span class="cap">Endurance Race · Baja SAE Oregon 2018</span></div>
           </div>
           <div class="gallery-item wide" onclick="openLb(7)">
-            <img src="baja_08_oregon_team.png" alt="Team Aryans with Indian flag — Oregon" />
+            <img src="baja_08_oregon_team.png" alt="Team Aryans with Indian flag" />
             <div class="overlay"><span class="cap">Team Aryans with Xcalibur &amp; Indian flag · Oregon 2018</span></div>
           </div>
         </div>
-      </div>
+      </section>
 
       <!-- Key Topics -->
-      <div class="section fade-in stagger-5">
-        <div class="section-title" data-i18n="sec_topics">Key Topics</div>
-        <div class="tags">
-          <span class="tag">CVT Tuning</span>
-          <span class="tag">Powertrain Development</span>
-          <span class="tag">Speed Reduction Gearbox</span>
-          <span class="tag">Custom Axle Design</span>
-          <span class="tag">Belt Drive Systems</span>
-          <span class="tag">Drivetrain Integration</span>
-          <span class="tag">Off-Road Vehicle Dynamics</span>
-          <span class="tag">B&amp;S 10HP Engine</span>
-          <span class="tag">Endurance Racing</span>
-          <span class="tag">Hill Climb</span>
-          <span class="tag">Acceleration Events</span>
-          <span class="tag">Vehicle Fabrication</span>
-          <span class="tag">Baja SAE India</span>
-          <span class="tag">Baja SAE Oregon</span>
-          <span class="tag">Team Aryans</span>
+      <section class="section fade-in stagger-5">
+        <h2 class="section-title" data-i18n="sec_topics">key_topics</h2>
+        <div class="card">
+          <div class="tags">
+            <span class="tag">CVT Tuning</span>
+            <span class="tag">Powertrain Development</span>
+            <span class="tag">Speed Reduction Gearbox</span>
+            <span class="tag">Custom Axle Design</span>
+            <span class="tag">Belt Drive Systems</span>
+            <span class="tag">Drivetrain Integration</span>
+            <span class="tag">Off-Road Vehicle Dynamics</span>
+            <span class="tag">B&amp;S 10HP Engine</span>
+            <span class="tag">Endurance Racing</span>
+            <span class="tag">Hill Climb</span>
+            <span class="tag">Acceleration Events</span>
+            <span class="tag">Vehicle Fabrication</span>
+            <span class="tag">Baja SAE India</span>
+            <span class="tag">Baja SAE Oregon</span>
+            <span class="tag">Team Aryans</span>
+          </div>
         </div>
+      </section>
+
+      <div class="eof-line fade-in stagger-5">
+        <span>-- end of file --</span>
+        <span class="eof-exit">[exit 0]</span>
       </div>
 
-    </div><!-- /inner padding wrapper -->
-  </div><!-- /container -->
+    </div><!-- /container -->
 
-  <script>
-    // ── Theme ──
-    const root = document.documentElement;
-    const icon = document.getElementById('themeIcon');
-    const saved = localStorage.getItem('theme') || 'light';
-    root.setAttribute('data-theme', saved);
-    icon.textContent = saved === 'dark' ? '☀️' : '🌙';
-    document.getElementById('themeBtn').addEventListener('click', () => {
-      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', next);
-      icon.textContent = next === 'dark' ? '☀️' : '🌙';
-      localStorage.setItem('theme', next);
-    });
+    <!-- Chatbot widget -->
+    <button class="chatbot-toggle" id="chatbot-toggle" onclick="toggleChat()" style="visibility:hidden">
+      <span class="chatbot-toggle-label">Chat with my resume</span>
+    </button>
+    <div class="chatbot" id="chatbot-panel">
+      <div class="chatbot-header">
+        <span>Ask about my work in ADAS &amp; test automation</span>
+        <button class="chatbot-close" onclick="toggleChat()" title="Close">✕</button>
+      </div>
+      <div class="chatbot-messages" id="chat-messages"></div>
+      <form id="chat-form">
+        <input type="text" id="chat-input" placeholder="e.g. Tell me about Baja SAE" autocomplete="off" required />
+        <button type="submit" id="chat-submit">Send</button>
+      </form>
+      <div class="chatbot-footer">Self-hosted on Raspberry Pi 🥧</div>
+    </div>
 
-    loadLang();
-
-    // ── i18n ──
-    const translations = {
-      en: {
-        back_link:           'back to resume',
-        eyebrow:             'Baja SAE · Team Aryans · India & Oregon · 2015–2018',
-        page_title:          'CVT & Powertrain Development<br>for Off-Road Baja Vehicles',
-        meta_team_key:       'team',
-        meta_team_val:       'Team Aryans — Government College of Engineering, Aurangabad',
-        meta_role_key:       'role',
-        meta_role_val:       'CVT & Transmission Head',
-        meta_duration_key:   'duration',
-        meta_duration_val:   '3 years · B.E. Mechanical Engineering (2014–2018)',
-        meta_comp_key:       'competitions',
-        meta_vehicle_key:    'vehicle',
-        meta_vehicle_val:    'Xcalibur · #14 (India) · #78 (Oregon)',
-        badge_intl:          'International',
-        ach_india_title:     'All India Rank 2 — Baja SAE India 2018 · IIT Ropar',
-        ach_india_desc:      'Overall ranking across design, performance & 4-hour endurance — competing against teams from across India.',
-        ach_oregon_title:    'Baja SAE Oregon 2018 — Washougal MX Park, Portland, OR',
-        ach_oregon_desc:     'Represented India internationally — one of the few Indian teams to compete at a global Baja SAE event.',
-        hero_caption:        'Xcalibur (#14) with trophies · Baja SAE India 2018 · IIT Ropar · "Ground to Glory"',
-        sec_overview:        'Overview',
-        overview_text:       'During my undergraduate years, I was part of <strong>Team Aryans</strong> at Government College of Engineering, Aurangabad — our university\'s Baja SAE competition team. Baja SAE challenges student engineers to design, fabricate, and race a single-seat off-road vehicle powered by a fixed Briggs &amp; Stratton 10HP engine, making the drivetrain and CVT the primary competitive differentiator.<br><br>Over three seasons I grew from team member to <strong>CVT &amp; Transmission Head</strong>, responsible for the complete powertrain design — culminating in <strong>All India Rank 2</strong> at Baja SAE India 2018 and an international appearance at <strong>Baja SAE Oregon 2018</strong> in Portland, OR.',
-        sec_cvt:             'CVT & Drivetrain Work',
-        cvt_title1:          'Customised CVT Transmission',
-        cvt_desc1:           'Designed and tuned a CVT system tailored to the vehicle\'s event profile. With the engine locked by regulation, the CVT is the critical performance lever — governing acceleration, hill-climb torque, and endurance reliability.',
-        cvt_title2:          'Static Speed Reduction Gearbox',
-        cvt_desc2:           'Engineered a gearbox stage to achieve the target final drive ratio, balancing top speed against low-end torque for varied off-road terrain conditions.',
-        cvt_title3:          'Custom Axle Development',
-        cvt_desc3:           'Designed and fabricated bespoke axles sized to the vehicle\'s specific load cases and packaging constraints — built to survive the sustained stresses of 4-hour endurance races.',
-        cvt_placeholder:     'Add further detail when ready — gear ratios, CVT belt spec, flyweight mass range, sheave angles, axle material, or testing methodology.',
-        sec_timeline:        'Three Seasons',
-        tl_year1_label:      'Year 1 · 2015–16',
-        tl_year1_desc:       'Add Year 1 details — first season, learning the build process, initial competition.',
-        tl_year2_label:      'Year 2 · 2016–17',
-        tl_year2_desc:       'Add Year 2 details — growing drivetrain role, CVT iteration, competition results.',
-        tl_year3_label:      'Year 3 · 2017–18 · Final Season',
-        tl_year3_desc:       'Took on the role of <strong>CVT &amp; Transmission Head</strong>. Led full powertrain development of <em>Xcalibur</em>. Achieved <strong>All India Rank 2</strong> at Baja SAE India 2018 (IIT Ropar) and competed internationally at <strong>Baja SAE Oregon 2018</strong> (Washougal MX Park, Portland, OR).',
-        sec_results:         'Competition Results',
-        res_india_title:     'Baja SAE India 2018 — IIT Ropar',
-        res_india_desc:      'Overall All India Rank 2 · Mahindra presents "Ground to Glory"',
-        res_india_placeholder: 'Add individual event scores — acceleration, hill climb, endurance, design.',
-        res_oregon_title:    'Baja SAE Oregon 2018 — Washougal MX Park, Portland, OR',
-        res_oregon_desc:     'International competition · Design judging + dynamic events',
-        res_oregon_placeholder: 'Add Oregon final ranking / event scores if available.',
-        sec_photos:          'Photos',
-        sec_topics:          'Key Topics',
-      },
-      de: {
-        back_link:           'zurück zum Lebenslauf',
-        eyebrow:             'Baja SAE · Team Aryans · Indien & Oregon · 2015–2018',
-        page_title:          'CVT- & Antriebsstrangentwicklung<br>für Geländefahrzeuge',
-        meta_team_key:       'Team',
-        meta_team_val:       'Team Aryans — Government College of Engineering, Aurangabad',
-        meta_role_key:       'Rolle',
-        meta_role_val:       'CVT- & Getriebeleiter',
-        meta_duration_key:   'Zeitraum',
-        meta_duration_val:   '3 Jahre · B.E. Maschinenbau (2014–2018)',
-        meta_comp_key:       'Wettbewerbe',
-        meta_vehicle_key:    'Fahrzeug',
-        meta_vehicle_val:    'Xcalibur · #14 (Indien) · #78 (Oregon)',
-        badge_intl:          'International',
-        ach_india_title:     'Gesamtindischer Rang 2 — Baja SAE India 2018 · IIT Ropar',
-        ach_india_desc:      'Gesamtplatzierung in Design, Performance und 4-Stunden-Ausdauerrennen — im Wettbewerb mit Teams aus ganz Indien.',
-        ach_oregon_title:    'Baja SAE Oregon 2018 — Washougal MX Park, Portland, OR',
-        ach_oregon_desc:     'Vertretung Indiens auf internationalem Parkett — eines der wenigen indischen Teams bei einem globalen Baja-SAE-Event.',
-        hero_caption:        'Xcalibur (#14) mit Trophäen · Baja SAE India 2018 · IIT Ropar · "Ground to Glory"',
-        sec_overview:        'Überblick',
-        overview_text:       'Während meines Bachelorstudiums war ich Teil von <strong>Team Aryans</strong> am Government College of Engineering in Aurangabad — dem Baja-SAE-Wettbewerbsteam unserer Hochschule. Baja SAE fordert Studierendenteams heraus, ein einsitziges Geländefahrzeug mit einem vorgeschriebenen Briggs &amp; Stratton 10-PS-Motor zu entwickeln, zu bauen und zu rennen — was Antriebsstrang und CVT zum entscheidenden Wettbewerbsfaktor macht.<br><br>Über drei Saisons entwickelte ich mich vom Teammitglied zum <strong>CVT- &amp; Getriebeleiter</strong> und war für die gesamte Antriebsstrangentwicklung verantwortlich — mit dem Ergebnis: <strong>Gesamtindischer Rang 2</strong> bei Baja SAE India 2018 und einem internationalen Auftritt beim <strong>Baja SAE Oregon 2018</strong> in Portland, OR.',
-        sec_cvt:             'CVT- & Antriebsstrangarbeit',
-        cvt_title1:          'Maßgefertigtes CVT-Getriebe',
-        cvt_desc1:           'Entwicklung und Abstimmung eines CVT-Systems speziell für das Anforderungsprofil des Fahrzeugs. Da der Motor regulatorisch festgelegt ist, ist das CVT der entscheidende Leistungshebel — für Beschleunigung, Bergfahrtdrehmoment und Ausdauerzuverlässigkeit.',
-        cvt_title2:          'Statisches Untersetzungsgetriebe',
-        cvt_desc2:           'Konstruktion einer Getriebestufe zur Erreichung des Zielübersetzungsverhältnisses — ausgewogen zwischen Höchstgeschwindigkeit und Niedertourigkeit für verschiedene Geländebedingungen.',
-        cvt_title3:          'Maßgefertigte Achsenentwicklung',
-        cvt_desc3:           'Konstruktion und Fertigung von Sonderachsen, die auf die spezifischen Lastfälle und Bauraumrandbedingungen des Fahrzeugs ausgelegt sind — für die Belastungen eines 4-stündigen Ausdauerrennens ausgelegt.',
-        cvt_placeholder:     'Details ergänzen — z. B. Übersetzungsverhältnisse, Riemenspezifikation, Fliehgewichtsbereich, Scheibenwinkel, Achsmaterial oder Prüfmethodik.',
-        sec_timeline:        'Drei Saisons',
-        tl_year1_label:      'Jahr 1 · 2015–16',
-        tl_year1_desc:       'Details für Jahr 1 ergänzen — erste Saison, Aufbau kennenlernen, erster Wettbewerb.',
-        tl_year2_label:      'Jahr 2 · 2016–17',
-        tl_year2_desc:       'Details für Jahr 2 ergänzen — wachsende Rolle im Antriebsstrang, CVT-Iteration, Wettbewerbsergebnisse.',
-        tl_year3_label:      'Jahr 3 · 2017–18 · Abschlusssaison',
-        tl_year3_desc:       'Übernahme der Rolle als <strong>CVT- &amp; Getriebeleiter</strong>. Leitung der gesamten Antriebsstrangentwicklung von <em>Xcalibur</em>. Erreicht: <strong>Gesamtindischer Rang 2</strong> bei Baja SAE India 2018 (IIT Ropar) und internationaler Auftritt beim <strong>Baja SAE Oregon 2018</strong> (Washougal MX Park, Portland, OR).',
-        sec_results:         'Wettbewerbsergebnisse',
-        res_india_title:     'Baja SAE India 2018 — IIT Ropar',
-        res_india_desc:      'Gesamtindischer Rang 2 · Mahindra präsentiert „Ground to Glory"',
-        res_india_placeholder: 'Einzelwertungen ergänzen — Beschleunigung, Bergfahrt, Ausdauer, Design.',
-        res_oregon_title:    'Baja SAE Oregon 2018 — Washougal MX Park, Portland, OR',
-        res_oregon_desc:     'Internationaler Wettbewerb · Designbewertung + dynamische Events',
-        res_oregon_placeholder: 'Abschlussplatzierung / Einzelwertungen Oregon ergänzen, falls vorhanden.',
-        sec_photos:          'Fotos',
-        sec_topics:          'Themenschwerpunkte',
+    <script>
+      // ── Theme ──────────────────────────────────────────────────────────────
+      function toggleTheme() {
+        const html = document.documentElement
+        const icon = document.querySelector(".theme-toggle .icon")
+        const isDark = html.getAttribute("data-theme") === "dark"
+        if (isDark) {
+          html.removeAttribute("data-theme")
+          icon.textContent = "🌙"
+          localStorage.setItem("theme", "light")
+        } else {
+          html.setAttribute("data-theme", "dark")
+          icon.textContent = "☀️"
+          localStorage.setItem("theme", "dark")
+        }
       }
-    };
 
-    function setLang(lang) {
-      document.documentElement.setAttribute('lang', lang);
-      localStorage.setItem('lang', lang);
-      const dict = translations[lang] || translations.en;
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (!dict[key]) return;
-        el.innerHTML = dict[key];
-      });
-      document.querySelectorAll('.language-toggle button').forEach(b => b.classList.remove('active'));
-      document.querySelector(`.language-toggle button[onclick="setLang('${lang}')"]`).classList.add('active');
-    }
+      function loadTheme() {
+        const saved = localStorage.getItem("theme")
+        const icon  = document.querySelector(".theme-toggle .icon")
+        if (saved === "light") {
+          document.documentElement.removeAttribute("data-theme")
+          icon.textContent = "🌙"
+        } else {
+          document.documentElement.setAttribute("data-theme", "dark")
+          icon.textContent = "☀️"
+        }
+      }
 
-    function loadLang() {
-      setLang(localStorage.getItem('lang') || 'en');
-    }
+      // ── i18n ───────────────────────────────────────────────────────────────
+      const translations = {
+        en: {
+          back_link:       "back to resume",
+          eyebrow:         "baja sae · team aryans · india & oregon · 2015–2018",
+          page_title:      "CVT & Powertrain Development for Off-Road Baja Vehicles",
+          meta_team_key:   "team",
+          meta_team_val:   "Team Aryans — Government College of Engineering, Aurangabad",
+          meta_role_key:   "role",
+          meta_role_val:   "CVT & Transmission Head",
+          meta_duration_key: "duration",
+          meta_duration_val: "3 years · B.E. Mechanical Engineering (2014–2018)",
+          meta_comp_key:   "competitions",
+          meta_vehicle_key:"vehicle",
+          meta_vehicle_val:"Xcalibur · #14 (India) · #78 (Oregon)",
+          badge_intl:      "International",
+          ach_india_title: "All India Rank 2 — Baja SAE India 2018 · IIT Ropar",
+          ach_india_desc:  "Overall ranking across design, performance & 4-hour endurance — competing against teams from across India.",
+          ach_oregon_title:"Baja SAE Oregon 2018 — Washougal MX Park, Portland, OR",
+          ach_oregon_desc: "Represented India internationally — one of the few Indian teams to compete at a global Baja SAE event.",
+          hero_caption:    "Xcalibur (#14) with trophies · Baja SAE India 2018 · IIT Ropar · \"Ground to Glory\"",
+          sec_overview:    "overview",
+          overview_text:   "During my undergraduate years, I was part of Team Aryans at Government College of Engineering, Aurangabad — our university's Baja SAE competition team. Baja SAE challenges student engineers to design, fabricate, and race a single-seat off-road vehicle powered by a fixed Briggs & Stratton 10HP engine, making the drivetrain and CVT the primary competitive differentiator. Over three seasons I grew from team member to CVT & Transmission Head, responsible for the complete powertrain design — culminating in All India Rank 2 at Baja SAE India 2018 and an international appearance at Baja SAE Oregon 2018 in Portland, OR.",
+          sec_cvt:         "cvt_&_drivetrain",
+          cvt_title1:      "Customised CVT Transmission",
+          cvt_desc1:       "Designed and tuned a CVT system tailored to the vehicle's event profile. With the engine locked by regulation, the CVT is the critical performance lever — governing acceleration, hill-climb torque, and endurance reliability.",
+          cvt_title2:      "Static Speed Reduction Gearbox",
+          cvt_desc2:       "Engineered a gearbox stage to achieve the target final drive ratio, balancing top speed against low-end torque for varied off-road terrain conditions.",
+          cvt_title3:      "Custom Axle Development",
+          cvt_desc3:       "Designed and fabricated bespoke axles sized to the vehicle's specific load cases and packaging constraints — built to survive the sustained stresses of 4-hour endurance races.",
+          sec_timeline:    "three_seasons",
+          tl_year1_label:  "year 1 · 2015–16",
+          tl_year1_desc:   "Add Year 1 details — first season, learning the build process, initial competition.",
+          tl_year2_label:  "year 2 · 2016–17",
+          tl_year2_desc:   "Add Year 2 details — growing drivetrain role, CVT iteration, competition results.",
+          tl_year3_label:  "year 3 · 2017–18 · final season",
+          tl_year3_desc:   "Took on CVT & Transmission Head. Led full powertrain development of Xcalibur. Achieved All India Rank 2 at Baja SAE India 2018 (IIT Ropar) and competed internationally at Baja SAE Oregon 2018 (Washougal MX Park, Portland, OR).",
+          sec_photos:      "photos",
+          sec_topics:      "key_topics",
+        },
+        de: {
+          back_link:       "zurück zum lebenslauf",
+          eyebrow:         "baja sae · team aryans · indien & oregon · 2015–2018",
+          page_title:      "CVT- & Antriebsstrangentwicklung für Geländefahrzeuge",
+          meta_team_key:   "team",
+          meta_team_val:   "Team Aryans — Government College of Engineering, Aurangabad",
+          meta_role_key:   "rolle",
+          meta_role_val:   "CVT- & Getriebeleiter",
+          meta_duration_key: "zeitraum",
+          meta_duration_val: "3 Jahre · B.E. Maschinenbau (2014–2018)",
+          meta_comp_key:   "wettbewerbe",
+          meta_vehicle_key:"fahrzeug",
+          meta_vehicle_val:"Xcalibur · #14 (Indien) · #78 (Oregon)",
+          badge_intl:      "International",
+          ach_india_title: "Gesamtindischer Rang 2 — Baja SAE India 2018 · IIT Ropar",
+          ach_india_desc:  "Gesamtplatzierung in Design, Performance und 4-Stunden-Ausdauerrennen — im Wettbewerb mit Teams aus ganz Indien.",
+          ach_oregon_title:"Baja SAE Oregon 2018 — Washougal MX Park, Portland, OR",
+          ach_oregon_desc: "Vertretung Indiens international — eines der wenigen indischen Teams bei einem globalen Baja-SAE-Event.",
+          hero_caption:    "Xcalibur (#14) mit Trophäen · Baja SAE India 2018 · IIT Ropar · \"Ground to Glory\"",
+          sec_overview:    "überblick",
+          overview_text:   "Während meines Bachelorstudiums war ich Teil von Team Aryans am Government College of Engineering in Aurangabad. Baja SAE fordert Studierendenteams heraus, ein einsitziges Geländefahrzeug mit einem vorgeschriebenen Briggs & Stratton 10-PS-Motor zu entwickeln, zu bauen und zu rennen — was Antriebsstrang und CVT zum entscheidenden Wettbewerbsfaktor macht. Über drei Saisons entwickelte ich mich zum CVT- & Getriebeleiter — mit dem Ergebnis: Gesamtindischer Rang 2 bei Baja SAE India 2018 und einem internationalen Auftritt beim Baja SAE Oregon 2018 in Portland, OR.",
+          sec_cvt:         "cvt_&_antriebsstrang",
+          cvt_title1:      "Maßgefertigtes CVT-Getriebe",
+          cvt_desc1:       "Entwicklung und Abstimmung eines CVT-Systems für das Anforderungsprofil des Fahrzeugs. Da der Motor regulatorisch festgelegt ist, ist das CVT der entscheidende Leistungshebel.",
+          cvt_title2:      "Statisches Untersetzungsgetriebe",
+          cvt_desc2:       "Konstruktion einer Getriebestufe zur Erreichung des Zielübersetzungsverhältnisses — ausgewogen zwischen Höchstgeschwindigkeit und Niedertourigkeit für verschiedene Geländebedingungen.",
+          cvt_title3:      "Maßgefertigte Achsenentwicklung",
+          cvt_desc3:       "Konstruktion und Fertigung von Sonderachsen für die spezifischen Lastfälle und Bauraumrandbedingungen — für die Belastungen eines 4-stündigen Ausdauerrennens ausgelegt.",
+          sec_timeline:    "drei_saisons",
+          tl_year1_label:  "jahr 1 · 2015–16",
+          tl_year1_desc:   "Details für Jahr 1 ergänzen — erste Saison, Aufbau kennenlernen, erster Wettbewerb.",
+          tl_year2_label:  "jahr 2 · 2016–17",
+          tl_year2_desc:   "Details für Jahr 2 ergänzen — wachsende Rolle im Antriebsstrang, CVT-Iteration, Wettbewerbsergebnisse.",
+          tl_year3_label:  "jahr 3 · 2017–18 · abschlusssaison",
+          tl_year3_desc:   "Übernahme als CVT- & Getriebeleiter. Leitung der gesamten Antriebsstrangentwicklung von Xcalibur. Gesamtindischer Rang 2 bei Baja SAE India 2018 (IIT Ropar) und internationaler Auftritt beim Baja SAE Oregon 2018.",
+          sec_photos:      "fotos",
+          sec_topics:      "themengebiete",
+        }
+      }
 
-    // ── Lightbox ──
-    const photos = [
-      { src: 'baja_01_trophy.png', cap: 'Xcalibur (#14) with trophies · Baja SAE India 2018 · IIT Ropar' },
-      { src: 'baja_02_team.png',   cap: 'Team Aryans · Award Ceremony · Baja SAE India 2018' },
-      { src: 'baja_03_racing_india.png', cap: 'Xcalibur #14 in action · Baja SAE India' },
-      { src: 'baja_04_oregon_sign.png',  cap: 'Baja SAE Oregon 2018 · Washougal MX Park · Portland, OR' },
-      { src: 'baja_05_design_judge.png', cap: 'Design judging with SAE judges · Baja SAE Oregon 2018' },
-      { src: 'baja_06_inspection.png',   cap: 'Xcalibur (#78) under vehicle inspection · Oregon' },
-      { src: 'baja_07_racing_oregon.png',cap: 'Pushing through the mud · Endurance race · Baja SAE Oregon 2018' },
-      { src: 'baja_08_oregon_team.png',  cap: 'Team Aryans with Xcalibur &amp; the Indian flag · Baja SAE Oregon 2018' },
-    ];
-    let cur = 0;
+      function setLanguage(lang) {
+        document.documentElement.setAttribute("lang", lang)
+        localStorage.setItem("lang", lang)
+        const dict = translations[lang] || translations.en
+        document.querySelectorAll("[data-i18n]").forEach(el => {
+          const key = el.getAttribute("data-i18n")
+          if (dict[key]) el.textContent = dict[key]
+        })
+        document.querySelectorAll("[data-lang-btn]").forEach(btn => {
+          btn.classList.toggle("active", btn.getAttribute("data-lang-btn") === lang)
+        })
+      }
 
-    function openLb(idx) {
-      cur = idx; renderLb();
-      document.getElementById('lightbox').classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeLb() {
-      document.getElementById('lightbox').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-    function shiftLb(dir) { cur = (cur + dir + photos.length) % photos.length; renderLb(); }
-    function renderLb() {
-      document.getElementById('lb-img').src = photos[cur].src;
-      document.getElementById('lb-img').alt = photos[cur].cap;
-      document.getElementById('lb-cap').textContent = photos[cur].cap;
-    }
-    document.getElementById('lightbox').addEventListener('click', e => {
-      if (e.target === document.getElementById('lightbox')) closeLb();
-    });
-    document.addEventListener('keydown', e => {
-      if (!document.getElementById('lightbox').classList.contains('open')) return;
-      if (e.key === 'Escape') closeLb();
-      if (e.key === 'ArrowLeft') shiftLb(-1);
-      if (e.key === 'ArrowRight') shiftLb(1);
-    });
-  </script>
+      // ── Boot sequence ──────────────────────────────────────────────────────
+      const BOOT_LINES = [
+        { text: "BIOS v2.4.1 — stawan@portfolio",           color: "lo" },
+        { text: "[  OK  ] Loaded resume.service",            color: "ok" },
+        { text: "[  OK  ] Mounting /home/stawan/baja...",    color: "ok" },
+        { text: "[  OK  ] baja.service online",              color: "ok" },
+        { text: "",                                          color: "lo" },
+        { text: "Loading competition data...",               color: "lo" },
+      ]
+      const BOOT_PROMPT = "$ cat ~/baja/results.log"
 
-</body>
+      function runBootSequence() {
+        if (sessionStorage.getItem("booted")) {
+          document.getElementById("boot-overlay").style.display = "none"
+          document.getElementById("main-container").style.visibility = ""
+          document.getElementById("chatbot-toggle").style.visibility = ""
+          return
+        }
+
+        const overlay  = document.getElementById("boot-overlay")
+        const linesEl  = document.getElementById("boot-lines")
+        const promptEl = document.getElementById("boot-prompt")
+
+        BOOT_LINES.forEach(({ text, color }, i) => {
+          setTimeout(() => {
+            if (text === "") { linesEl.appendChild(document.createElement("br")); return }
+            const line = document.createElement("div")
+            line.className = `boot-line boot-line--${color}`
+            line.textContent = text
+            linesEl.appendChild(line)
+          }, i * 180)
+        })
+
+        setTimeout(() => {
+          let i = 0
+          promptEl.textContent = ""
+          const cursor = document.createElement("span")
+          cursor.className = "boot-cursor"
+          cursor.textContent = "█"
+          promptEl.appendChild(cursor)
+          const type = () => {
+            if (i < BOOT_PROMPT.length) {
+              cursor.before(BOOT_PROMPT[i++])
+              setTimeout(type, 45)
+            } else {
+              setTimeout(() => {
+                overlay.classList.add("boot-overlay--done")
+                setTimeout(() => {
+                  overlay.style.display = "none"
+                  document.getElementById("main-container").style.visibility = ""
+                  document.getElementById("chatbot-toggle").style.visibility = ""
+                  sessionStorage.setItem("booted", "1")
+                }, 600)
+              }, 400)
+            }
+          }
+          type()
+        }, BOOT_LINES.length * 180 + 200)
+      }
+
+      // ── Chatbot ────────────────────────────────────────────────────────────
+      let chatOpen = false
+      function toggleChat() {
+        chatOpen = !chatOpen
+        document.getElementById("chatbot-panel").classList.toggle("chatbot-open", chatOpen)
+        document.getElementById("chatbot-toggle").classList.toggle("chatbot-toggle-active", chatOpen)
+        if (chatOpen) {
+          document.getElementById("chatbot-toggle").classList.add("chatbot-toggle-seen")
+          document.getElementById("chat-input").focus()
+        }
+      }
+
+      async function sendStreamingMessage(question) {
+        const container = document.getElementById("chat-messages")
+        const submitBtn = document.getElementById("chat-submit")
+        const userDiv = document.createElement("div")
+        userDiv.className = "chat-message chat-message-user"
+        userDiv.textContent = question
+        container.appendChild(userDiv)
+        submitBtn.disabled = true
+        submitBtn.textContent = "..."
+        const botDiv = document.createElement("div")
+        botDiv.className = "chat-message chat-message-assistant"
+        botDiv.textContent = "▍"
+        container.appendChild(botDiv)
+        container.scrollTop = container.scrollHeight
+        try {
+          const res = await fetch("/chat/stream", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question }),
+          })
+          if (!res.ok) throw new Error("Server error")
+          const reader = res.body.getReader()
+          const decoder = new TextDecoder()
+          let fullText = ""
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+            const lines = decoder.decode(value).split("\n")
+            for (const line of lines) {
+              if (!line.startsWith("data: ")) continue
+              const data = line.slice(6).trim()
+              if (data === "[DONE]") break
+              try {
+                const parsed = JSON.parse(data)
+                fullText += parsed.token
+                botDiv.textContent = fullText + "▍"
+                container.scrollTop = container.scrollHeight
+              } catch {}
+            }
+          }
+          botDiv.textContent = fullText || "I don't have that information."
+        } catch (err) {
+          botDiv.textContent = "Could not reach the chatbot backend."
+        }
+        submitBtn.disabled = false
+        submitBtn.textContent = "Send"
+      }
+
+      // ── Lightbox ───────────────────────────────────────────────────────────
+      const photos = [
+        { src: "baja_01_trophy.png",       cap: "Xcalibur (#14) with trophies · Baja SAE India 2018 · IIT Ropar" },
+        { src: "baja_02_team.png",         cap: "Team Aryans · Award Ceremony · Baja SAE India 2018" },
+        { src: "baja_03_racing_india.png", cap: "Xcalibur #14 in action · Baja SAE India" },
+        { src: "baja_04_oregon_sign.png",  cap: "Baja SAE Oregon 2018 · Washougal MX Park · Portland, OR" },
+        { src: "baja_05_design_judge.png", cap: "Design judging with SAE judges · Baja SAE Oregon 2018" },
+        { src: "baja_06_inspection.png",   cap: "Xcalibur (#78) under vehicle inspection · Oregon" },
+        { src: "baja_07_racing_oregon.png",cap: "Pushing through the mud · Endurance race · Baja SAE Oregon 2018" },
+        { src: "baja_08_oregon_team.png",  cap: "Team Aryans with Xcalibur & the Indian flag · Baja SAE Oregon 2018" },
+      ]
+      let cur = 0
+
+      function openLb(idx) {
+        cur = idx; renderLb()
+        document.getElementById("lightbox").classList.add("open")
+        document.body.style.overflow = "hidden"
+      }
+      function closeLb() {
+        document.getElementById("lightbox").classList.remove("open")
+        document.body.style.overflow = ""
+      }
+      function shiftLb(dir) { cur = (cur + dir + photos.length) % photos.length; renderLb() }
+      function renderLb() {
+        document.getElementById("lb-img").src = photos[cur].src
+        document.getElementById("lb-img").alt = photos[cur].cap
+        document.getElementById("lb-cap").textContent = photos[cur].cap
+      }
+      document.getElementById("lightbox").addEventListener("click", e => {
+        if (e.target === document.getElementById("lightbox")) closeLb()
+      })
+      document.addEventListener("keydown", e => {
+        if (!document.getElementById("lightbox").classList.contains("open")) return
+        if (e.key === "Escape") closeLb()
+        if (e.key === "ArrowLeft") shiftLb(-1)
+        if (e.key === "ArrowRight") shiftLb(1)
+      })
+
+      // ── Init ───────────────────────────────────────────────────────────────
+      document.addEventListener("DOMContentLoaded", () => {
+        loadTheme()
+        setLanguage(localStorage.getItem("lang") || "en")
+        runBootSequence()
+
+        const form  = document.getElementById("chat-form")
+        const input = document.getElementById("chat-input")
+        if (form && input) {
+          form.addEventListener("submit", async e => {
+            e.preventDefault()
+            const q = input.value.trim()
+            if (!q) return
+            input.value = ""
+            await sendStreamingMessage(q)
+          })
+        }
+      })
+    </script>
+  </body>
 </html>
