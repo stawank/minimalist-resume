@@ -95,6 +95,7 @@
         const h = d.header
         return `
         <header class="header fade-in">
+          <div class="uptime-line" id="uptime-line">${h.uptime} <span id="uptime-out"></span></div>
           <div class="avatar">
             <img src="photo.jpg" alt="${h.name}" />
           </div>
@@ -236,6 +237,24 @@
         `
         renderChatbot(data)
         updateLangButtons()
+        startUptimeClock()
+      }
+
+      function startUptimeClock() {
+        const el = document.getElementById("uptime-out")
+        if (!el) return
+        const start = Date.now()
+        const fmt = (n) => String(n).padStart(2, "0")
+        const tick = () => {
+          const s = Math.floor((Date.now() - start) / 1000)
+          const h = Math.floor(s / 3600)
+          const m = Math.floor((s % 3600) / 60)
+          const sec = s % 60
+          const now = new Date()
+          el.textContent = `${now.toLocaleTimeString()} up ${fmt(h)}:${fmt(m)}:${fmt(sec)}, load avg: 0.42`
+        }
+        tick()
+        setInterval(tick, 1000)
       }
 
       // ── Language ───────────────────────────────────────────────────────────
