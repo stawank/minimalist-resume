@@ -1,0 +1,151 @@
+{
+  "sections": {
+    "about":      "ueber_mich",
+    "experience": "berufserfahrung",
+    "projects":   "projekte",
+    "skills":     "kenntnisse",
+    "education":  "ausbildung"
+  },
+
+  "header": {
+    "name":     "Stawan Chandrashekhar Kulkarni",
+    "title":    "automotive software engineer · adas · testautomatisierung",
+    "location": "regensburg, DE",
+    "contact": {
+      "email":         "stawank@zohomail.eu",
+      "linkedin_url":  "https://www.linkedin.com/in/stawan-chandrashekhar-kulkarni-810646102/",
+      "linkedin_label":"in: linkedin",
+      "github_url":    "https://github.com/stawank",
+      "github_label":  "gh: stawank",
+      "phone_de":      "+49 157 85088336",
+      "phone_in":      "+91 9823635080"
+    }
+  },
+
+  "about": {
+    "role":    "automotive software engineer · tier-1 zulieferer (edag, continental adc)",
+    "stack":   "python · c++ · tpt · cmocka · canoe/capl · matlab",
+    "exp":     "2+ jahre · gesamter v-zyklus · agile internationale teams",
+    "current": "llm-chatbot auf self-hosted raspberry pi"
+  },
+
+  "experience": [
+    {
+      "title":   "Systems Engineer",
+      "company": "EDAG Engineering GmbH · Regensburg, Deutschland",
+      "period":  "Feb 2024 — Heute",
+      "bullets": [
+        "Konzeptentwicklung im Bereich Rohdatenfusion und Sensordatenverarbeitung, unterstützt durch Python-basierte Analysen",
+        "Erstellung und Pflege von Unit-Test-Spezifikationen für MBD/C-Komponenten auf Basis von Softwareanforderungen",
+        "Design und Implementierung automatisierter Unit-Tests mit TPT und Cmocka",
+        "Testdurchführung, Fehleranalyse und Bug-Fixing",
+        "Pflege und Verbesserung der automatisierten Testinfrastruktur",
+        "Erstellung von Testfällen, Testreports, Statusberichten und Metriken",
+        "Teilnahme an Code-Reviews, Modellprüfungen und Teststrategiediskussionen",
+        "Zusammenarbeit in einem agilen, internationalen, interdisziplinären Entwicklungsteam"
+      ]
+    },
+    {
+      "title":   "Software Developer — Werkstudent",
+      "company": "Continental ADC GmbH · Ulm, Deutschland",
+      "period":  "Nov 2022 — Dez 2023",
+      "bullets": [
+        "ADAS-Architekturvereinfachung in MATLAB (isochron → service-basiert), Ergebnisse im Team präsentiert",
+        "Eigenständiger Entwurf, Implementierung und Test einer C++-Klasse für Intervall-Arithmetik; Verifikation des Floating-Point-Overflow-Moduls",
+        "Mitarbeit an einer experimentellen C++-Testbibliothek",
+        "Einarbeitung in CMake und gTest; vollständige Unit-Tests mit In-House-Tool validiert",
+        "Python-Modul zur statistischen Analyse und Visualisierung der Spurmarkierungspositionskonsistenz"
+      ]
+    },
+    {
+      "title":   "Software Developer — Praktikant",
+      "company": "Continental ADC GmbH · Ulm, Deutschland",
+      "period":  "Jan 2022 — Okt 2022",
+      "bullets": [
+        "Automatisierung von Testszenarien für zwei Ethernet-basierte Kamera-ADAS-Systeme (Python + OpenCV)",
+        "Erstellung, Validierung und Weiterentwicklung von Testautomatisierungsskripten",
+        "Manuelles Testen mit CANoe/CAPL-Restbussimulationen",
+        "Integration von OEM-Komponenten in bestehende Test-Setups",
+        "Einarbeitung in Kamerakalibrierung und Beitrag zur Testvalidierung",
+        "Optimierung und Dokumentation der Testbenches in beiden Praktikumszeiträumen"
+      ]
+    }
+  ],
+
+  "projects": [
+    {
+      "title":       "LLM Lebenslauf-Chatbot — Self-hosted auf Raspberry Pi",
+      "stack":       "Python · LLM API · Nginx · SSE · HTML · CSS · JavaScript · Raspberry Pi 4",
+      "description": "Self-hosted Lebenslauf-Website auf einem Raspberry Pi 4 mit Nginx, Hell/Dunkel-Theme und zweisprachiger (EN/DE) Unterstützung. LLM-API beantwortet Recruiterfragen in Echtzeit über ein SSE-Chat-Widget. Demonstriert serverseitiges Python und Full-Stack-Deployment auf eingeschränkter Hardware.",
+      "links": [
+        { "label": "GitHub →", "url": "https://github.com/stawank/minimalist-resume" }
+      ]
+    },
+    {
+      "title":       "SysML v2 Architektur — Adaptives Geschwindigkeitsregelsystem",
+      "stack":       "SysML v2 · OOSEM · Masterarbeit",
+      "description": "Masterarbeit: vollständige logische und physikalische Architektur eines ACC-Systems in SysML v2 nach OOSEM-Methodik. Detaillierte Komponenteninterfaces, Pin-Verschaltungen und installationsraumbasierte Geometriemodelle für Gewichtsverteilungsanalyse. Ableitung quantitativer Kosten- und Gewichtskennzahlen direkt aus dem Architekturmodell.",
+      "links": [
+        { "label": "Mehr lesen →", "url": "thesis.html" }
+      ]
+    },
+    {
+      "title":       "Energiemanagementsystem — Mild-Hybrid-Parallelfahrzeug",
+      "stack":       "MATLAB · Simulink · NEDC · FTP-75",
+      "description": "Simulation-basiertes Energiemanagementsystem für ein Mild-Hybrid-Parallelfahrzeug im Rahmen des Seminars Elektromobilität an der TU Kaiserslautern. Implementierung von Regler- und Zustandslogik in MATLAB/Simulink, Integration in ein vollständiges Fahrzeugmodell und Bewertung des Kraftstoffverbrauchs unter NEDC und FTP-75.",
+      "links": [
+        { "label": "GitHub →", "url": "https://github.com/stawank/TU_KL_SeminarElectromobility" }
+      ]
+    }
+  ],
+
+  "skills": [
+    { "group": "# sprachen",  "items": ["Python", "C++ (11/14)", "MATLAB", "Simulink"] },
+    { "group": "# testen",    "items": ["TPT", "Cmocka", "gTest", "CMake"] },
+    { "group": "# werkzeuge", "items": ["Vector CANoe", "CAPL", "OpenCV", "Linux / Bash", "Git", "ROS"] },
+    { "group": "# normen",    "items": ["SysML v2", "AUTOSAR", "ISO 26262"] }
+  ],
+
+  "education": [
+    {
+      "degree":      "M.Sc. Nutzfahrzeugtechnologie",
+      "school":      "Technische Universität Kaiserslautern, Deutschland",
+      "period":      "Okt 2020 — Jan 2024",
+      "description": "Schwerpunkte: automotive Software Engineering, autonome Systeme, Elektro-/Hybridantriebe. Masterarbeit zur modellbasierten Systemarchitektur mit SysML v2. Kurse zu ADAS, Regelungstechnik, eingebetteten Systemen und Elektromobilität.",
+      "links":       []
+    },
+    {
+      "degree":      "B.E. Maschinenbau",
+      "school":      "Dr. Babasaheb Ambedkar Marathwada University, Indien",
+      "period":      "Aug 2014 — Apr 2018",
+      "description": "Fundament in Mechatronik, Robotik, Fahrzeugtechnik und Regelungstechnik.",
+      "links": [
+        { "label": "🏁 Baja SAE — Team Aryans", "url": "baja.html" }
+      ]
+    }
+  ],
+
+  "chatbot": {
+    "toggle_label": "Mit meinem Lebenslauf chatten",
+    "header":       "Fragen zu meiner Arbeit in ADAS & Testautomatisierung",
+    "placeholder":  "z.B. Welche Test-Frameworks haben Sie verwendet?",
+    "footer":       "Self-hosted auf Raspberry Pi 🥧"
+  },
+
+  "boot": {
+    "lines": [
+      { "text": "BIOS v2.4.1 — stawan@portfolio",             "color": "lo" },
+      { "text": "Kernelmodule werden initialisiert...",         "color": "lo" },
+      { "text": "[  OK  ] resume.service geladen",              "color": "ok" },
+      { "text": "[  OK  ] nginx.service gestartet",             "color": "ok" },
+      { "text": "[  OK  ] /home/stawan/experience eingehängt",  "color": "ok" },
+      { "text": "[  OK  ] /home/stawan/projects eingehängt",    "color": "ok" },
+      { "text": "[  OK  ] /home/stawan/education eingehängt",   "color": "ok" },
+      { "text": "[ WARN ] llm.service läuft auf Pi 4 — Latenz möglich", "color": "warn" },
+      { "text": "[  OK  ] chatbot.service online",              "color": "ok" },
+      { "text": "",                                             "color": "lo" },
+      { "text": "Alle Systeme bereit. Profil wird geladen...",  "color": "lo" }
+    ],
+    "prompt": "$ cat ~/resume/profile.json"
+  }
+}

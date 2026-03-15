@@ -15,14 +15,8 @@
   </head>
   <body>
 
-    <!-- BOOT SEQUENCE OVERLAY -->
-    <div class="boot-overlay" id="boot-overlay">
-      <div class="boot-lines" id="boot-lines"></div>
-      <div class="boot-prompt" id="boot-prompt"></div>
-    </div>
-
     <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
-      <span class="icon">🌙</span>
+      <span class="icon">☀️</span>
     </div>
     <div class="language-toggle">
       <button type="button" data-lang-btn="en" onclick="setLanguage('en')">EN</button>
@@ -30,267 +24,35 @@
       <button type="button" data-lang-btn="de" onclick="setLanguage('de')">DE</button>
     </div>
 
-    <div class="container">
+    <!-- BOOT SEQUENCE OVERLAY -->
+    <div class="boot-overlay" id="boot-overlay">
+      <div class="boot-lines" id="boot-lines"></div>
+      <div class="boot-prompt" id="boot-prompt"></div>
+    </div>
 
-      <!-- HEADER -->
-      <header class="header fade-in">
-        <div class="avatar">
-          <img src="photo.jpg" alt="Stawan Chandrashekhar Kulkarni" />
-        </div>
-        <h1 class="name">Stawan Chandrashekhar Kulkarni</h1>
-        <p class="title">automotive software engineer · adas · test automation</p>
-        <p class="location">regensburg, DE</p>
-        <div class="contact-links">
-          <a href="mailto:stawank@zohomail.eu" class="contact-link">mail: stawank@zohomail.eu</a>
-          <a href="https://www.linkedin.com/in/stawan-chandrashekhar-kulkarni-810646102/" target="_blank" class="contact-link">in: linkedin</a>
-          <a href="https://github.com/stawank" target="_blank" class="contact-link">gh: stawank</a>
-          <a href="tel:+4915785088336" class="contact-link">tel: +49 157 85088336</a>
-          <a href="tel:+919823635080" class="contact-link">tel: +91 9823635080</a>
-        </div>
-      </header>
+    <!-- MAIN CONTENT — rendered by JS from JSON -->
+    <div class="container" id="main-container" style="visibility:hidden"></div>
 
-      <!-- ABOUT -->
-      <section class="section fade-in stagger-1">
-        <h2 class="section-title" data-i18n="section_about_title">about_me</h2>
-        <div class="card">
-          <p class="about-text" data-i18n="about_text">
-            Automotive software engineer with 2+ years of hands-on experience at
-            Tier-1 suppliers (EDAG, Continental ADC). Focused on ADAS software
-            development, sensor data processing, and test automation — spanning
-            Python-based analysis, C++ implementation, MBD/C unit testing with
-            TPT and Cmocka, and CANoe/CAPL simulation. Experienced across the
-            full V-cycle in agile, international teams. Currently running an
-            LLM-powered chatbot on a self-hosted Raspberry Pi as a side project.
-          </p>
-        </div>
-      </section>
-
-      <!-- EXPERIENCE -->
-      <section class="section fade-in stagger-2">
-        <h2 class="section-title" data-i18n="section_experience_title">experience</h2>
-
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <h3 class="card-title">Systems Engineer</h3>
-              <p class="card-subtitle">EDAG Engineering GmbH · Regensburg, Germany</p>
-            </div>
-          </div>
-          <p class="card-meta">Feb 2024 — Present</p>
-          <ul class="card-bullets" data-i18n="exp_edag_desc">
-            <li>Concept development in raw data fusion and sensor data processing, supported by Python-based analyses</li>
-            <li>Creating and maintaining unit test specifications for MBD/C components against software requirements</li>
-            <li>Designing and implementing automated unit tests using TPT and Cmocka frameworks</li>
-            <li>Test execution, error analysis, bug fixing, and evaluation of test results</li>
-            <li>Maintaining and improving automated test infrastructure</li>
-            <li>Producing test cases, test reports, status reports, and metrics documentation</li>
-            <li>Participating in code reviews, model reviews, and test strategy discussions</li>
-            <li>Collaborating in an agile, international, interdisciplinary engineering team</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <h3 class="card-title">Software Developer — Working Student</h3>
-              <p class="card-subtitle">Continental ADC GmbH · Ulm, Germany</p>
-            </div>
-          </div>
-          <p class="card-meta">Nov 2022 — Dec 2023</p>
-          <ul class="card-bullets" data-i18n="exp_cont_ws_desc">
-            <li>Analysed and prototyped ADAS architecture simplification concepts in MATLAB, evaluating isochronous-to-service-based transitions and presenting findings to the team</li>
-            <li>Independently designed, implemented, and tested a C++ interval arithmetic class; verified correctness of a production-grade Floating Point Overflow module</li>
-            <li>Contributed to an experimental C++ software testing library</li>
-            <li>Set up CMake and gTest from scratch; authored complete unit tests validated with an in-house tool</li>
-            <li>Developed a Python module for statistical analysis and visualisation of lane marking position consistency from vehicle measurement data</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <div class="card-header">
-            <div>
-              <h3 class="card-title">Software Developer — Intern</h3>
-              <p class="card-subtitle">Continental ADC GmbH · Ulm, Germany</p>
-            </div>
-          </div>
-          <p class="card-meta">Jan 2022 — Oct 2022</p>
-          <ul class="card-bullets" data-i18n="exp_cont_intern_desc">
-            <li>Automated test scenarios for two Ethernet-based camera ADAS systems using Python and OpenCV</li>
-            <li>Created, validated, and extended test automation scripts</li>
-            <li>Performed manual testing via CANoe/CAPL rest-bus simulations</li>
-            <li>Integrated OEM components into existing test setups</li>
-            <li>Onboarded into camera calibration feature area and contributed to its test validation</li>
-            <li>Optimised and documented testbenches across both internship periods</li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- PROJECTS -->
-      <section class="section fade-in stagger-3">
-        <h2 class="section-title" data-i18n="section_projects_title">projects</h2>
-
-        <div class="card">
-          <h3 class="card-title">LLM Resume Chatbot — Self-hosted on Raspberry Pi</h3>
-          <p class="card-meta">Python · LLM API · Nginx · SSE · HTML · CSS · JavaScript · Raspberry Pi 4</p>
-          <p class="card-description" data-i18n="proj_site_desc">
-            Self-hosted personal resume site served from a Raspberry Pi 4 via
-            Nginx with dark/light theme and bilingual (EN/DE) support. Integrated
-            an LLM via API that streams answers to recruiter questions in real
-            time via a custom SSE chat widget. Demonstrates server-side Python
-            and full-stack deployment on constrained hardware.
-          </p>
-          <div class="project-links">
-            <a href="https://github.com/stawank/minimalist-resume" target="_blank" class="project-link">GitHub →</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 class="card-title">SysML v2 Architecture — Adaptive Cruise Control System</h3>
-          <p class="card-meta">SysML v2 · OOSEM · Master Thesis</p>
-          <p class="card-description" data-i18n="proj_thesis_desc">
-            Master thesis: modelled the full logical and physical architecture of
-            an ACC system in SysML v2 using OOSEM methodology. Covered detailed
-            component interfaces, pin-level signal routing, and
-            installation-space geometric models for weight distribution analysis.
-            Derived quantitative cost and weight metrics directly from the
-            architecture to support early-stage design decisions.
-          </p>
-          <div class="project-links">
-            <a href="thesis.html" class="project-link">Read More →</a>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3 class="card-title">Energy Management System — Mild Parallel HEV</h3>
-          <p class="card-meta">MATLAB · Simulink · NEDC · FTP-75</p>
-          <p class="card-description" data-i18n="proj_hybrid_desc">
-            Developed a simulation-based energy management system for a mild
-            parallel hybrid electric vehicle as part of the Seminar
-            Electromobility at TU Kaiserslautern. Implemented controller and
-            state logic in MATLAB/Simulink, integrated into a full vehicle plant
-            model, and evaluated fuel consumption across NEDC and FTP-75 drive
-            cycles.
-          </p>
-          <div class="project-links">
-            <a href="https://github.com/stawank/TU_KL_SeminarElectromobility" target="_blank" class="project-link">GitHub →</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- SKILLS -->
-      <section class="section fade-in stagger-4">
-        <h2 class="section-title" data-i18n="section_skills_title">skills</h2>
-        <div class="skills-groups">
-
-          <div class="skill-group">
-            <div class="skill-group-label"># languages</div>
-            <div class="skills-grid">
-              <div class="skill-item">Python</div>
-              <div class="skill-item">C++ (11/14)</div>
-              <div class="skill-item">MATLAB</div>
-              <div class="skill-item">Simulink</div>
-            </div>
-          </div>
-
-          <div class="skill-group">
-            <div class="skill-group-label"># testing</div>
-            <div class="skills-grid">
-              <div class="skill-item">TPT</div>
-              <div class="skill-item">Cmocka</div>
-              <div class="skill-item">gTest</div>
-              <div class="skill-item">CMake</div>
-            </div>
-          </div>
-
-          <div class="skill-group">
-            <div class="skill-group-label"># tools</div>
-            <div class="skills-grid">
-              <div class="skill-item">Vector CANoe</div>
-              <div class="skill-item">CAPL</div>
-              <div class="skill-item">OpenCV</div>
-              <div class="skill-item">Linux / Bash</div>
-              <div class="skill-item">Git</div>
-              <div class="skill-item">ROS</div>
-            </div>
-          </div>
-
-          <div class="skill-group">
-            <div class="skill-group-label"># standards</div>
-            <div class="skills-grid">
-              <div class="skill-item">SysML v2</div>
-              <div class="skill-item">AUTOSAR</div>
-              <div class="skill-item">ISO 26262</div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- EDUCATION -->
-      <section class="section fade-in stagger-5">
-        <h2 class="section-title" data-i18n="section_education_title">education</h2>
-
-        <div class="card">
-          <h3 class="card-title">M.Sc. Commercial Vehicle Technology</h3>
-          <p class="card-subtitle">Technical University of Kaiserslautern, Germany</p>
-          <p class="card-meta">Oct 2020 — Jan 2024</p>
-          <p class="card-description" data-i18n="edu_master_desc">
-            Specialised in automotive software engineering, autonomous systems,
-            and electric/hybrid powertrains. Thesis on model-based system
-            architecture using SysML v2. Coursework included ADAS, control
-            theory, embedded systems, and electromobility.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3 class="card-title">B.E. Mechanical Engineering</h3>
-          <p class="card-subtitle">Dr. Babasaheb Ambedkar Marathwada University, India</p>
-          <p class="card-meta">Aug 2014 — Apr 2018</p>
-          <p class="card-description" data-i18n="edu_bachelor_desc">
-            Core foundation in mechatronics, robotics, automotive engineering,
-            and control systems.
-          </p>
-          <div class="project-links">
-            <a href="baja.html" class="project-link">🏁 Baja SAE — Team Aryans</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- EOF -->
-      <div class="eof-line fade-in stagger-5">
-        <span>-- end of file --</span>
-        <span class="eof-exit">[exit 0]</span>
-      </div>
-
-    </div><!-- /container -->
-
-    <!-- CHATBOT — floating widget -->
-    <button class="chatbot-toggle" id="chatbot-toggle" onclick="toggleChat()" title="Chat with my resume" aria-label="Open chatbot" style="visibility:hidden">
-      <span class="chatbot-toggle-icon">💬</span>
-      <span class="chatbot-toggle-label">Chat with my resume</span>
-      <span class="chatbot-toggle-ping"></span>
-    </button>
-
+    <!-- CHATBOT -->
+    <button class="chatbot-toggle" id="chatbot-toggle" onclick="toggleChat()" style="visibility:hidden"></button>
     <div class="chatbot" id="chatbot-panel">
       <div class="chatbot-header">
-        <span>Ask about my work in ADAS &amp; test automation</span>
+        <span id="chatbot-title"></span>
         <button class="chatbot-close" onclick="toggleChat()" title="Close">✕</button>
       </div>
       <div class="chatbot-messages" id="chat-messages"></div>
       <form id="chat-form">
-        <input
-          type="text"
-          id="chat-input"
-          placeholder="e.g. What testing frameworks have you used?"
-          autocomplete="off"
-          required
-        />
+        <input type="text" id="chat-input" autocomplete="off" required />
         <button type="submit" id="chat-submit">Send</button>
       </form>
-      <div class="chatbot-footer">Self-hosted on Raspberry Pi 🥧</div>
+      <div class="chatbot-footer" id="chatbot-footer"></div>
     </div>
 
     <script>
+      // ── State ──────────────────────────────────────────────────────────────
+      let currentLang = 'en'
+      const cache = {}
+
       // ── Theme ──────────────────────────────────────────────────────────────
       function toggleTheme() {
         const html = document.documentElement
@@ -311,7 +73,7 @@
         const saved = localStorage.getItem("theme")
         const icon  = document.querySelector(".theme-toggle .icon")
         if (saved === "light") {
-          html.removeAttribute("data-theme")
+          document.documentElement.removeAttribute("data-theme")
           icon.textContent = "🌙"
         } else {
           document.documentElement.setAttribute("data-theme", "dark")
@@ -319,62 +81,176 @@
         }
       }
 
-      // ── i18n ───────────────────────────────────────────────────────────────
-      const translations = {
-        en: {
-          section_about_title:      "about_me",
-          section_experience_title: "experience",
-          section_projects_title:   "projects",
-          section_skills_title:     "skills",
-          section_education_title:  "education",
-          about_text: "Automotive software engineer with 2+ years of hands-on experience at Tier-1 suppliers (EDAG, Continental ADC). Focused on ADAS software development, sensor data processing, and test automation — spanning Python-based analysis, C++ implementation, MBD/C unit testing with TPT and Cmocka, and CANoe/CAPL simulation. Experienced across the full V-cycle in agile, international teams. Currently running an LLM-powered chatbot on a self-hosted Raspberry Pi as a side project.",
-          exp_edag_desc: "<li>Concept development in raw data fusion and sensor data processing, supported by Python-based analyses</li><li>Creating and maintaining unit test specifications for MBD/C components against software requirements</li><li>Designing and implementing automated unit tests using TPT and Cmocka frameworks</li><li>Test execution, error analysis, and bug fixing</li><li>Maintaining and improving automated test infrastructure</li><li>Producing test cases, test reports, status reports, and metrics documentation</li><li>Participating in code reviews, model reviews, and test strategy discussions</li><li>Collaborating in an agile, international, interdisciplinary engineering team</li>",
-          exp_cont_ws_desc: "<li>ADAS architecture simplification in MATLAB (isochronous → service-based transitions), presented to team</li><li>Independently designed, implemented, and tested C++ interval arithmetic class; verified Floating Point Overflow module</li><li>Contributed to an experimental C++ software testing library</li><li>Set up CMake and gTest from scratch; authored complete unit tests validated with in-house tool</li><li>Python module for statistical analysis and visualisation of lane marking position consistency</li>",
-          exp_cont_intern_desc: "<li>Automated test scenarios for two Ethernet-based camera ADAS systems using Python and OpenCV</li><li>Created, validated, and extended test automation scripts</li><li>Manual testing via CANoe/CAPL rest-bus simulations</li><li>Integrated OEM components into existing test setups</li><li>Camera calibration feature onboarding and test validation</li><li>Optimised and documented testbenches across both internship periods</li>",
-          proj_site_desc: "Self-hosted personal resume site served from a Raspberry Pi 4 via Nginx with dark/light theme and bilingual (EN/DE) support. Integrated an LLM via API that streams answers to recruiter questions in real time via a custom SSE chat widget. Demonstrates server-side Python and full-stack deployment on constrained hardware.",
-          proj_thesis_desc: "Master thesis: modelled the full logical and physical architecture of an ACC system in SysML v2 using OOSEM methodology. Covered detailed component interfaces, pin-level signal routing, and installation-space geometric models for weight distribution analysis. Derived quantitative cost and weight metrics directly from the architecture to support early-stage design decisions.",
-          proj_hybrid_desc: "Developed a simulation-based energy management system for a mild parallel hybrid electric vehicle as part of the Seminar Electromobility at TU Kaiserslautern. Implemented controller and state logic in MATLAB/Simulink, integrated into a full vehicle plant model, and evaluated fuel consumption across NEDC and FTP-75 drive cycles.",
-          edu_master_desc: "Specialised in automotive software engineering, autonomous systems, and electric/hybrid powertrains. Thesis on model-based system architecture using SysML v2. Coursework included ADAS, control theory, embedded systems, and electromobility.",
-          edu_bachelor_desc: "Core foundation in mechatronics, robotics, automotive engineering, and control systems.",
-        },
-        de: {
-          section_about_title:      "ueber_mich",
-          section_experience_title: "berufserfahrung",
-          section_projects_title:   "projekte",
-          section_skills_title:     "kenntnisse",
-          section_education_title:  "ausbildung",
-          about_text: "Automotive Software Engineer mit 2+ Jahren Erfahrung bei Tier-1-Zulieferern (EDAG, Continental ADC). Schwerpunkte: ADAS-Softwareentwicklung, Sensordatenverarbeitung und Testautomatisierung — von Python-basierten Analysen über C++-Implementierung bis hin zu MBD/C-Unit-Tests mit TPT und Cmocka sowie CANoe/CAPL-Simulation. Erfahrung über den gesamten V-Zyklus in agilen, internationalen Teams. Aktuell: LLM-betriebener Chatbot auf einem selbst gehosteten Raspberry Pi als Nebenprojekt.",
-          exp_edag_desc: "<li>Konzeptentwicklung im Bereich Rohdatenfusion und Sensordatenverarbeitung, unterstützt durch Python-basierte Analysen</li><li>Erstellung und Pflege von Unit-Test-Spezifikationen für MBD/C-Komponenten auf Basis von Softwareanforderungen</li><li>Design und Implementierung automatisierter Unit-Tests mit TPT und Cmocka</li><li>Testdurchführung, Fehleranalyse und Bug-Fixing</li><li>Pflege und Verbesserung der automatisierten Testinfrastruktur</li><li>Erstellung von Testfällen, Testreports, Statusberichten und Metriken</li><li>Teilnahme an Code-Reviews, Modellprüfungen und Teststrategiediskussionen</li><li>Zusammenarbeit in einem agilen, internationalen, interdisziplinären Entwicklungsteam</li>",
-          exp_cont_ws_desc: "<li>ADAS-Architekturvereinfachung in MATLAB (isochron → service-basiert), Ergebnisse im Team präsentiert</li><li>Eigenständiger Entwurf, Implementierung und Test einer C++-Klasse für Intervall-Arithmetik; Verifikation des Floating-Point-Overflow-Moduls</li><li>Mitarbeit an einer experimentellen C++-Testbibliothek</li><li>Einarbeitung in CMake und gTest; vollständige Unit-Tests mit In-House-Tool validiert</li><li>Python-Modul zur statistischen Analyse und Visualisierung der Spurmarkierungspositionskonsistenz</li>",
-          exp_cont_intern_desc: "<li>Automatisierung von Testszenarien für zwei Ethernet-basierte Kamera-ADAS-Systeme (Python + OpenCV)</li><li>Erstellung, Validierung und Weiterentwicklung von Testautomatisierungsskripten</li><li>Manuelles Testen mit CANoe/CAPL-Restbussimulationen</li><li>Integration von OEM-Komponenten in bestehende Test-Setups</li><li>Einarbeitung in Kamerakalibrierung und Beitrag zur Testvalidierung</li><li>Optimierung und Dokumentation der Testbenches in beiden Praktikumszeiträumen</li>",
-          proj_site_desc: "Self-hosted Lebenslauf-Website auf einem Raspberry Pi 4 mit Nginx, Hell/Dunkel-Theme und zweisprachiger (EN/DE) Unterstützung. LLM-API beantwortet Recruiterfragen in Echtzeit über ein SSE-Chat-Widget. Demonstriert serverseitiges Python und Full-Stack-Deployment auf eingeschränkter Hardware.",
-          proj_thesis_desc: "Masterarbeit: vollständige logische und physikalische Architektur eines ACC-Systems in SysML v2 nach OOSEM-Methodik. Detaillierte Komponenteninterfaces, Pin-Verschaltungen und installationsraumbasierte Geometriemodelle für Gewichtsverteilungsanalyse. Ableitung quantitativer Kosten- und Gewichtskennzahlen direkt aus dem Architekturmodell.",
-          proj_hybrid_desc: "Simulation-basiertes Energiemanagementsystem für ein Mild-Hybrid-Parallelfahrzeug im Rahmen des Seminars Elektromobilität an der TU Kaiserslautern. Implementierung von Regler- und Zustandslogik in MATLAB/Simulink, Integration in ein vollständiges Fahrzeugmodell und Bewertung des Kraftstoffverbrauchs unter NEDC und FTP-75.",
-          edu_master_desc: "Schwerpunkte: automotive Software Engineering, autonome Systeme, Elektro-/Hybridantriebe. Masterarbeit zur modellbasierten Systemarchitektur mit SysML v2. Kurse zu ADAS, Regelungstechnik, eingebetteten Systemen und Elektromobilität.",
-          edu_bachelor_desc: "Fundament in Mechatronik, Robotik, Fahrzeugtechnik und Regelungstechnik.",
-        }
+      // ── JSON loader ────────────────────────────────────────────────────────
+      async function loadData(lang) {
+        if (cache[lang]) return cache[lang]
+        const res  = await fetch(`${lang}.json`)
+        const data = await res.json()
+        cache[lang] = data
+        return data
       }
 
-      function setLanguage(lang) {
-        document.documentElement.setAttribute("lang", lang)
+      // ── Renderers ──────────────────────────────────────────────────────────
+      function renderHeader(d) {
+        const h = d.header
+        return `
+        <header class="header fade-in">
+          <div class="avatar">
+            <img src="photo.jpg" alt="${h.name}" />
+          </div>
+          <h1 class="name">${h.name}</h1>
+          <p class="title">${h.title}</p>
+          <p class="location">${h.location}</p>
+          <div class="contact-links">
+            <div class="contact-row contact-row--primary">
+              <a href="mailto:${h.contact.email}" class="contact-link">mail: ${h.contact.email}</a>
+              <a href="${h.contact.linkedin_url}" target="_blank" class="contact-link">${h.contact.linkedin_label}</a>
+              <a href="${h.contact.github_url}" target="_blank" class="contact-link">${h.contact.github_label}</a>
+            </div>
+            <div class="contact-row contact-row--secondary">
+              <a href="tel:${h.contact.phone_de.replace(/\s/g,'')}" class="contact-link">tel: ${h.contact.phone_de}</a>
+              <a href="tel:${h.contact.phone_in.replace(/\s/g,'')}" class="contact-link">tel: ${h.contact.phone_in}</a>
+            </div>
+          </div>
+        </header>`
+      }
+
+      function renderAbout(d) {
+        const a = d.about
+        return `
+        <section class="section fade-in stagger-1">
+          <h2 class="section-title">[ ${d.sections.about} ]</h2>
+          <div class="card">
+            <div class="about-lines">
+              <div class="about-line"><span class="about-key">role</span><span class="about-val">${a.role}</span></div>
+              <div class="about-line"><span class="about-key">stack</span><span class="about-val">${a.stack}</span></div>
+              <div class="about-line"><span class="about-key">exp</span><span class="about-val">${a.exp}</span></div>
+              <div class="about-line"><span class="about-key">currently</span><span class="about-val">${a.current}</span></div>
+            </div>
+          </div>
+        </section>`
+      }
+
+      function renderExperience(d) {
+        const cards = d.experience.map(job => `
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">${job.title}</h3>
+              <p class="card-subtitle">${job.company}</p>
+            </div>
+            <p class="card-meta">${job.period}</p>
+            <ul class="card-bullets">
+              ${job.bullets.map(b => `<li>${b}</li>`).join('\n')}
+            </ul>
+          </div>`).join('\n')
+        return `
+        <section class="section fade-in stagger-2">
+          <h2 class="section-title">[ ${d.sections.experience} ]</h2>
+          ${cards}
+        </section>`
+      }
+
+      function renderProjects(d) {
+        const cards = d.projects.map(p => {
+          const links = p.links.map(l =>
+            `<a href="${l.url}" class="project-link"${l.url.startsWith('http') ? ' target="_blank"' : ''}>${l.label}</a>`
+          ).join('\n')
+          return `
+          <div class="card">
+            <h3 class="card-title">${p.title}</h3>
+            <p class="card-meta">${p.stack}</p>
+            <p class="card-description">${p.description}</p>
+            <div class="project-links">${links}</div>
+          </div>`
+        }).join('\n')
+        return `
+        <section class="section fade-in stagger-3">
+          <h2 class="section-title">[ ${d.sections.projects} ]</h2>
+          ${cards}
+        </section>`
+      }
+
+      function renderSkills(d) {
+        const groups = d.skills.map(g => `
+          <div class="skill-group">
+            <div class="skill-group-label">${g.group}</div>
+            <div class="skills-grid">
+              ${g.items.map(i => `<div class="skill-item">${i}</div>`).join('\n')}
+            </div>
+          </div>`).join('\n')
+        return `
+        <section class="section fade-in stagger-4">
+          <h2 class="section-title">[ ${d.sections.skills} ]</h2>
+          <div class="skills-groups">${groups}</div>
+        </section>`
+      }
+
+      function renderEducation(d) {
+        const cards = d.education.map(e => {
+          const links = e.links.length
+            ? `<div class="project-links">${e.links.map(l => `<a href="${l.url}" class="project-link">${l.label}</a>`).join('')}</div>`
+            : ''
+          return `
+          <div class="card">
+            <h3 class="card-title">${e.degree}</h3>
+            <p class="card-subtitle">${e.school}</p>
+            <p class="card-meta">${e.period}</p>
+            <p class="card-description">${e.description}</p>
+            ${links}
+          </div>`
+        }).join('\n')
+        return `
+        <section class="section fade-in stagger-5">
+          <h2 class="section-title">[ ${d.sections.education} ]</h2>
+          ${cards}
+        </section>`
+      }
+
+      function renderEof() {
+        return `
+        <div class="eof-line fade-in stagger-5">
+          <span>-- end of file --</span>
+          <span class="eof-exit">[exit 0]</span>
+        </div>`
+      }
+
+      function renderChatbot(d) {
+        const cb = d.chatbot
+        const toggle = document.getElementById("chatbot-toggle")
+        toggle.innerHTML = `<span class="chatbot-toggle-label">${cb.toggle_label}</span>`
+        document.getElementById("chatbot-title").textContent  = cb.header
+        document.getElementById("chat-input").placeholder     = cb.placeholder
+        document.getElementById("chatbot-footer").textContent = cb.footer
+      }
+
+      // ── Full render ────────────────────────────────────────────────────────
+      function render(data) {
+        document.getElementById("main-container").innerHTML = `
+          ${renderHeader(data)}
+          ${renderAbout(data)}
+          ${renderExperience(data)}
+          ${renderProjects(data)}
+          ${renderSkills(data)}
+          ${renderEducation(data)}
+          ${renderEof()}
+        `
+        renderChatbot(data)
+        updateLangButtons()
+      }
+
+      // ── Language ───────────────────────────────────────────────────────────
+      async function setLanguage(lang) {
+        currentLang = lang
         localStorage.setItem("lang", lang)
-        const dict = translations[lang] || translations.en
-        document.querySelectorAll("[data-i18n]").forEach(el => {
-          const key = el.getAttribute("data-i18n")
-          if (!dict[key]) return
-          if (el.classList.contains("card-bullets")) {
-            el.innerHTML = dict[key]
-          } else {
-            el.textContent = dict[key]
-          }
-        })
-        document.querySelectorAll("[data-lang-btn]").forEach(btn => {
-          btn.classList.toggle("active", btn.getAttribute("data-lang-btn") === lang)
-        })
+        document.documentElement.setAttribute("lang", lang)
+        const data = await loadData(lang)
+        render(data)
       }
 
-      function loadLanguage() {
-        setLanguage(localStorage.getItem("lang") || "en")
+      function updateLangButtons() {
+        document.querySelectorAll("[data-lang-btn]").forEach(btn => {
+          btn.classList.toggle("active", btn.getAttribute("data-lang-btn") === currentLang)
+        })
       }
 
       // ── Chatbot toggle ─────────────────────────────────────────────────────
@@ -451,43 +327,19 @@
       }
 
       // ── Boot sequence ──────────────────────────────────────────────────────
-      const BOOT_LINES = [
-        { text: "BIOS v2.4.1 — stawan@portfolio",         delay: 0,    color: "lo" },
-        { text: "Initialising kernel modules...",          delay: 120,  color: "lo" },
-        { text: "[  OK  ] Loaded resume.service",          delay: 320,  color: "ok" },
-        { text: "[  OK  ] Started nginx.service",          delay: 500,  color: "ok" },
-        { text: "[  OK  ] Mounted /home/stawan/experience",delay: 680,  color: "ok" },
-        { text: "[  OK  ] Mounted /home/stawan/projects",  delay: 820,  color: "ok" },
-        { text: "[  OK  ] Mounted /home/stawan/education", delay: 960,  color: "ok" },
-        { text: "[ WARN ] llm.service running on Pi 4 — expect latency",
-                                                           delay: 1100, color: "warn" },
-        { text: "[  OK  ] chatbot.service online",         delay: 1280, color: "ok" },
-        { text: "",                                        delay: 1420, color: "lo" },
-        { text: "All systems nominal. Loading profile...", delay: 1500, color: "lo" },
-      ]
-
-      const BOOT_PROMPT = "$ cat ~/resume/profile.json"
-
-      function runBootSequence() {
-        // Skip boot if already seen this session
+      function runBootSequence(bootData) {
         if (sessionStorage.getItem("booted")) {
           document.getElementById("boot-overlay").style.display = "none"
-          document.querySelector(".chatbot-toggle").style.visibility = ""
+          document.getElementById("main-container").style.visibility = ""
+          document.getElementById("chatbot-toggle").style.visibility = ""
           return
         }
 
-        const overlay   = document.getElementById("boot-overlay")
-        const linesEl   = document.getElementById("boot-lines")
-        const promptEl  = document.getElementById("boot-prompt")
+        const overlay  = document.getElementById("boot-overlay")
+        const linesEl  = document.getElementById("boot-lines")
+        const promptEl = document.getElementById("boot-prompt")
 
-        // Hide main content during boot
-        document.querySelector(".container").style.visibility = "hidden"
-        document.querySelector(".theme-toggle").style.visibility = "hidden"
-        document.querySelector(".language-toggle").style.visibility = "hidden"
-        document.querySelector(".chatbot-toggle").style.visibility = "hidden"
-
-        // Print each boot line with its delay
-        BOOT_LINES.forEach(({ text, delay, color }) => {
+        bootData.lines.forEach(({ text, color }, i) => {
           setTimeout(() => {
             if (text === "") { linesEl.appendChild(document.createElement("br")); return }
             const line = document.createElement("div")
@@ -495,13 +347,13 @@
             line.textContent = text
             linesEl.appendChild(line)
             overlay.scrollTop = overlay.scrollHeight
-          }, delay)
+          }, i * 160)
         })
 
-        // Type the prompt character by character
-        const promptDelay = 1700
+        const promptDelay = bootData.lines.length * 160 + 200
         setTimeout(() => {
           let i = 0
+          const prompt = bootData.prompt
           promptEl.textContent = ""
           const cursor = document.createElement("span")
           cursor.className = "boot-cursor"
@@ -509,20 +361,17 @@
           promptEl.appendChild(cursor)
 
           const type = () => {
-            if (i < BOOT_PROMPT.length) {
-              cursor.before(BOOT_PROMPT[i])
+            if (i < prompt.length) {
+              cursor.before(prompt[i])
               i++
               setTimeout(type, 45)
             } else {
-              // Done typing — fade out overlay, reveal page
               setTimeout(() => {
                 overlay.classList.add("boot-overlay--done")
                 setTimeout(() => {
                   overlay.style.display = "none"
-                  document.querySelector(".container").style.visibility = ""
-                  document.querySelector(".theme-toggle").style.visibility = ""
-                  document.querySelector(".language-toggle").style.visibility = ""
-                  document.querySelector(".chatbot-toggle").style.visibility = ""
+                  document.getElementById("main-container").style.visibility = ""
+                  document.getElementById("chatbot-toggle").style.visibility = ""
                   sessionStorage.setItem("booted", "1")
                 }, 600)
               }, 400)
@@ -533,10 +382,15 @@
       }
 
       // ── Init ───────────────────────────────────────────────────────────────
-      document.addEventListener("DOMContentLoaded", () => {
+      document.addEventListener("DOMContentLoaded", async () => {
         loadTheme()
-        loadLanguage()
-        runBootSequence()
+
+        const lang = localStorage.getItem("lang") || "en"
+        currentLang = lang
+        document.documentElement.setAttribute("lang", lang)
+
+        const data = await loadData(lang)
+        render(data)
 
         const form  = document.getElementById("chat-form")
         const input = document.getElementById("chat-input")
@@ -549,6 +403,8 @@
             await sendStreamingMessage(q)
           })
         }
+
+        runBootSequence(data.boot)
       })
     </script>
   </body>

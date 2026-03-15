@@ -295,9 +295,24 @@ body::before {
 
 .contact-links {
   display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.contact-row {
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.4rem;
+}
+
+.contact-row--secondary .contact-link {
+  opacity: 0.65;
+  font-size: 0.7rem;
+}
+.contact-row--secondary .contact-link:hover {
+  opacity: 1;
 }
 .contact-link {
   font-size: 0.75rem;
@@ -368,28 +383,31 @@ body::before {
   background: color-mix(in srgb, var(--green-bg) 50%, var(--bg-raised));
 }
 
-.card-header { margin-bottom: 0.25rem; }
+.card-header { margin-bottom: 0.5rem; }
 
 .card-title {
-  font-size: 0.92rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--text-hi);
-  margin-bottom: 0.1rem;
-  letter-spacing: 0.02em;
+  margin-bottom: 0.2rem;
+  letter-spacing: 0.01em;
 }
 
 .card-subtitle {
-  font-size: 0.82rem;
-  color: var(--text-md);
-  margin-bottom: 0.2rem;
-  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--text-lo);
+  margin-bottom: 0;
+  font-style: normal;
+  letter-spacing: 0.03em;
+  opacity: 0.8;
 }
 
 .card-meta {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   color: var(--text-lo);
   letter-spacing: 0.08em;
   margin-bottom: 0.75rem;
+  opacity: 0.6;
 }
 .card-meta::before { content: "[ "; }
 .card-meta::after  { content: " ]"; }
@@ -499,14 +517,46 @@ body::before {
 }
 
 /* ════════════════════════════════
-   ABOUT TEXT
+   ABOUT — terminal key:value lines
    ════════════════════════════════ */
-.about-text {
+.about-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.about-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
   font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.about-line::before {
+  content: ">";
+  color: var(--prompt);
+  font-weight: 600;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.about-key {
+  color: var(--text-lo);
+  min-width: 6rem;
+  flex-shrink: 0;
+  letter-spacing: 0.04em;
+}
+
+.about-key::after {
+  content: ":";
+  margin-right: 0.75rem;
+  opacity: 0.5;
+}
+
+.about-val {
   color: var(--text-md);
-  line-height: 1.9;
-  border-left: 2px solid var(--border-hi);
-  padding-left: 0.85rem;
+  line-height: 1.6;
 }
 
 /* ════════════════════════════════
@@ -777,7 +827,8 @@ body::before {
   .container > * { padding: 1.25rem; }
   .name { font-size: 1.4rem; }
   .avatar { width: 82px; height: 82px; }
-  .contact-links { flex-direction: column; align-items: center; }
+  .contact-links { align-items: center; }
+  .contact-row { flex-direction: column; align-items: center; }
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
   .chatbot { width: calc(100vw - 2rem); right: 1rem; bottom: calc(52px + 1rem + 0.75rem); }
   .chatbot-toggle { right: 1rem; bottom: 1rem; }
