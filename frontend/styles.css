@@ -67,8 +67,8 @@ body {
   font-family: "JetBrains Mono", "Courier New", monospace;
   background: var(--bg);
   color: var(--text-hi);
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: 15px;
+  line-height: 1.75;
   min-height: 100vh;
   transition: background 0.3s ease, color 0.3s ease;
 }
@@ -139,7 +139,7 @@ body::before {
   display: block;
   background: var(--bg-chrome);
   color: var(--text-lo);
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   letter-spacing: 0.08em;
   padding: 0.55rem 1rem;
   border-bottom: 1px solid var(--border);
@@ -174,7 +174,7 @@ body::before {
   box-shadow: var(--shadow-sm);
 }
 .theme-toggle:hover { opacity: 1; border-color: var(--green); }
-.theme-toggle .icon { font-size: 13px; }
+.theme-toggle .icon { font-size: 14px; }
 
 /* Language toggle — bottom left, just above theme toggle */
 .language-toggle {
@@ -194,7 +194,7 @@ body::before {
 }
 .language-toggle button {
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   border: none;
@@ -206,7 +206,7 @@ body::before {
 }
 .language-toggle button.active { color: var(--green); }
 .language-toggle button:hover:not(.active) { color: var(--text-md); }
-.language-toggle span { color: var(--border-hi); font-size: 0.55rem; }
+.language-toggle span { color: var(--border-hi); font-size: 0.65rem; }
 
 /* ════════════════════════════════
    HEADER
@@ -224,7 +224,7 @@ body::before {
   content: "$ cat ~/resume/profile.json";
   display: block;
   color: var(--text-lo);
-  font-size: 0.68rem;
+  font-size: 0.78rem;
   margin-bottom: 1.5rem;
   width: 100%;
   text-align: left;
@@ -263,7 +263,7 @@ body::before {
 
 /* ── NAME ── */
 .name {
-  font-size: 1.6rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: var(--text-hi);
   letter-spacing: 0.02em;
@@ -273,14 +273,14 @@ body::before {
 .name::after {
   content: "█";
   color: var(--cursor);
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   margin-left: 3px;
   vertical-align: middle;
   animation: blink 1s step-end infinite;
 }
 
 .title {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: 500;
   color: var(--green);
   letter-spacing: 0.2em;
@@ -290,7 +290,7 @@ body::before {
 .title::before { content: "// "; opacity: 0.5; }
 
 .location {
-  font-size: 0.68rem;
+  font-size: 0.78rem;
   color: var(--text-lo);
   margin-bottom: 1.4rem;
   letter-spacing: 0.05em;
@@ -305,7 +305,7 @@ body::before {
   gap: 0.4rem;
 }
 .contact-link {
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   color: var(--text-md);
   text-decoration: none;
   padding: 0.25rem 0.65rem;
@@ -331,7 +331,7 @@ body::before {
 .section { margin-bottom: 2.25rem; }
 
 .section-title {
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.25em;
   text-transform: uppercase;
@@ -348,7 +348,7 @@ body::before {
   content: "#";
   color: var(--text-lo);
   font-weight: 300;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
 }
 
 /* ════════════════════════════════
@@ -372,7 +372,7 @@ body::before {
 .card-header { margin-bottom: 0.25rem; }
 
 .card-title {
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   font-weight: 600;
   color: var(--text-hi);
   margin-bottom: 0.1rem;
@@ -380,14 +380,14 @@ body::before {
 }
 
 .card-subtitle {
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   color: var(--text-md);
   margin-bottom: 0.2rem;
   font-style: italic;
 }
 
 .card-meta {
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   color: var(--text-lo);
   letter-spacing: 0.08em;
   margin-bottom: 0.5rem;
@@ -396,9 +396,9 @@ body::before {
 .card-meta::after  { content: " ]"; }
 
 .card-description {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--text-md);
-  line-height: 1.75;
+  line-height: 1.8;
 }
 
 /* Terminal-style bullets in experience cards */
@@ -413,7 +413,7 @@ body::before {
 .card-bullets li {
   position: relative;
   padding-left: 1.4rem;
-  font-size: 0.78rem;
+  font-size: 0.85rem;
   line-height: 1.65;
   color: var(--text-md);
 }
@@ -423,7 +423,7 @@ body::before {
   left: 0;
   color: var(--green);
   font-weight: 600;
-  font-size: 0.72rem;
+  font-size: 0.8rem;
 }
 
 /* ════════════════════════════════
@@ -436,7 +436,7 @@ body::before {
 }
 
 .skill-item {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: var(--text-md);
   background: var(--bg-raised);
   border: 1px solid var(--border);
@@ -453,7 +453,7 @@ body::before {
 .skill-item::before {
   content: "$";
   color: var(--prompt);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   flex-shrink: 0;
   opacity: 0.7;
 }
@@ -472,7 +472,7 @@ body::before {
    ════════════════════════════════ */
 .project-links { display: flex; gap: 0.4rem; margin-top: 0.65rem; }
 .project-link {
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   letter-spacing: 0.1em;
   color: var(--green);
   border: 1px solid var(--green-dim);
@@ -494,9 +494,9 @@ body::before {
    ABOUT TEXT
    ════════════════════════════════ */
 .about-text {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--text-md);
-  line-height: 1.85;
+  line-height: 1.9;
   border-left: 2px solid var(--border-hi);
   padding-left: 0.85rem;
 }
@@ -529,7 +529,7 @@ body::before {
   padding: 0.4rem 0.75rem;
   background: var(--bg-chrome);
   border-bottom: 1px solid var(--border);
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   font-weight: 500;
   color: var(--text-lo);
   letter-spacing: 0.08em;
@@ -546,7 +546,7 @@ body::before {
 .chatbot-messages::-webkit-scrollbar-thumb { background: var(--border-hi); }
 
 .chat-message {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   padding: 0.3rem 0;
   margin-bottom: 0.5rem;
   max-width: 100%;
@@ -585,7 +585,7 @@ body::before {
 }
 #chat-form::before {
   content: "$";
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--prompt);
   flex-shrink: 0;
 }
@@ -594,7 +594,7 @@ body::before {
   flex: 1;
   border: none;
   padding: 0.15rem 0.25rem;
-  font-size: 0.68rem;
+  font-size: 0.78rem;
   background: transparent;
   color: var(--text-hi);
   font-family: "JetBrains Mono", monospace;
@@ -605,7 +605,7 @@ body::before {
 
 #chat-form button {
   font-family: "JetBrains Mono", monospace;
-  font-size: 0.58rem;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   border: 1px solid var(--border-hi);
@@ -648,7 +648,7 @@ body::before {
 @media (max-width: 700px) {
   .container { margin: 0; border-radius: 0; border-left: none; border-right: none; }
   .container > *:not(.chatbot) { padding: 1.25rem; }
-  .name { font-size: 1.3rem; }
+  .name { font-size: 1.4rem; }
   .avatar { width: 82px; height: 82px; }
   .contact-links { flex-direction: column; align-items: center; }
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
