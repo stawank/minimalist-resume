@@ -238,7 +238,7 @@
       function renderChatbot(d) {
         const cb = d.chatbot
         const toggle = document.getElementById("chatbot-toggle")
-        toggle.innerHTML = `<span class="chatbot-toggle-prompt">$</span><span class="chatbot-toggle-cursor">█</span>`
+        toggle.innerHTML = `<span class="chatbot-toggle-label">${cb.toggle_label}</span>`
         document.getElementById("chatbot-title").textContent  = cb.header
         document.getElementById("chat-input").placeholder     = cb.placeholder
         document.getElementById("chatbot-footer").textContent = cb.footer
