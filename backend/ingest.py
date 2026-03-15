@@ -1,5 +1,6 @@
 import os
 import shutil
+import requests
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
@@ -8,10 +9,9 @@ from langchain_core.documents import Document
 from bs4 import BeautifulSoup
 from gitingest import ingest
 
-DOCS_PATH    = os.path.expanduser("~/resume_docs")
-DB_PATH      = os.path.expanduser("~/minimalist-resume/backend/chroma_db")
-WEBSITE_HTML = "/var/www/minimalist-resume/index.html"
-CHUNK_SIZE   = 500
+DOCS_PATH     = os.path.expanduser("~/resume_docs")
+DB_PATH       = os.path.expanduser("~/minimalist-resume/backend/chroma_db")
+CHUNK_SIZE    = 500
 CHUNK_OVERLAP = 50
 
 SKIP_PDFS = {
@@ -26,6 +26,12 @@ GITHUB_REPOS = [
     "https://github.com/stawank/TU_KL_SeminarElectromobility",
     "https://github.com/stawank/stawank.github.io",
     "https://github.com/stawank/ros2_playground",
+]
+
+WEBSITE = [
+    "https://raspberrypi.tail1b2b1f.ts.net/",
+    "https://raspberrypi.tail1b2b1f.ts.net/thesis.html",
+    "https://raspberrypi.tail1b2b1f.ts.net/baja.html",
 ]
 
 # ── Setup ─────────────────────────────────────────────────────────────────────
@@ -44,21 +50,32 @@ db = Chroma(persist_directory=DB_PATH, embedding_function=embeddings)
 total_chunks = 0
 
 # ── 1. Website ────────────────────────────────────────────────────────────────
-print(f"\n[1/4] Loading website: {WEBSITE_HTML}")
-if os.path.exists(WEBSITE_HTML):
-    with open(WEBSITE_HTML, "r") as f:
-        html = f.read()
-    soup = BeautifulSoup(html, "html.parser")
-    for tag in soup(["script", "style"]):
-        tag.decompose()
-    text = soup.get_text(separator="\n", strip=True)
-    doc = Document(page_content=text, metadata={"source": "resume_website"})
-    chunks = splitter.split_documents([doc])
-    db.add_documents(chunks)
-    total_chunks += len(chunks)
-    print(f"   OK -> {len(chunks)} chunks")
-else:
-    print(f"   SKIP: not found at {WEBSITE_HTML}")
+print(f"\n[1/4] Fetching website pages...")
+for url in WEBSITE:
+    try:
+        print(f"   Fetching {url}...")
+        response = requests.get(url, headers={
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+        })
+        soup = BeautifulSoup(response.content, "html.parser")
+        title = soup.title.string if soup.title else ""
+        for tag in soup(["script", "style", "img", "input"]):
+            tag.decompose()
+        body_text = soup.body.get_text(separator="\n", strip=True) if soup.body else ""
+        text = (title + "\n\n" + body_text).strip()
+        if not text:
+            print(f"   SKIP: no content returned for {url}")
+            continue
+        doc = Document(
+            page_content=text,
+            metadata={"source": "website", "url": url}
+        )
+        chunks = splitter.split_documents([doc])
+        db.add_documents(chunks)
+        total_chunks += len(chunks)
+        print(f"   OK: {url} -> {len(chunks)} chunks")
+    except Exception as e:
+        print(f"   FAIL: {url} -> {e}")
 
 # ── 2. PDFs ───────────────────────────────────────────────────────────────────
 
@@ -76,39 +93,15 @@ for i in range(0, len(pdf_files), BATCH_SIZE):
     for pdf_name in batch:
         loader = PyPDFLoader(os.path.join(DOCS_PATH, pdf_name))
         try:
-            # Load and split immediately to keep objects small
             batch_docs.extend(loader.load_and_split())
         except Exception as e:
             print(f"Error loading {pdf_name}: {e}")
 
-    # Add this specific batch to Chroma and persist
     if batch_docs:
         db.add_documents(batch_docs)
         print(f"Successfully indexed {len(batch_docs)} chunks from this batch.")
     
-    # Explicitly clear the list to help the Garbage Collector
     del batch_docs
-
-"""print(f"\n[2/4] Loading PDFs from {DOCS_PATH}")
-if os.path.exists(DOCS_PATH):
-    pdfs = sorted([f for f in os.listdir(DOCS_PATH) if f.endswith(".pdf")])
-    print(f"   Found {len(pdfs)} PDFs")
-    for filename in pdfs:
-        if filename in SKIP_PDFS:
-            print(f"   SKIP: {filename}")
-            continue
-        path = os.path.join(DOCS_PATH, filename)
-        try:
-            loader = PyPDFLoader(path)
-            docs = loader.load()
-            chunks = splitter.split_documents(docs)
-            db.add_documents(chunks)
-            total_chunks += len(chunks)
-            print(f"   OK: {filename} -> {len(chunks)} chunks")
-        except Exception as e:
-            print(f"   FAIL: {filename} -> {e}")
-else:
-    print(f"   SKIP: {DOCS_PATH} not found")"""
 
 # ── 3. GitHub repos via GitIngest ─────────────────────────────────────────────
 print(f"\n[3/4] Ingesting GitHub repos via GitIngest...")
