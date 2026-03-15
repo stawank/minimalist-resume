@@ -9,7 +9,7 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ── LIGHT: clean white terminal — bright, readable, IDE-like ── */
+/* ── LIGHT ── */
 :root {
   --bg:           #f4f5f0;
   --bg-raised:    #ffffff;
@@ -52,28 +52,17 @@
   --scanline:     rgba(0,0,0,0.2);
 }
 
-@keyframes blink    { 0%,49%{opacity:1} 50%,100%{opacity:0} }
-@keyframes fadeUp   { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-@keyframes flicker  {
+/* ── KEYFRAMES ── */
+@keyframes blink   { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+@keyframes fadeUp  { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+@keyframes flicker {
   0%,100%{opacity:1}
   92%{opacity:1} 93%{opacity:.97} 94%{opacity:1}
   97%{opacity:.98} 98%{opacity:1}
 }
-/* Pulse ring for chatbot toggle button */
-@keyframes ping {
-  0%   { transform: scale(1);   opacity: 0.75; }
-  80%  { transform: scale(2.2); opacity: 0; }
-  100% { transform: scale(2.2); opacity: 0; }
-}
-/* Panel slide-up animation */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(12px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0)    scale(1); }
-}
 
 html { scroll-behavior: smooth; }
 
-/* The whole page is a CRT screen */
 body {
   font-family: "JetBrains Mono", "Courier New", monospace;
   background: var(--bg);
@@ -84,10 +73,7 @@ body {
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Flicker only in dark mode */
-[data-theme="dark"] body {
-  animation: flicker 12s infinite;
-}
+[data-theme="dark"] body { animation: flicker 12s infinite; }
 
 /* Phosphor glow — dark mode only, never on images */
 [data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3,
@@ -103,7 +89,7 @@ body {
   text-shadow: 0 0 8px rgba(104,216,62,0.2);
 }
 
-/* Scanlines overlay — pointer-events off, does NOT sit over avatar */
+/* Scanlines overlay */
 body::before {
   content: "";
   position: fixed;
@@ -120,31 +106,26 @@ body::before {
   animation: flicker 8s infinite;
 }
 
-/* ── TERMINAL WINDOW WRAPPER ── */
+/* ════════════════════════════════
+   TERMINAL WINDOW WRAPPER
+   ════════════════════════════════ */
 .container {
   max-width: 760px;
   margin: 2rem auto;
   padding: 0;
-  /* Outer terminal frame */
   border: 1px solid var(--border-hi);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow:
-    var(--shadow-md),
-    0 0 0 1px var(--border),
-    0 0 60px rgba(168,192,96,0.05);
+  box-shadow: var(--shadow-md), 0 0 0 1px var(--border), 0 0 60px rgba(168,192,96,0.05);
   position: relative;
   z-index: 1;
 }
 
 [data-theme="dark"] .container {
-  box-shadow:
-    var(--shadow-md),
-    0 0 0 1px var(--border),
-    0 0 60px rgba(106,216,64,0.06);
+  box-shadow: var(--shadow-md), 0 0 0 1px var(--border), 0 0 60px rgba(106,216,64,0.06);
 }
 
-/* ── TERMINAL TITLE BAR ── */
+/* Terminal title bar */
 .container::before {
   content: "● ● ●   stawan@portfolio: ~/resume";
   display: block;
@@ -157,15 +138,14 @@ body::before {
   text-align: center;
 }
 
-/* Inner scroll area */
-.container > *:not(.chatbot) {
+/* Inner padding */
+.container > * {
   padding: 1.75rem 2rem;
 }
 
 /* ════════════════════════════════
    CONTROLS
    ════════════════════════════════ */
-/* Theme toggle — top right */
 .theme-toggle {
   position: fixed;
   top: 1.25rem;
@@ -187,7 +167,6 @@ body::before {
 .theme-toggle:hover { opacity: 1; border-color: var(--green); }
 .theme-toggle .icon { font-size: 14px; }
 
-/* Language toggle — below theme toggle */
 .language-toggle {
   position: fixed;
   top: 4rem;
@@ -230,7 +209,6 @@ body::before {
   text-align: center;
 }
 
-/* Command that "output" the profile */
 .header::before {
   content: "$ cat ~/resume/profile.json";
   display: block;
@@ -242,7 +220,6 @@ body::before {
   letter-spacing: 0.04em;
 }
 
-/* ── AVATAR ── */
 .avatar {
   width: 96px;
   height: 96px;
@@ -259,20 +236,13 @@ body::before {
 .avatar img {
   width: 100%; height: 100%;
   object-fit: cover; display: block;
-  text-shadow: none;
   filter: none;
   position: relative;
   z-index: 10;
 }
-.avatar:hover {
-  border-color: var(--green);
-  box-shadow: 0 0 16px rgba(168,192,96,0.25);
-}
-[data-theme="dark"] .avatar:hover {
-  box-shadow: 0 0 16px rgba(106,216,64,0.3);
-}
+.avatar:hover { border-color: var(--green); box-shadow: 0 0 16px rgba(168,192,96,0.25); }
+[data-theme="dark"] .avatar:hover { box-shadow: 0 0 16px rgba(106,216,64,0.3); }
 
-/* ── NAME ── */
 .name {
   font-size: 1.75rem;
   font-weight: 700;
@@ -308,7 +278,6 @@ body::before {
 }
 .location::before { content: "> "; color: var(--prompt); }
 
-/* ── CONTACT LINKS ── */
 .contact-links {
   display: flex;
   flex-wrap: wrap;
@@ -333,7 +302,6 @@ body::before {
   border-color: var(--green);
   color: var(--green);
   background: var(--green-bg);
-  text-shadow: 0 0 8px rgba(168,192,96,0.4);
 }
 
 /* ════════════════════════════════
@@ -363,7 +331,7 @@ body::before {
 }
 
 /* ════════════════════════════════
-   CARDS — terminal output blocks
+   CARDS
    ════════════════════════════════ */
 .card {
   background: var(--bg-raised);
@@ -412,7 +380,6 @@ body::before {
   line-height: 1.8;
 }
 
-/* Terminal-style bullets in experience cards */
 .card-bullets {
   list-style: none;
   padding: 0;
@@ -438,7 +405,7 @@ body::before {
 }
 
 /* ════════════════════════════════
-   SKILLS — look like shell commands
+   SKILLS
    ════════════════════════════════ */
 .skills-grid {
   display: grid;
@@ -460,7 +427,6 @@ body::before {
   transition: var(--t);
   letter-spacing: 0.04em;
 }
-/* $ prompt before each skill */
 .skill-item::before {
   content: "$";
   color: var(--prompt);
@@ -472,16 +438,12 @@ body::before {
   border-color: var(--green);
   color: var(--green);
   background: var(--green-bg);
-  text-shadow: 0 0 8px rgba(168,192,96,0.3);
 }
-
-/* Hide emojis — terminal doesn't do emojis */
-.skill-emoji { display: none; }
 
 /* ════════════════════════════════
    PROJECT LINKS
    ════════════════════════════════ */
-.project-links { display: flex; gap: 0.4rem; margin-top: 0.65rem; }
+.project-links { display: flex; gap: 0.4rem; margin-top: 0.65rem; flex-wrap: wrap; }
 .project-link {
   font-size: 0.72rem;
   letter-spacing: 0.1em;
@@ -516,7 +478,7 @@ body::before {
    CHATBOT — floating toggle + panel
    ════════════════════════════════ */
 
-/* ── Toggle button (always visible) ── */
+/* Toggle button — terminal style, always visible */
 .chatbot-toggle {
   position: fixed;
   bottom: 1.5rem;
@@ -524,64 +486,45 @@ body::before {
   z-index: 1000;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.55rem 1rem 0.55rem 0.75rem;
-  background: var(--green);
-  color: var(--bg);
-  border: none;
-  border-radius: 999px;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-  /* Ensures it clears the panel when open */
-}
-
-.chatbot-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 28px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.1);
-}
-
-/* When panel is open, swap appearance */
-.chatbot-toggle-active {
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
   background: var(--bg-raised);
   color: var(--green);
-  border: 1px solid var(--border-hi);
+  border: 1px solid var(--green);
+  border-radius: 2px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(104,216,62,0.15), var(--shadow-sm);
+  transition: background 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
 }
-
-.chatbot-toggle-icon {
-  font-size: 1rem;
-  line-height: 1;
+.chatbot-toggle::before {
+  content: "$";
+  color: var(--prompt);
+  font-size: 0.78rem;
+  opacity: 0.8;
 }
-
-.chatbot-toggle-label {
-  text-shadow: none;
-}
-
-/* Pulse ring — draws attention before first open */
-.chatbot-toggle-ping {
-  position: absolute;
-  top: 0; right: 0;
-  width: 12px; height: 12px;
+.chatbot-toggle:hover {
   background: var(--green);
-  border-radius: 50%;
-  animation: ping 1.8s ease-out infinite;
-  pointer-events: none;
+  color: var(--bg);
+  box-shadow: 0 0 20px rgba(104,216,62,0.3);
 }
-
-/* Stop pulsing after first open */
-.chatbot-toggle-seen .chatbot-toggle-ping {
-  display: none;
+.chatbot-toggle:hover::before { color: var(--bg); }
+.chatbot-toggle-active {
+  background: var(--green-bg);
+  color: var(--green);
 }
+.chatbot-toggle-icon { display: none; }
 
-/* ── Chat panel ── */
+/* Pulse ring — hidden, not terminal-like */
+.chatbot-toggle-ping { display: none; }
+
+/* Chat panel */
 .chatbot {
   position: fixed;
   right: 1.5rem;
-  /* Sit just above the toggle button (approx 52px height + 1.5rem gap) */
   bottom: calc(52px + 1.5rem + 0.75rem);
   width: 320px;
   max-height: 52vh;
@@ -593,25 +536,20 @@ body::before {
   box-shadow: var(--shadow-md), 0 0 30px rgba(168,192,96,0.06);
   overflow: hidden;
   z-index: 999;
-  /* Hidden by default */
   opacity: 0;
   pointer-events: none;
   transform: translateY(12px) scale(0.97);
   transition: opacity 0.22s ease, transform 0.22s ease;
 }
-
 [data-theme="dark"] .chatbot {
   box-shadow: var(--shadow-md), 0 0 30px rgba(106,216,64,0.07);
 }
-
-/* Visible state */
 .chatbot.chatbot-open {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0) scale(1);
 }
 
-/* Header row with close button */
 .chatbot-header {
   padding: 0.45rem 0.6rem 0.45rem 0.75rem;
   background: var(--bg-chrome);
@@ -657,28 +595,15 @@ body::before {
   max-width: 100%;
   word-wrap: break-word;
   line-height: 1.6;
-  border: none;
-  background: none;
-  border-radius: 0;
 }
-.chat-message-user {
-  color: var(--green);
-}
-.chat-message-user::before {
-  content: "you › ";
-  color: var(--prompt);
-  font-weight: 700;
-}
+.chat-message-user { color: var(--green); }
+.chat-message-user::before { content: "you › "; color: var(--prompt); font-weight: 700; }
 .chat-message-assistant {
   color: var(--text-md);
   padding-left: 0.5rem;
   border-left: 1px solid var(--border-hi);
 }
-.chat-message-assistant::before {
-  content: "sys › ";
-  color: var(--text-lo);
-  font-weight: 600;
-}
+.chat-message-assistant::before { content: "sys › "; color: var(--text-lo); font-weight: 600; }
 
 #chat-form {
   display: flex;
@@ -688,12 +613,7 @@ body::before {
   gap: 0.3rem;
   align-items: center;
 }
-#chat-form::before {
-  content: "$";
-  font-size: 0.85rem;
-  color: var(--prompt);
-  flex-shrink: 0;
-}
+#chat-form::before { content: "$"; font-size: 0.85rem; color: var(--prompt); flex-shrink: 0; }
 
 #chat-input {
   flex: 1;
@@ -722,12 +642,8 @@ body::before {
   transition: var(--t);
   text-transform: uppercase;
 }
-#chat-form button:hover {
-  border-color: var(--green);
-  color: var(--green);
-}
+#chat-form button:hover { border-color: var(--green); color: var(--green); }
 
-/* Subtle footer attribution */
 .chatbot-footer {
   padding: 0.2rem 0.75rem;
   font-size: 0.6rem;
@@ -737,6 +653,66 @@ body::before {
   border-top: 1px solid var(--border);
   background: var(--bg-chrome);
   text-align: center;
+}
+
+/* ════════════════════════════════
+   BOOT SEQUENCE OVERLAY
+   ════════════════════════════════ */
+.boot-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 4rem;
+  overflow: hidden;
+  transition: opacity 0.6s ease;
+}
+
+.boot-overlay--done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.boot-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 0.6rem;
+}
+
+.boot-line {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  opacity: 0;
+  animation: bootFadeIn 0.15s ease forwards;
+}
+
+.boot-line--lo   { color: var(--text-lo); }
+.boot-line--ok   { color: var(--green); }
+.boot-line--warn { color: #b8860b; }
+[data-theme="dark"] .boot-line--warn { color: #d4a017; }
+
+.boot-prompt {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.88rem;
+  color: var(--text-hi);
+  margin-top: 0.5rem;
+  min-height: 1.4rem;
+}
+
+.boot-cursor {
+  color: var(--cursor);
+  animation: blink 1s step-end infinite;
+  font-size: 0.88rem;
+}
+
+@keyframes bootFadeIn {
+  from { opacity: 0; transform: translateX(-4px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 /* ════════════════════════════════
@@ -756,7 +732,6 @@ body::before {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border-hi); }
 ::-webkit-scrollbar-thumb:hover { background: var(--green); }
-
 ::selection { background: var(--green); color: var(--bg); text-shadow: none; }
 
 /* ════════════════════════════════
@@ -764,19 +739,11 @@ body::before {
    ════════════════════════════════ */
 @media (max-width: 700px) {
   .container { margin: 0; border-radius: 0; border-left: none; border-right: none; }
-  .container > *:not(.chatbot) { padding: 1.25rem; }
+  .container > * { padding: 1.25rem; }
   .name { font-size: 1.4rem; }
   .avatar { width: 82px; height: 82px; }
   .contact-links { flex-direction: column; align-items: center; }
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
-  /* On mobile: panel takes most of the width */
-  .chatbot {
-    width: calc(100vw - 2rem);
-    right: 1rem;
-    bottom: calc(52px + 1rem + 0.75rem);
-  }
-  .chatbot-toggle {
-    right: 1rem;
-    bottom: 1rem;
-  }
+  .chatbot { width: calc(100vw - 2rem); right: 1rem; bottom: calc(52px + 1rem + 0.75rem); }
+  .chatbot-toggle { right: 1rem; bottom: 1rem; }
 }

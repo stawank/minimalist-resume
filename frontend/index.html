@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Stawan Kulkarni - Automotive Software Engineer</title>
+    <link rel="stylesheet" href="styles.css" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-S8FDWEFYGB"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -9,18 +12,15 @@
       gtag('js', new Date());
       gtag('config', 'G-S8FDWEFYGB');
     </script>
-    
-    <meta charset="UTF-8">
-
-  </head>
-
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
-    <title>Stawan Kulkarni - Automotive Software Engineer</title>
   </head>
   <body>
+
+    <!-- BOOT SEQUENCE OVERLAY -->
+    <div class="boot-overlay" id="boot-overlay">
+      <div class="boot-lines" id="boot-lines"></div>
+      <div class="boot-prompt" id="boot-prompt"></div>
+    </div>
+
     <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
       <span class="icon">🌙</span>
     </div>
@@ -41,7 +41,7 @@
         <p class="title">Automotive Software Engineer · ADAS · Test Automation</p>
         <p class="location">📍 Regensburg, Germany</p>
         <div class="contact-links">
-          <a href="mailto:stawank@zohomail.eu" class="contact-link">📧 stawank@zohomail.eu </a>
+          <a href="mailto:stawank@zohomail.eu" class="contact-link">📧 stawank@zohomail.eu</a>
           <a href="https://www.linkedin.com/in/stawan-chandrashekhar-kulkarni-810646102/" target="_blank" class="contact-link">💼 LinkedIn</a>
           <a href="https://github.com/stawank" target="_blank" class="contact-link">🐙 GitHub</a>
           <a href="tel:+4915785088336" class="contact-link">🇩🇪 +49 157 85088336</a>
@@ -59,7 +59,7 @@
             development, sensor data processing, and test automation — spanning
             Python-based analysis, C++ implementation, MBD/C unit testing with
             TPT and Cmocka, and CANoe/CAPL simulation. Experienced across the
-            full V-cycle in agile, international teams. Currently exploring edge
+            full V-cycle in agile, international teams. Currently running an
             LLM-powered chatbot on a self-hosted Raspberry Pi as a side project.
           </p>
         </div>
@@ -140,14 +140,13 @@
             and full-stack deployment on constrained hardware.
           </p>
           <div class="project-links">
-            <!-- FIX: Removed broken Live → link (was pointing to #) -->
             <a href="https://github.com/stawank/minimalist-resume" target="_blank" class="project-link">GitHub →</a>
           </div>
         </div>
 
         <div class="card">
           <h3 class="card-title">SysML v2 Architecture — Adaptive Cruise Control System</h3>
-          <p class="card-meta">SysMD · SysML v2 · OOSEM · Master Thesis</p>
+          <p class="card-meta">SysML v2 · OOSEM · Master Thesis</p>
           <p class="card-description" data-i18n="proj_thesis_desc">
             Master thesis: modelled the full logical and physical architecture of
             an ACC system in SysML v2 using OOSEM methodology. Covered detailed
@@ -182,23 +181,23 @@
       <section class="section fade-in stagger-4">
         <h2 class="section-title" data-i18n="section_skills_title">Skills</h2>
         <div class="skills-grid">
-          <div class="skill-item"><span class="skill-emoji"></span>Python</div>
-          <div class="skill-item"><span class="skill-emoji"></span>C++ (11/14)</div>
-          <div class="skill-item"><span class="skill-emoji"></span>MATLAB</div>
-          <div class="skill-item"><span class="skill-emoji"></span>Simulink</div>
-          <div class="skill-item"><span class="skill-emoji"></span>TPT</div>
-          <div class="skill-item"><span class="skill-emoji"></span>Cmocka</div>
-          <div class="skill-item"><span class="skill-emoji"></span>gTest</div>
-          <div class="skill-item"><span class="skill-emoji"></span>CMake</div>
-          <div class="skill-item"><span class="skill-emoji"></span>Vector CANoe</div>
-          <div class="skill-item"><span class="skill-emoji"></span>CAPL</div>
-          <div class="skill-item"><span class="skill-emoji"></span>OpenCV</div>
-          <div class="skill-item"><span class="skill-emoji"></span>Linux / Bash</div>
-          <div class="skill-item"><span class="skill-emoji"></span>Git</div>
-          <div class="skill-item"><span class="skill-emoji"></span>SysML v2</div>
-          <div class="skill-item"><span class="skill-emoji"></span>ROS</div>
-          <div class="skill-item"><span class="skill-emoji"></span>AUTOSAR</div>
-          <div class="skill-item"><span class="skill-emoji"></span>ISO 26262</div>
+          <div class="skill-item">Python</div>
+          <div class="skill-item">C++ (11/14)</div>
+          <div class="skill-item">MATLAB</div>
+          <div class="skill-item">Simulink</div>
+          <div class="skill-item">TPT</div>
+          <div class="skill-item">Cmocka</div>
+          <div class="skill-item">gTest</div>
+          <div class="skill-item">CMake</div>
+          <div class="skill-item">Vector CANoe</div>
+          <div class="skill-item">CAPL</div>
+          <div class="skill-item">OpenCV</div>
+          <div class="skill-item">Linux / Bash</div>
+          <div class="skill-item">Git</div>
+          <div class="skill-item">SysML v2</div>
+          <div class="skill-item">ROS</div>
+          <div class="skill-item">AUTOSAR</div>
+          <div class="skill-item">ISO 26262</div>
         </div>
       </section>
 
@@ -227,25 +226,23 @@
             and control systems.
           </p>
           <div class="project-links">
-            <a href="baja.html" class="project-link">🏁 Baja SAE — Team Aryans </a>
+            <a href="baja.html" class="project-link">🏁 Baja SAE — Team Aryans</a>
           </div>
         </div>
       </section>
 
     </div><!-- /container -->
 
-    <!-- CHATBOT: FIX — floating toggle widget, always visible -->
-    <!-- Toggle button (always visible, bottom-right) -->
-    <button class="chatbot-toggle" id="chatbot-toggle" onclick="toggleChat()" title="Ask me about my experience" aria-label="Open chatbot">
+    <!-- CHATBOT — floating widget -->
+    <button class="chatbot-toggle" id="chatbot-toggle" onclick="toggleChat()" title="Chat with my resume" aria-label="Open chatbot">
       <span class="chatbot-toggle-icon">💬</span>
-      <span class="chatbot-toggle-label">Ask me anything</span>
+      <span class="chatbot-toggle-label">Chat with my resume</span>
       <span class="chatbot-toggle-ping"></span>
     </button>
 
-    <!-- Chat panel (collapsed by default) -->
     <div class="chatbot" id="chatbot-panel">
       <div class="chatbot-header">
-        <span>Ask about my work in ADAS & test automation</span>
+        <span>Ask about my work in ADAS &amp; test automation</span>
         <button class="chatbot-close" onclick="toggleChat()" title="Close">✕</button>
       </div>
       <div class="chatbot-messages" id="chat-messages"></div>
@@ -262,7 +259,7 @@
       <div class="chatbot-footer">Self-hosted on Raspberry Pi 🥧</div>
     </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
       // ── Theme ──────────────────────────────────────────────────────────────
       function toggleTheme() {
         const html = document.documentElement
@@ -353,18 +350,17 @@
 
       function toggleChat() {
         chatOpen = !chatOpen
-        const panel = document.getElementById("chatbot-panel")
+        const panel  = document.getElementById("chatbot-panel")
         const toggle = document.getElementById("chatbot-toggle")
         panel.classList.toggle("chatbot-open", chatOpen)
         toggle.classList.toggle("chatbot-toggle-active", chatOpen)
         if (chatOpen) {
-          // Stop pulse once opened for the first time
           toggle.classList.add("chatbot-toggle-seen")
           document.getElementById("chat-input").focus()
         }
       }
 
-      // ── Chat ───────────────────────────────────────────────────────────────
+      // ── Chat streaming ─────────────────────────────────────────────────────
       async function sendStreamingMessage(question) {
         const container = document.getElementById("chat-messages")
         const submitBtn = document.getElementById("chat-submit")
@@ -422,10 +418,92 @@
         container.scrollTop = container.scrollHeight
       }
 
+      // ── Boot sequence ──────────────────────────────────────────────────────
+      const BOOT_LINES = [
+        { text: "BIOS v2.4.1 — stawan@portfolio",         delay: 0,    color: "lo" },
+        { text: "Initialising kernel modules...",          delay: 120,  color: "lo" },
+        { text: "[  OK  ] Loaded resume.service",          delay: 320,  color: "ok" },
+        { text: "[  OK  ] Started nginx.service",          delay: 500,  color: "ok" },
+        { text: "[  OK  ] Mounted /home/stawan/experience",delay: 680,  color: "ok" },
+        { text: "[  OK  ] Mounted /home/stawan/projects",  delay: 820,  color: "ok" },
+        { text: "[  OK  ] Mounted /home/stawan/education", delay: 960,  color: "ok" },
+        { text: "[ WARN ] llm.service running on Pi 4 — expect latency",
+                                                           delay: 1100, color: "warn" },
+        { text: "[  OK  ] chatbot.service online",         delay: 1280, color: "ok" },
+        { text: "",                                        delay: 1420, color: "lo" },
+        { text: "All systems nominal. Loading profile...", delay: 1500, color: "lo" },
+      ]
+
+      const BOOT_PROMPT = "$ cat ~/resume/profile.json"
+
+      function runBootSequence() {
+        // Skip boot if already seen this session
+        if (sessionStorage.getItem("booted")) {
+          document.getElementById("boot-overlay").style.display = "none"
+          return
+        }
+
+        const overlay   = document.getElementById("boot-overlay")
+        const linesEl   = document.getElementById("boot-lines")
+        const promptEl  = document.getElementById("boot-prompt")
+
+        // Hide main content during boot
+        document.querySelector(".container").style.visibility = "hidden"
+        document.querySelector(".theme-toggle").style.visibility = "hidden"
+        document.querySelector(".language-toggle").style.visibility = "hidden"
+        document.querySelector(".chatbot-toggle").style.visibility = "hidden"
+
+        // Print each boot line with its delay
+        BOOT_LINES.forEach(({ text, delay, color }) => {
+          setTimeout(() => {
+            if (text === "") { linesEl.appendChild(document.createElement("br")); return }
+            const line = document.createElement("div")
+            line.className = `boot-line boot-line--${color}`
+            line.textContent = text
+            linesEl.appendChild(line)
+            overlay.scrollTop = overlay.scrollHeight
+          }, delay)
+        })
+
+        // Type the prompt character by character
+        const promptDelay = 1700
+        setTimeout(() => {
+          let i = 0
+          promptEl.textContent = ""
+          const cursor = document.createElement("span")
+          cursor.className = "boot-cursor"
+          cursor.textContent = "█"
+          promptEl.appendChild(cursor)
+
+          const type = () => {
+            if (i < BOOT_PROMPT.length) {
+              cursor.before(BOOT_PROMPT[i])
+              i++
+              setTimeout(type, 45)
+            } else {
+              // Done typing — fade out overlay, reveal page
+              setTimeout(() => {
+                overlay.classList.add("boot-overlay--done")
+                setTimeout(() => {
+                  overlay.style.display = "none"
+                  document.querySelector(".container").style.visibility = ""
+                  document.querySelector(".theme-toggle").style.visibility = ""
+                  document.querySelector(".language-toggle").style.visibility = ""
+                  document.querySelector(".chatbot-toggle").style.visibility = ""
+                  sessionStorage.setItem("booted", "1")
+                }, 600)
+              }, 400)
+            }
+          }
+          type()
+        }, promptDelay)
+      }
+
       // ── Init ───────────────────────────────────────────────────────────────
       document.addEventListener("DOMContentLoaded", () => {
         loadTheme()
         loadLanguage()
+        runBootSequence()
 
         const form  = document.getElementById("chat-form")
         const input = document.getElementById("chat-input")
