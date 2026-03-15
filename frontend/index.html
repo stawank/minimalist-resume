@@ -140,7 +140,7 @@
             and full-stack deployment on constrained hardware.
           </p>
           <div class="project-links">
-            <a href="#" class="project-link">Live →</a>
+            <!-- FIX: Removed broken Live → link (was pointing to #) -->
             <a href="https://github.com/stawank/minimalist-resume" target="_blank" class="project-link">GitHub →</a>
           </div>
         </div>
@@ -234,24 +234,32 @@
 
     </div><!-- /container -->
 
-    <!-- CHATBOT -->
-    <div class="chatbot">
+    <!-- CHATBOT: FIX — floating toggle widget, always visible -->
+    <!-- Toggle button (always visible, bottom-right) -->
+    <button class="chatbot-toggle" id="chatbot-toggle" onclick="toggleChat()" title="Ask me about my experience" aria-label="Open chatbot">
+      <span class="chatbot-toggle-icon">💬</span>
+      <span class="chatbot-toggle-label">Ask me anything</span>
+      <span class="chatbot-toggle-ping"></span>
+    </button>
+
+    <!-- Chat panel (collapsed by default) -->
+    <div class="chatbot" id="chatbot-panel">
       <div class="chatbot-header">
-        Ask about my experience
-        <br/>
-        <small style="font-size:10px; opacity:0.5; font-weight:400;">Self-hosted on Raspberry Pi</small>
+        <span>Ask about my work in ADAS & test automation</span>
+        <button class="chatbot-close" onclick="toggleChat()" title="Close">✕</button>
       </div>
       <div class="chatbot-messages" id="chat-messages"></div>
       <form id="chat-form">
         <input
           type="text"
           id="chat-input"
-          placeholder="Ask anything..."
+          placeholder="e.g. What testing frameworks have you used?"
           autocomplete="off"
           required
         />
         <button type="submit" id="chat-submit">Send</button>
       </form>
+      <div class="chatbot-footer">Self-hosted on Raspberry Pi 🥧</div>
     </div>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
@@ -338,6 +346,22 @@
 
       function loadLanguage() {
         setLanguage(localStorage.getItem("lang") || "en")
+      }
+
+      // ── Chatbot toggle ─────────────────────────────────────────────────────
+      let chatOpen = false
+
+      function toggleChat() {
+        chatOpen = !chatOpen
+        const panel = document.getElementById("chatbot-panel")
+        const toggle = document.getElementById("chatbot-toggle")
+        panel.classList.toggle("chatbot-open", chatOpen)
+        toggle.classList.toggle("chatbot-toggle-active", chatOpen)
+        if (chatOpen) {
+          // Stop pulse once opened for the first time
+          toggle.classList.add("chatbot-toggle-seen")
+          document.getElementById("chat-input").focus()
+        }
       }
 
       // ── Chat ───────────────────────────────────────────────────────────────

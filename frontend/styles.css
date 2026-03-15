@@ -59,6 +59,17 @@
   92%{opacity:1} 93%{opacity:.97} 94%{opacity:1}
   97%{opacity:.98} 98%{opacity:1}
 }
+/* Pulse ring for chatbot toggle button */
+@keyframes ping {
+  0%   { transform: scale(1);   opacity: 0.75; }
+  80%  { transform: scale(2.2); opacity: 0; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+/* Panel slide-up animation */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
 
 html { scroll-behavior: smooth; }
 
@@ -154,7 +165,7 @@ body::before {
 /* ════════════════════════════════
    CONTROLS
    ════════════════════════════════ */
-/* Theme toggle — bottom right, clear of chatbot */
+/* Theme toggle — top right */
 .theme-toggle {
   position: fixed;
   top: 1.25rem;
@@ -176,7 +187,7 @@ body::before {
 .theme-toggle:hover { opacity: 1; border-color: var(--green); }
 .theme-toggle .icon { font-size: 14px; }
 
-/* Language toggle — bottom left, just above theme toggle */
+/* Language toggle — below theme toggle */
 .language-toggle {
   position: fixed;
   top: 4rem;
@@ -502,39 +513,133 @@ body::before {
 }
 
 /* ════════════════════════════════
-   CHATBOT — its own terminal pane
+   CHATBOT — floating toggle + panel
    ════════════════════════════════ */
+
+/* ── Toggle button (always visible) ── */
+.chatbot-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1rem 0.55rem 0.75rem;
+  background: var(--green);
+  color: var(--bg);
+  border: none;
+  border-radius: 999px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  /* Ensures it clears the panel when open */
+}
+
+.chatbot-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(0,0,0,0.25), 0 0 0 1px rgba(0,0,0,0.1);
+}
+
+/* When panel is open, swap appearance */
+.chatbot-toggle-active {
+  background: var(--bg-raised);
+  color: var(--green);
+  border: 1px solid var(--border-hi);
+}
+
+.chatbot-toggle-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.chatbot-toggle-label {
+  text-shadow: none;
+}
+
+/* Pulse ring — draws attention before first open */
+.chatbot-toggle-ping {
+  position: absolute;
+  top: 0; right: 0;
+  width: 12px; height: 12px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: ping 1.8s ease-out infinite;
+  pointer-events: none;
+}
+
+/* Stop pulsing after first open */
+.chatbot-toggle-seen .chatbot-toggle-ping {
+  display: none;
+}
+
+/* ── Chat panel ── */
 .chatbot {
   position: fixed;
-  right: 1.25rem;
-  bottom: 1.25rem;
-  width: 300px;
-  max-height: 54vh;
+  right: 1.5rem;
+  /* Sit just above the toggle button (approx 52px height + 1.5rem gap) */
+  bottom: calc(52px + 1.5rem + 0.75rem);
+  width: 320px;
+  max-height: 52vh;
   display: flex;
   flex-direction: column;
   background: var(--bg-raised);
   border: 1px solid var(--border-hi);
-  border-radius: 6px;
+  border-radius: 8px;
   box-shadow: var(--shadow-md), 0 0 30px rgba(168,192,96,0.06);
   overflow: hidden;
-  z-index: 900;
+  z-index: 999;
+  /* Hidden by default */
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px) scale(0.97);
+  transition: opacity 0.22s ease, transform 0.22s ease;
 }
 
 [data-theme="dark"] .chatbot {
   box-shadow: var(--shadow-md), 0 0 30px rgba(106,216,64,0.07);
 }
 
-/* Mini title bar on chatbot */
+/* Visible state */
+.chatbot.chatbot-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+/* Header row with close button */
 .chatbot-header {
-  padding: 0.4rem 0.75rem;
+  padding: 0.45rem 0.6rem 0.45rem 0.75rem;
   background: var(--bg-chrome);
   border-bottom: 1px solid var(--border);
   font-size: 0.7rem;
   font-weight: 500;
   color: var(--text-lo);
   letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 .chatbot-header::before { content: "› "; color: var(--green); font-weight: 700; }
+
+.chatbot-close {
+  background: transparent;
+  border: none;
+  color: var(--text-lo);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0 0.2rem;
+  line-height: 1;
+  transition: color 0.15s;
+  font-family: "JetBrains Mono", monospace;
+  flex-shrink: 0;
+}
+.chatbot-close:hover { color: var(--text-hi); }
 
 .chatbot-messages {
   flex: 1;
@@ -622,6 +727,18 @@ body::before {
   color: var(--green);
 }
 
+/* Subtle footer attribution */
+.chatbot-footer {
+  padding: 0.2rem 0.75rem;
+  font-size: 0.6rem;
+  color: var(--text-lo);
+  opacity: 0.5;
+  letter-spacing: 0.06em;
+  border-top: 1px solid var(--border);
+  background: var(--bg-chrome);
+  text-align: center;
+}
+
 /* ════════════════════════════════
    ANIMATIONS
    ════════════════════════════════ */
@@ -652,5 +769,14 @@ body::before {
   .avatar { width: 82px; height: 82px; }
   .contact-links { flex-direction: column; align-items: center; }
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
-  .chatbot { width: calc(100vw - 2rem); right: 1rem; }
+  /* On mobile: panel takes most of the width */
+  .chatbot {
+    width: calc(100vw - 2rem);
+    right: 1rem;
+    bottom: calc(52px + 1rem + 0.75rem);
+  }
+  .chatbot-toggle {
+    right: 1rem;
+    bottom: 1rem;
+  }
 }
