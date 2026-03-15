@@ -51,7 +51,7 @@
 
       <!-- ABOUT -->
       <section class="section fade-in stagger-1">
-        <h2 class="section-title" data-i18n="section_about_title">About Me</h2>
+        <h2 class="section-title" data-i18n="section_about_title">about_me</h2>
         <div class="card">
           <p class="about-text" data-i18n="about_text">
             Automotive software engineer with 2+ years of hands-on experience at
@@ -67,7 +67,7 @@
 
       <!-- EXPERIENCE -->
       <section class="section fade-in stagger-2">
-        <h2 class="section-title" data-i18n="section_experience_title">Experience</h2>
+        <h2 class="section-title" data-i18n="section_experience_title">experience</h2>
 
         <div class="card">
           <div class="card-header">
@@ -127,7 +127,7 @@
 
       <!-- PROJECTS -->
       <section class="section fade-in stagger-3">
-        <h2 class="section-title" data-i18n="section_projects_title">Projects</h2>
+        <h2 class="section-title" data-i18n="section_projects_title">projects</h2>
 
         <div class="card">
           <h3 class="card-title">LLM Resume Chatbot — Self-hosted on Raspberry Pi</h3>
@@ -179,31 +179,56 @@
 
       <!-- SKILLS -->
       <section class="section fade-in stagger-4">
-        <h2 class="section-title" data-i18n="section_skills_title">Skills</h2>
-        <div class="skills-grid">
-          <div class="skill-item">Python</div>
-          <div class="skill-item">C++ (11/14)</div>
-          <div class="skill-item">MATLAB</div>
-          <div class="skill-item">Simulink</div>
-          <div class="skill-item">TPT</div>
-          <div class="skill-item">Cmocka</div>
-          <div class="skill-item">gTest</div>
-          <div class="skill-item">CMake</div>
-          <div class="skill-item">Vector CANoe</div>
-          <div class="skill-item">CAPL</div>
-          <div class="skill-item">OpenCV</div>
-          <div class="skill-item">Linux / Bash</div>
-          <div class="skill-item">Git</div>
-          <div class="skill-item">SysML v2</div>
-          <div class="skill-item">ROS</div>
-          <div class="skill-item">AUTOSAR</div>
-          <div class="skill-item">ISO 26262</div>
+        <h2 class="section-title" data-i18n="section_skills_title">skills</h2>
+        <div class="skills-groups">
+
+          <div class="skill-group">
+            <div class="skill-group-label"># languages</div>
+            <div class="skills-grid">
+              <div class="skill-item">Python</div>
+              <div class="skill-item">C++ (11/14)</div>
+              <div class="skill-item">MATLAB</div>
+              <div class="skill-item">Simulink</div>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <div class="skill-group-label"># testing</div>
+            <div class="skills-grid">
+              <div class="skill-item">TPT</div>
+              <div class="skill-item">Cmocka</div>
+              <div class="skill-item">gTest</div>
+              <div class="skill-item">CMake</div>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <div class="skill-group-label"># tools</div>
+            <div class="skills-grid">
+              <div class="skill-item">Vector CANoe</div>
+              <div class="skill-item">CAPL</div>
+              <div class="skill-item">OpenCV</div>
+              <div class="skill-item">Linux / Bash</div>
+              <div class="skill-item">Git</div>
+              <div class="skill-item">ROS</div>
+            </div>
+          </div>
+
+          <div class="skill-group">
+            <div class="skill-group-label"># standards</div>
+            <div class="skills-grid">
+              <div class="skill-item">SysML v2</div>
+              <div class="skill-item">AUTOSAR</div>
+              <div class="skill-item">ISO 26262</div>
+            </div>
+          </div>
+
         </div>
       </section>
 
       <!-- EDUCATION -->
       <section class="section fade-in stagger-5">
-        <h2 class="section-title" data-i18n="section_education_title">Education</h2>
+        <h2 class="section-title" data-i18n="section_education_title">education</h2>
 
         <div class="card">
           <h3 class="card-title">M.Sc. Commercial Vehicle Technology</h3>
@@ -290,11 +315,11 @@
       // ── i18n ───────────────────────────────────────────────────────────────
       const translations = {
         en: {
-          section_about_title:      "About Me",
-          section_experience_title: "Experience",
-          section_projects_title:   "Projects",
-          section_skills_title:     "Skills",
-          section_education_title:  "Education",
+          section_about_title:      "about_me",
+          section_experience_title: "experience",
+          section_projects_title:   "projects",
+          section_skills_title:     "skills",
+          section_education_title:  "education",
           about_text: "Automotive software engineer with 2+ years of hands-on experience at Tier-1 suppliers (EDAG, Continental ADC). Focused on ADAS software development, sensor data processing, and test automation — spanning Python-based analysis, C++ implementation, MBD/C unit testing with TPT and Cmocka, and CANoe/CAPL simulation. Experienced across the full V-cycle in agile, international teams. Currently running an LLM-powered chatbot on a self-hosted Raspberry Pi as a side project.",
           exp_edag_desc: "<li>Concept development in raw data fusion and sensor data processing, supported by Python-based analyses</li><li>Creating and maintaining unit test specifications for MBD/C components against software requirements</li><li>Designing and implementing automated unit tests using TPT and Cmocka frameworks</li><li>Test execution, error analysis, and bug fixing</li><li>Maintaining and improving automated test infrastructure</li><li>Producing test cases, test reports, status reports, and metrics documentation</li><li>Participating in code reviews, model reviews, and test strategy discussions</li><li>Collaborating in an agile, international, interdisciplinary engineering team</li>",
           exp_cont_ws_desc: "<li>ADAS architecture simplification in MATLAB (isochronous → service-based transitions), presented to team</li><li>Independently designed, implemented, and tested C++ interval arithmetic class; verified Floating Point Overflow module</li><li>Contributed to an experimental C++ software testing library</li><li>Set up CMake and gTest from scratch; authored complete unit tests validated with in-house tool</li><li>Python module for statistical analysis and visualisation of lane marking position consistency</li>",
@@ -306,11 +331,11 @@
           edu_bachelor_desc: "Core foundation in mechatronics, robotics, automotive engineering, and control systems.",
         },
         de: {
-          section_about_title:      "Über mich",
-          section_experience_title: "Berufserfahrung",
-          section_projects_title:   "Projekte",
-          section_skills_title:     "Kenntnisse",
-          section_education_title:  "Ausbildung",
+          section_about_title:      "ueber_mich",
+          section_experience_title: "berufserfahrung",
+          section_projects_title:   "projekte",
+          section_skills_title:     "kenntnisse",
+          section_education_title:  "ausbildung",
           about_text: "Automotive Software Engineer mit 2+ Jahren Erfahrung bei Tier-1-Zulieferern (EDAG, Continental ADC). Schwerpunkte: ADAS-Softwareentwicklung, Sensordatenverarbeitung und Testautomatisierung — von Python-basierten Analysen über C++-Implementierung bis hin zu MBD/C-Unit-Tests mit TPT und Cmocka sowie CANoe/CAPL-Simulation. Erfahrung über den gesamten V-Zyklus in agilen, internationalen Teams. Aktuell: LLM-betriebener Chatbot auf einem selbst gehosteten Raspberry Pi als Nebenprojekt.",
           exp_edag_desc: "<li>Konzeptentwicklung im Bereich Rohdatenfusion und Sensordatenverarbeitung, unterstützt durch Python-basierte Analysen</li><li>Erstellung und Pflege von Unit-Test-Spezifikationen für MBD/C-Komponenten auf Basis von Softwareanforderungen</li><li>Design und Implementierung automatisierter Unit-Tests mit TPT und Cmocka</li><li>Testdurchführung, Fehleranalyse und Bug-Fixing</li><li>Pflege und Verbesserung der automatisierten Testinfrastruktur</li><li>Erstellung von Testfällen, Testreports, Statusberichten und Metriken</li><li>Teilnahme an Code-Reviews, Modellprüfungen und Teststrategiediskussionen</li><li>Zusammenarbeit in einem agilen, internationalen, interdisziplinären Entwicklungsteam</li>",
           exp_cont_ws_desc: "<li>ADAS-Architekturvereinfachung in MATLAB (isochron → service-basiert), Ergebnisse im Team präsentiert</li><li>Eigenständiger Entwurf, Implementierung und Test einer C++-Klasse für Intervall-Arithmetik; Verifikation des Floating-Point-Overflow-Moduls</li><li>Mitarbeit an einer experimentellen C++-Testbibliothek</li><li>Einarbeitung in CMake und gTest; vollständige Unit-Tests mit In-House-Tool validiert</li><li>Python-Modul zur statistischen Analyse und Visualisierung der Spurmarkierungspositionskonsistenz</li>",
