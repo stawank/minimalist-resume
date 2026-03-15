@@ -75,7 +75,7 @@ body {
 
 [data-theme="dark"] body { animation: flicker 12s infinite; }
 
-/* Phosphor glow — dark mode only, never on images */
+/* Phosphor glow — dark mode only */
 [data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3,
 [data-theme="dark"] p, [data-theme="dark"] a, [data-theme="dark"] span,
 [data-theme="dark"] button, [data-theme="dark"] label, [data-theme="dark"] small,
@@ -220,6 +220,7 @@ body::before {
   letter-spacing: 0.04em;
 }
 
+/* ── AVATAR ── */
 .avatar {
   width: 96px;
   height: 96px;
@@ -261,22 +262,36 @@ body::before {
 }
 
 .title {
-  font-size: 0.8rem;
-  font-weight: 500;
+  font-size: 0.78rem;
+  font-weight: 400;
   color: var(--green);
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  letter-spacing: 0.05em;
   margin-bottom: 0.3rem;
+  opacity: 0.8;
 }
 .title::before { content: "// "; opacity: 0.5; }
 
 .location {
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   color: var(--text-lo);
   margin-bottom: 1.4rem;
   letter-spacing: 0.05em;
 }
 .location::before { content: "> "; color: var(--prompt); }
+
+/* ── EOF LINE ── */
+.eof-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0 0.25rem 0;
+  font-size: 0.68rem;
+  color: var(--text-lo);
+  letter-spacing: 0.08em;
+  opacity: 0.5;
+  font-family: "JetBrains Mono", monospace;
+}
+.eof-exit { color: var(--green); opacity: 0.7; }
 
 .contact-links {
   display: flex;
