@@ -24,7 +24,7 @@
     font-size: 0.68rem;
     color: var(--text-lo);
     letter-spacing: 0.08em;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
   }
   .page-eyebrow::before { content: "// "; color: var(--green); opacity: 0.6; }
   
@@ -35,15 +35,15 @@
     color: var(--text-hi);
     letter-spacing: 0.02em;
     line-height: 1.5;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
   
   /* ── Meta key/value table ── */
   .meta-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 2rem;
-    padding-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--border);
   }
   .meta-table td {
@@ -172,6 +172,7 @@
     border: 1px solid var(--border);
     border-radius: 2px;
     display: block;
+    margin-top: 0.5rem;
     margin-bottom: 0.4rem;
   }
   .photo-caption {
