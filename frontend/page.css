@@ -56,8 +56,9 @@
   .meta-table td:first-child {
     color: var(--text-lo);
     white-space: nowrap;
-    padding-right: 1.5rem;
-    width: 1%;
+    padding-right: 2rem;
+    width: 140px;
+    min-width: 140px;
   }
   .meta-table td:first-child::before { content: "[ "; }
   .meta-table td:first-child::after  { content: " ]"; }
