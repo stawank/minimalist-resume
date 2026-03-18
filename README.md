@@ -1,136 +1,159 @@
 # minimalist-resume
 
-A personal resume website self-hosted on a Raspberry Pi with a terminal/hacker aesthetic and an AI-powered chatbot. Hiring managers can ask questions about experience, skills, and projects directly on the site.
+A personal resume website self-hosted on a Raspberry Pi with a terminal/hacker aesthetic and an AI-powered chatbot. Visitors can ask the chatbot questions about experience, skills, and projects and get answers streamed live, word by word.
 
 **Live:** [stawank.cv](https://stawank.cv)
 
 ---
 
-## What makes it different
+## Quick Start
 
-- **Boot sequence** — systemd-style `[OK]` / `[WARN]` lines on every page load
-- **Live uptime ticker** — `stawan@pi4 ~ $ uptime` ticking in real time in the header
-- **AI chatbot** — RAG over resume docs, website, and GitHub using Claude API + ChromaDB
-- **Streaming responses** — tokens stream word by word via SSE
-- **JSON-driven content** — all text lives in `en.json` / `de.json`, zero HTML edits needed for content changes
-- **Bilingual** — full EN/DE support, chatbot responds in the language of the question
-- **Terminal aesthetic** — JetBrains Mono, phosphor green, scanlines, dark mode by default
+If you just want to get it running fast:
 
----
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Frontend | HTML, CSS, Vanilla JS |
-| Web Server | Nginx |
-| Backend | FastAPI (Python) |
-| LLM | Claude API (Anthropic) |
-| RAG | LangChain + ChromaDB |
-| Embeddings | BAAI/bge-small-en-v1.5 |
-| Tunnel | Tailscale Funnel |
-| Hardware | Raspberry Pi 4 |
-
----
-
-## Architecture
-
-```
-Visitor
-  │
-  ▼
-Tailscale Funnel (bypasses CG-NAT)
-  │
-  ▼
-Nginx (port 80)
-  ├── /              → serves static frontend (index.html + en.json + de.json)
-  └── /chat/stream   → proxies to FastAPI (port 8000)
-                          │
-                          ├── ChromaDB (vector search)
-                          │     └── resume docs + website + GitHub
-                          │
-                          └── Claude API (streaming)
+```bash
+git clone https://github.com/stawank/minimalist-resume.git
+cd minimalist-resume/backend
+python3 -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env        # fill in your API key
+python3 ingest.py           # teach the AI your resume
+uvicorn app:app --host 127.0.0.1 --port 8000
 ```
 
+Then open `frontend/index.html` in a browser. For full production setup with Nginx and Cloudflare Tunnel, follow the full setup guide below.
+
 ---
 
-## Project Structure
+## What makes it cool
+
+- **Boot animation** — when you open the site, it plays a fake computer startup screen just for fun
+- **Live clock** — the header shows a real clock ticking every second, like a terminal
+- **AI chatbot** — you can ask the chatbot anything about Stawan's skills and experience, and it answers using his actual resume
+- **Streams word by word** — the chatbot types its answer live, word by word, like someone is typing it
+- **Easy to update** — all the text on the site lives in simple JSON files, no HTML editing needed
+- **Two languages** — the site works in both English and German
+- **Looks like a hacker terminal** — green text, dark background, old-school computer font
+
+---
+
+## What's it built with
+
+| Part | What it does | Tool used |
+|---|---|---|
+| Frontend | The webpage you see | HTML, CSS, Vanilla JavaScript |
+| Web server | Sends the page to your browser | Nginx |
+| Backend | Runs the AI chatbot | FastAPI (Python) |
+| AI brain | Answers your questions | Claude API by Anthropic |
+| Memory | Finds the right info from the resume | LangChain + ChromaDB |
+| Tunnel | Makes the Pi reachable from the internet | Cloudflare Tunnel |
+| Hardware | The actual computer running everything | Raspberry Pi 4 |
+
+---
+
+## How it works
+
+```
+You open stawank.cv in your browser
+  │
+  ▼
+Cloudflare Tunnel (no open ports needed — the Pi connects out to Cloudflare)
+  │
+  ▼
+Nginx on the Pi sends you the website
+  │
+  └── If you use the chatbot:
+        Your question → FastAPI backend (port 8000)
+          │
+          ├── ChromaDB searches resume docs for relevant chunks
+          └── Claude API gets the chunks + your question → streams the answer back
+```
+
+---
+
+## Project structure
 
 ```
 minimalist-resume/
 ├── frontend/
-│   ├── index.html      # shell — all content rendered from JSON
-│   ├── styles.css      # terminal aesthetic
-│   ├── en.json         # all English content (edit this to update the site)
-│   └── de.json         # all German content
+│   ├── index.html          # page shell — all content is rendered from JSON
+│   ├── styles.css          # terminal aesthetic
+│   ├── en.json             # all English content — edit this to update the site
+│   └── de.json             # same content in German
 ├── backend/
-│   ├── app.py          # FastAPI backend, RAG chain, Excel logger
-│   ├── ingest.py       # PDF/HTML/TXT/GitHub → ChromaDB
-│   ├── .env.example    # environment variable template
-│   ├── chroma_db/      # vector database (gitignored)
-│   └── hr_questions.xlsx  # logged questions (gitignored)
+│   ├── app.py              # FastAPI app — chat endpoint, RAG chain, visitor logging
+│   ├── ingest.py           # reads resume docs and loads them into ChromaDB
+│   ├── .env.example        # template for environment variables — copy to .env
+│   └── chroma_db/          # vector store (gitignored — generated by ingest.py)
+├── deploy.sh               # one-command deploy script
 └── README.md
 ```
 
 ---
 
-## Updating content
+## Updating the resume
 
-All resume content lives in `frontend/en.json` and `frontend/de.json`. To make any change:
+All content lives in `frontend/en.json` and `frontend/de.json`. To update anything:
 
 ```bash
-nano frontend/en.json   # edit whatever you need
-~/deploy.sh             # deploy
+nano frontend/en.json   # edit the content
+~/deploy.sh             # push live
 ```
 
-JSON structure:
-```
-sections    → section title labels
-header      → name, title, location, uptime, contact links
-about       → role / stack / exp / currently lines
-experience  → array of jobs with title, company, period, bullets[]
-projects    → array of projects with title, stack, description, links[]
-skills      → array of groups with group label and items[]
-education   → array of degrees with degree, school, period, description, links[]
-chatbot     → toggle label, header title, placeholder, footer text
-boot        → boot sequence lines[] and prompt string
-```
+The JSON has these sections:
+
+| Section | What it controls |
+|---|---|
+| `header` | Name, job title, location, contact links |
+| `about` | The four quick summary lines |
+| `experience` | List of jobs with bullets |
+| `projects` | List of projects with links |
+| `skills` | Skill groups and items |
+| `education` | Degrees and descriptions |
+| `chatbot` | Chatbot labels and placeholder text |
+| `boot` | The fake startup screen lines |
 
 ---
 
 ## Features
 
-- **Terminal boot sequence** — customisable lines in `boot.lines` in the JSON
-- **Live uptime** — real-time clock ticking from page load
-- **AI chatbot** — Claude API with RAG answers recruiter questions
-- **Streaming** — SSE word-by-word token streaming
-- **Bilingual** — EN/DE toggle, chatbot responds in question language
-- **HR question logging** — all questions saved to Excel
-- **Visitor logging** — logs IPs and timestamps
-- **Response caching** — repeated questions served from cache
-- **Auto-ingestion** — cron re-ingests docs daily at 3 AM
-- **Dark mode by default** — light mode toggle available
-- **Auto-deploy** — `deploy.sh` pulls from git and copies to Nginx web root
+- Fake boot animation on every page load
+- Live clock in the header
+- AI chatbot powered by Claude
+- Answers stream word by word via SSE
+- Works in English and German
+- Visitor logging
+- Response caching — repeated questions are served faster
+- Resume docs automatically re-ingested every night at 3 AM
+- Dark mode by default with a light mode toggle
+- One-command deploy
 
 ---
 
-## Setup
+## Full setup guide
 
 ### Prerequisites
 
-- Raspberry Pi 4 (4GB+ RAM recommended)
-- Python 3.10+
-- Nginx
-- Anthropic API key — [console.anthropic.com](https://console.anthropic.com)
+| Requirement | Version |
+|---|---|
+| Raspberry Pi OS | Bookworm (64-bit) recommended |
+| Python | 3.10 or newer |
+| Nginx | Any recent version |
+| cloudflared | 2026.x ([install guide](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/)) |
+| Cloudflare account | Free tier works — you need a domain pointed to Cloudflare |
+| Anthropic API key | Get one at [console.anthropic.com](https://console.anthropic.com) |
 
-### 1. Clone
+---
+
+### Step 1 — Clone the repo
 
 ```bash
 git clone https://github.com/stawank/minimalist-resume.git
 cd minimalist-resume
 ```
 
-### 2. Install Python dependencies
+---
+
+### Step 2 — Install Python dependencies
 
 ```bash
 cd backend
@@ -139,7 +162,11 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 3. Configure environment variables
+---
+
+### Step 3 — Configure environment variables
+
+The `.env` file holds your secrets. It is **never committed to git**. Copy the example file and fill it in:
 
 ```bash
 cp backend/.env.example backend/.env
@@ -147,43 +174,132 @@ nano backend/.env
 ```
 
 ```env
+# Path where ChromaDB stores its data
 DB_PATH=$HOME/minimalist-resume/backend/chroma_db
-LOG_PATH=$HOME/minimalist-resume/backend/hr_questions.xlsx
+
+# Path where visitor logs are saved
 VISITOR_LOG=$HOME/minimalist-resume/backend/visitors.xlsx
-ANTHROPIC_API_KEY=your_key_here
+
+# Your Anthropic API key — get it from https://console.anthropic.com
+ANTHROPIC_API_KEY=sk-ant-...
 ```
 
-### 4. Add your documents
+> The app will fail to start if `ANTHROPIC_API_KEY` is missing or invalid.
+
+---
+
+### Step 4 — Add your resume documents
 
 ```bash
 mkdir ~/resume_docs
-cp /path/to/your/*.pdf ~/resume_docs/
+cp /path/to/your/resume.pdf ~/resume_docs/
 ```
 
-### 5. Ingest documents
+Supported formats: PDF, TXT, HTML. The more docs you add, the better the chatbot answers.
+
+---
+
+### Step 5 — Ingest documents into ChromaDB
+
+This reads your documents and stores them so the AI can search them:
 
 ```bash
+cd backend
+source venv/bin/activate
 python3 ingest.py
 ```
 
-### 6. Start the backend
+You should see output like `Loaded X chunks`. Re-run this any time you update your resume docs.
+
+---
+
+### Step 6 — Create the backend systemd service
+
+This makes the chatbot backend start automatically on boot and restart if it crashes:
 
 ```bash
-uvicorn app:app --host 127.0.0.1 --port 8000
+sudo nano /etc/systemd/system/resume-backend.service
 ```
 
-### 7. Configure Nginx
+Paste this (replace `YOUR_USERNAME` with your actual username):
+
+```ini
+[Unit]
+Description=Resume RAG Backend
+After=network.target
+
+[Service]
+User=YOUR_USERNAME
+WorkingDirectory=/home/YOUR_USERNAME/minimalist-resume/backend
+ExecStart=/home/YOUR_USERNAME/minimalist-resume/backend/venv/bin/uvicorn app:app --host 127.0.0.1 --port 8000
+Restart=always
+RestartSec=5
+EnvironmentFile=/home/YOUR_USERNAME/minimalist-resume/backend/.env
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable and start it:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable resume-backend
+sudo systemctl start resume-backend
+```
+
+---
+
+### Step 7 — Configure Nginx
+
+Create the site config:
 
 ```bash
 sudo nano /etc/nginx/sites-available/minimalist-resume
+```
+
+Then enable it:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/minimalist-resume /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
+```
+
+---
+
+### Step 8 — Set up Cloudflare Tunnel
+
+This connects your Pi to Cloudflare without opening any ports on your router:
+
+```bash
+# Log in to your Cloudflare account
+cloudflared tunnel login
+
+# Create a tunnel
+cloudflared tunnel create resume
+
+# Point your domain to the tunnel
+cloudflared tunnel route dns resume yourdomain.com
+cloudflared tunnel route dns resume www.yourdomain.com
+
+# Start on boot
+sudo systemctl enable cloudflared
+sudo systemctl start cloudflared
 ```
 
 ---
 
 ## Deploy script
 
-`deploy.sh` pulls the latest code from git and copies the frontend to the Nginx web root. Create it once on the Pi:
+`deploy.sh` is a one-command way to push any changes live. Here is what it does:
+
+1. Pulls the latest code from GitHub
+2. Copies frontend files to the Nginx web root
+3. Copies backend files to the backend directory
+4. Fixes file permissions so Nginx can read them
+5. Restarts the backend to pick up any code changes
+
+Create it:
 
 ```bash
 nano ~/deploy.sh
@@ -193,18 +309,13 @@ Paste this:
 
 ```bash
 #!/bin/bash
-set -e
-
 cd ~/minimalist-resume
-git pull origin main
-
-cp frontend/index.html /var/www/html/
-cp frontend/styles.css  /var/www/html/
-cp frontend/en.json     /var/www/html/
-cp frontend/de.json     /var/www/html/
-
+git pull
+sudo cp -r ~/minimalist-resume/frontend/* /var/www/minimalist-resume/
+sudo cp -r ~/minimalist-resume/backend/* /var/www/minimalist-resume/backend/
+sudo chown -R www-data:www-data /var/www/minimalist-resume
 sudo systemctl restart resume-backend
-echo "[OK] deployed"
+echo "Deployed!"
 ```
 
 Make it executable:
@@ -213,36 +324,35 @@ Make it executable:
 chmod +x ~/deploy.sh
 ```
 
-Then deploy any time with:
+Deploy any time with:
 
 ```bash
 ~/deploy.sh
 ```
-
-> Adjust `/var/www/html/` to match your Nginx root if it differs.
 
 ---
 
-## Running as a service
-
-Backend starts automatically on boot via systemd:
+## Checking if everything is running
 
 ```bash
-sudo systemctl status nginx
-sudo systemctl status resume-backend
+sudo systemctl status nginx           # web server — serves the frontend on port 80
+sudo systemctl status resume-backend  # RAG backend — uvicorn + FastAPI on port 8000
+sudo systemctl status cloudflared     # tunnel — connects the Pi to Cloudflare
 ```
 
-Deploy latest changes:
-
-```bash
-~/deploy.sh
-```
+All three should show `active (running)`.
 
 ---
 
 ## Auto re-ingestion
 
-Documents re-ingested daily at 3 AM:
+To keep the AI up to date, add this to your crontab — it re-reads your resume docs every night at 3 AM:
+
+```bash
+crontab -e
+```
+
+Add this line:
 
 ```
 0 3 * * * cd $HOME/minimalist-resume/backend && ./venv/bin/python3 ingest.py >> ingest.log 2>&1 && sudo systemctl restart resume-backend
@@ -250,10 +360,38 @@ Documents re-ingested daily at 3 AM:
 
 ---
 
-## Download logged questions
+## Troubleshooting
 
+**Site shows a Cloudflare error (1033 / 523)**
+```bash
+sudo systemctl status cloudflared   # is the tunnel running?
+sudo systemctl status nginx         # is nginx running?
+cloudflared tunnel list             # does the tunnel show active connections?
 ```
-https://stawank.cv/download-questions
+
+**Chatbot says "Could not reach the chatbot backend"**
+```bash
+sudo systemctl status resume-backend        # is it running?
+curl http://localhost:8000/health           # does it respond?
+sudo journalctl -u resume-backend -n 50    # check for errors
+```
+
+**Backend fails to start**
+```bash
+sudo journalctl -u resume-backend -n 50
+```
+Common causes: missing `.env` file, wrong `ANTHROPIC_API_KEY`, ChromaDB not yet ingested.
+
+**Nginx returns 502 Bad Gateway**
+The backend isn't running. Start it:
+```bash
+sudo systemctl start resume-backend
+```
+
+**Changes not showing after deploy**
+```bash
+~/deploy.sh          # re-run the deploy script
+# If still not showing, hard refresh in browser: Ctrl + Shift + R
 ```
 
 ---
