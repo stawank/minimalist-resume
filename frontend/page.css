@@ -203,9 +203,9 @@
     margin-left: -2.5rem;
     margin-right: -2.5rem;
     padding: 0 !important;      /* override the .container > * padding */
-    height: 380px;              /* fixed height — forces crop regardless of image size */
+    height: 520px;              /* taller crop to show more of the scene */
     object-fit: cover;
-    object-position: center bottom; /* show bottom of image where presenter is standing */
+    object-position: center 30%; /* upper-mid — shows presenter + slide together */
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     margin-top: 0.5rem;
