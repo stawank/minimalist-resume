@@ -24,8 +24,39 @@
       <div class="boot-skip" id="boot-skip">press any key to skip ↵</div>
     </div>
 
-    <!-- MAIN CONTENT — rendered by JS from JSON -->
-    <div class="container" id="main-container" style="visibility:hidden"></div>
+    <!-- TERMINAL WINDOW: titlebar + content + statusbar as one unit -->
+    <div class="terminal-window" id="terminal-window">
+
+      <div class="terminal-titlebar" id="terminal-titlebar" style="visibility:hidden">
+        <div class="titlebar-dots">
+          <span class="titlebar-dot titlebar-dot--r"></span>
+          <span class="titlebar-dot titlebar-dot--y"></span>
+          <span class="titlebar-dot titlebar-dot--g"></span>
+        </div>
+        <div class="titlebar-title">stawan@portfolio: ~/resume</div>
+        <div class="titlebar-controls">
+          <button type="button" class="titlebar-btn" data-lang-btn="en" onclick="setLanguage('en')">EN</button>
+          <button type="button" class="titlebar-btn" data-lang-btn="de" onclick="setLanguage('de')">DE</button>
+          <div class="titlebar-sep"></div>
+          <button type="button" class="titlebar-btn titlebar-btn--icon" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">☀️</button>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT — rendered by JS from JSON -->
+      <div class="container" id="main-container" style="visibility:hidden"></div>
+
+      <div class="terminal-statusbar" id="terminal-statusbar" style="visibility:hidden">
+        <div class="statusbar-left">
+          <span class="statusbar-dot"></span>
+          <span id="uptime-short">online</span>
+        </div>
+        <button type="button" class="statusbar-chatbot" id="chatbot-toggle" onclick="toggleChat()">
+          <span class="statusbar-prompt">$</span>
+          <span id="chatbot-toggle-label">ask me</span>
+        </button>
+      </div>
+
+    </div>
 
     <!-- CHATBOT PANEL — sibling of container, positioned relative to it via JS -->
     <div class="chatbot" id="chatbot-panel">
@@ -126,32 +157,6 @@
             </div>
           </div>
         </header>`
-      }
-
-      // ── Visitor Log ────────────────────────────────────────────────────────
-      function renderVisitorLog() {
-        return `
-        <div class="vlog-section fade-in stagger-1" id="vlog-section">
-          <div class="vlog-bar">
-            <div class="vlog-label">
-              <span class="vlog-dot"></span>
-              <span>LIVE — visitor log</span>
-            </div>
-            <div class="vlog-counter">
-              <span id="vlog-count-num">…</span>&nbsp;sessions
-            </div>
-          </div>
-          <div class="vlog-lines" id="vlog-lines"></div>
-          <div class="vlog-map-row">
-            <div class="vlog-map" id="vlog-map">. . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . .
-. . . . . . . . . . . . . . .</div>
-            <div class="vlog-auth" id="vlog-auth">
-              <span class="vlog-auth-prompt">$</span> ssh stawan@portfolio — <span class="vlog-auth-ok">authenticated</span> ✓
-            </div>
-          </div>
-        </div>`
       }
 
       function renderAbout(d) {
@@ -265,52 +270,24 @@
       }
 
       function renderChatbot(d) {
-        const cb        = d.chatbot
-        const container = document.getElementById("main-container")
+        const cb = d.chatbot
 
-        // inject terminal title bar at the very top
-        if (!document.getElementById("terminal-titlebar")) {
-          const bar = document.createElement("div")
-          bar.id        = "terminal-titlebar"
-          bar.className = "terminal-titlebar"
-          bar.innerHTML = `
-            <div class="titlebar-dots">
-              <span class="titlebar-dot titlebar-dot--r"></span>
-              <span class="titlebar-dot titlebar-dot--y"></span>
-              <span class="titlebar-dot titlebar-dot--g"></span>
-            </div>
-            <div class="titlebar-title">stawan@portfolio: ~/resume</div>
-            <div class="titlebar-controls">
-              <button type="button" class="titlebar-btn" data-lang-btn="en" onclick="setLanguage('en')">EN</button>
-              <button type="button" class="titlebar-btn" data-lang-btn="de" onclick="setLanguage('de')">DE</button>
-              <div class="titlebar-sep"></div>
-              <button type="button" class="titlebar-btn titlebar-btn--icon" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">☀️</button>
-            </div>`
-          container.prepend(bar)
-        }
-
-        // inject status bar at the very bottom
-        if (!document.getElementById("terminal-statusbar")) {
-          const sb = document.createElement("div")
-          sb.id        = "terminal-statusbar"
-          sb.className = "terminal-statusbar"
-          sb.innerHTML = `
-            <div class="statusbar-left">
-              <span class="statusbar-dot"></span>
-              <span id="statusbar-sessions">…</span>&nbsp;sessions
-            </div>
-            <button type="button" class="statusbar-chatbot" id="chatbot-toggle" onclick="toggleChat()">
-              <span class="statusbar-prompt">$</span>
-              <span id="chatbot-toggle-label">${cb.toggle_label}</span>
-            </button>`
-          container.append(sb)
-        }
+        // update chatbot toggle label from JSON
+        const toggleLabel = document.getElementById("chatbot-toggle-label")
+        if (toggleLabel) toggleLabel.textContent = cb.toggle_label
 
         document.getElementById("chatbot-title").textContent  = cb.header
         document.getElementById("chat-input").placeholder     = cb.placeholder
         document.getElementById("chatbot-footer").textContent = cb.footer
 
+        // make chrome visible now that page is ready
+        const titlebar  = document.getElementById("terminal-titlebar")
+        const statusbar = document.getElementById("terminal-statusbar")
+        if (titlebar)  titlebar.style.visibility  = ""
+        if (statusbar) statusbar.style.visibility = ""
+
         applyThemeIcon()
+        updateLangButtons()
 
         if (!localStorage.getItem("chatbot-seen")) {
           document.getElementById("chatbot-toggle")?.classList.add("chatbot-toggle-pulse")
@@ -321,7 +298,6 @@
       function render(data) {
         document.getElementById("main-container").innerHTML = `
           ${renderHeader(data)}
-          ${renderVisitorLog()}
           ${renderAbout(data)}
           ${renderExperience(data)}
           ${renderProjects(data)}
@@ -332,7 +308,6 @@
         renderChatbot(data)
         startUptimeClock()
         loadGitHubActivity("stawank")
-        loadVisitorLog()
       }
 
       function startUptimeClock() {
@@ -565,149 +540,6 @@
         }
 
         setTimeout(() => loadGitHubActivity(username), 3 * 60 * 1000)
-      }
-
-      // ── Visitor Log ────────────────────────────────────────────────────────
-      async function loadVisitorLog() {
-        const linesEl  = document.getElementById("vlog-lines")
-        const countEl  = document.getElementById("vlog-count-num")
-        const authEl   = document.getElementById("vlog-auth")
-        if (!linesEl) return
-
-        const CC_LIST = ["DE","US","GB","IN","FR","NL","CA","SG","AT","PL","SE","JP","BR","AU","CH"]
-
-        function fmtTime(d) {
-          return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })
-        }
-
-        function buildMap(pingCol, pingRow) {
-          const mapEl = document.getElementById("vlog-map")
-          if (!mapEl) return
-          const ROWS = 4, COLS = 15
-          let html = ""
-          for (let r = 0; r < ROWS; r++) {
-            for (let c = 0; c < COLS; c++) {
-              if (r === pingRow && c === pingCol) {
-                html += `<span class="vlog-ping" id="vlog-ping">●</span>`
-              } else {
-                html += "."
-              }
-              if (c < COLS - 1) html += " "
-            }
-            if (r < ROWS - 1) html += "\n"
-          }
-          mapEl.innerHTML = html
-        }
-
-        function typewriteLine(textEl, text, done) {
-          let i = 0
-          const tick = () => {
-            if (i < text.length) {
-              textEl.textContent += text[i]
-              i++
-              setTimeout(tick, 18 + Math.random() * 14)
-            } else {
-              if (done) done()
-            }
-          }
-          tick()
-        }
-
-        function flipCount(val) {
-          if (countEl) {
-            countEl.style.animation = "none"
-            countEl.offsetHeight
-            countEl.textContent = val
-            countEl.style.animation = "vlogFlipIn .45s cubic-bezier(.22,1,.36,1) both"
-          }
-          const sb = document.getElementById("statusbar-sessions")
-          if (sb) sb.textContent = val
-        }
-
-        function appendLine(ts, num, cc, isYou, delay, onDone) {
-          setTimeout(() => {
-            const div = document.createElement("div")
-            div.className = "vlog-line"
-            div.innerHTML =
-              `<span class="vlog-ts">[ ${ts} ]</span>` +
-              `<span class="vlog-num">#${num}</span>` +
-              `<span class="vlog-text"></span>` +
-              (isYou ? `<span class="vlog-you" id="vlog-you-tag" style="opacity:0">← you</span>` : "")
-            linesEl.appendChild(div)
-
-            requestAnimationFrame(() => {
-              div.classList.add("show")
-              setTimeout(() => div.classList.add("flash"), 80)
-            })
-
-            typewriteLine(div.querySelector(".vlog-text"), `visitor connected from ${cc}`, () => {
-              if (isYou) {
-                const tag = div.querySelector("#vlog-you-tag")
-                if (tag) tag.style.opacity = "1"
-                const cur = document.createElement("span")
-                cur.className = "vlog-cursor"
-                div.appendChild(cur)
-              }
-              if (onDone) onDone()
-            })
-          }, delay)
-        }
-
-        // 1 — get visitor country
-        let myCC = "XX"
-        try {
-          if (location.protocol !== "file:") {
-            const r = await fetch("https://ipapi.co/json/", { cache: "no-store" })
-            if (r.ok) myCC = (await r.json()).country_code || "XX"
-          }
-        } catch (_) {}
-
-        // 2 — bump counter (once per session)
-        let count = 0
-        const SESSION_KEY = "vlog-counted"
-        if (!sessionStorage.getItem(SESSION_KEY)) {
-          try {
-            const r = await fetch("https://api.countapi.xyz/hit/portfolio-stawan/visitors-v1")
-            if (r.ok) { count = (await r.json()).value || 1 }
-            sessionStorage.setItem(SESSION_KEY, String(count))
-          } catch (_) {
-            count = 200 + Math.floor(Math.random() * 50)
-            sessionStorage.setItem(SESSION_KEY, String(count))
-          }
-        } else {
-          count = parseInt(sessionStorage.getItem(SESSION_KEY), 10)
-        }
-
-        if (countEl) countEl.textContent = count
-
-        // 3 — build 4 historical lines
-        const rand  = arr => arr[Math.floor(Math.random() * arr.length)]
-        const now   = Date.now()
-        const base  = Math.max(1, count - 4)
-
-        buildMap(7, 1)
-
-        for (let i = 0; i < 4; i++) {
-          const n   = base + i
-          const cc  = rand(CC_LIST)
-          const ago = (4 - i) * (4 + Math.floor(Math.random() * 6)) * 60 * 1000
-          const ts  = fmtTime(new Date(now - ago))
-          appendLine(ts, n, cc, false, i * 180, null)
-        }
-
-        // 4 — your line
-        const myTs = fmtTime(new Date())
-        appendLine(myTs, count, myCC, true, 4 * 180 + 300, () => {
-          setTimeout(() => {
-            flipCount(count)
-            buildMap(7, 2)
-            const ping = document.getElementById("vlog-ping")
-            if (ping) ping.classList.add("active")
-          }, 200)
-          setTimeout(() => {
-            if (authEl) authEl.classList.add("show")
-          }, 1800)
-        })
       }
 
       // ── Boot sequence ──────────────────────────────────────────────────────
