@@ -37,6 +37,7 @@
     <div class="container" id="main-container" style="visibility:hidden"></div>
 
     <!-- CHATBOT -->
+    <div class="chatbot-tooltip" id="chatbot-tooltip">ask me anything →</div>
     <button class="chatbot-toggle" id="chatbot-toggle" onclick="toggleChat()" style="visibility:hidden"></button>
     <div class="chatbot" id="chatbot-panel">
       <div class="chatbot-header">
@@ -44,6 +45,7 @@
         <button class="chatbot-close" onclick="toggleChat()" title="Close">✕</button>
       </div>
       <div class="chatbot-messages" id="chat-messages"></div>
+      <div class="chat-chips" id="chat-chips"></div>
       <form id="chat-form">
         <input type="text" id="chat-input" autocomplete="off" required />
         <button type="submit" id="chat-submit">Send</button>
@@ -242,6 +244,35 @@
         document.getElementById("chatbot-title").textContent  = cb.header
         document.getElementById("chat-input").placeholder     = cb.placeholder
         document.getElementById("chatbot-footer").textContent = cb.footer
+
+        // Pulse on button for first-time visitors
+        if (!localStorage.getItem("chatbot-seen")) {
+          toggle.classList.add("chatbot-toggle-pulse")
+        }
+
+        // Render starter chips — from JSON or sensible fallback
+        const chipsEl = document.getElementById("chat-chips")
+        const chipList = (cb.chips && cb.chips.length) ? cb.chips : [
+          "What's your strongest skill?",
+          "Tell me about your AUTOSAR experience",
+          "Are you open to work?"
+        ]
+        chipsEl.innerHTML = chipList
+            .map(q => `<button class="chat-chip" type="button">${q}</button>`)
+            .join("")
+          chipsEl.querySelectorAll(".chat-chip").forEach(btn => {
+            btn.addEventListener("click", () => {
+              hideChips()
+              const input = document.getElementById("chat-input")
+              input.value = btn.textContent
+              document.getElementById("chat-form").dispatchEvent(new Event("submit"))
+            })
+          })
+      }
+
+      function hideChips() {
+        const el = document.getElementById("chat-chips")
+        if (el) { el.classList.add("chat-chips--gone"); setTimeout(() => el.remove(), 250) }
       }
 
       // ── Full render ────────────────────────────────────────────────────────
@@ -292,6 +323,23 @@
         })
       }
 
+      // ── Chatbot tooltip ────────────────────────────────────────────────────
+      function showChatbotTooltip() {
+        if (localStorage.getItem("chatbot-seen")) return
+        const tip    = document.getElementById("chatbot-tooltip")
+        const toggle = document.getElementById("chatbot-toggle")
+        if (!tip || !toggle) return
+        // Position is pure CSS (absolute relative to toggle), just show it
+        tip.classList.add("chatbot-tooltip--visible")
+        const hide = () => {
+          tip.classList.remove("chatbot-tooltip--visible")
+          tip.classList.add("chatbot-tooltip--gone")
+        }
+        const timer = setTimeout(hide, 4000)
+        // Dismiss early if user clicks toggle
+        toggle.addEventListener("click", () => { clearTimeout(timer); hide() }, { once: true })
+      }
+
       // ── Chatbot toggle ─────────────────────────────────────────────────────
       let chatOpen = false
 
@@ -303,6 +351,8 @@
         toggle.classList.toggle("chatbot-toggle-active", chatOpen)
         if (chatOpen) {
           toggle.classList.add("chatbot-toggle-seen")
+          toggle.classList.remove("chatbot-toggle-pulse")
+          localStorage.setItem("chatbot-seen", "1")
           document.getElementById("chat-input").focus()
         }
       }
@@ -371,7 +421,9 @@
         if (sessionStorage.getItem("booted")) {
           document.getElementById("boot-overlay").style.display = "none"
           document.getElementById("main-container").style.visibility = ""
-          document.getElementById("chatbot-toggle").style.visibility = ""
+          const toggle = document.getElementById("chatbot-toggle")
+          toggle.style.visibility = ""
+          showChatbotTooltip()
           return
         }
 
@@ -395,6 +447,7 @@
             document.getElementById("main-container").style.visibility = ""
             document.getElementById("chatbot-toggle").style.visibility = ""
             sessionStorage.setItem("booted", "1")
+            showChatbotTooltip()
           }, 350)
         }
 
@@ -409,6 +462,7 @@
             document.getElementById("main-container").style.visibility = ""
             document.getElementById("chatbot-toggle").style.visibility = ""
             sessionStorage.setItem("booted", "1")
+            showChatbotTooltip()
           }, 150)
         }
 
@@ -489,6 +543,7 @@
             const q = input.value.trim()
             if (!q) return
             input.value = ""
+            hideChips()
             await sendStreamingMessage(q)
           })
         }

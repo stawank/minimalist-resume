@@ -835,6 +835,109 @@ body::before {
 ::selection { background: var(--green); color: var(--bg); text-shadow: none; }
 
 /* ════════════════════════════════
+   CHATBOT TOOLTIP
+   ════════════════════════════════ */
+.chatbot-tooltip {
+  position: fixed;
+  bottom: calc(1.5rem + 52px + 0.6rem);  /* sits just above the toggle */
+  right: 1.5rem;
+  background: var(--bg-raised);
+  color: var(--green);
+  border: 1px solid var(--green-dim);
+  border-radius: 4px;
+  padding: 0.35rem 0.75rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  z-index: 1001;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+/* Arrow pointing down */
+.chatbot-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  right: 1.1rem;
+  width: 8px;
+  height: 8px;
+  background: var(--bg-raised);
+  border-right: 1px solid var(--green-dim);
+  border-bottom: 1px solid var(--green-dim);
+  transform: rotate(45deg);
+}
+.chatbot-tooltip--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: none;
+}
+.chatbot-tooltip--gone {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+/* ════════════════════════════════
+   CHATBOT BUTTON PULSE
+   ════════════════════════════════ */
+@keyframes chatPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(104,216,62,0.45), var(--shadow-sm); }
+  70%  { box-shadow: 0 0 0 8px rgba(104,216,62,0),   var(--shadow-sm); }
+  100% { box-shadow: 0 0 0 0 rgba(104,216,62,0),     var(--shadow-sm); }
+}
+.chatbot-toggle-pulse {
+  animation: chatPulse 2s ease-out infinite;
+}
+
+/* ════════════════════════════════
+   PROMPT CHIPS
+   ════════════════════════════════ */
+.chat-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.5rem 0.6rem 0.4rem;
+  background: var(--bg-sunken);
+  border-top: 1px solid var(--border);
+  transition: opacity 0.2s ease, max-height 0.25s ease;
+  max-height: 160px;
+  overflow: hidden;
+}
+.chat-chips--gone {
+  opacity: 0;
+  max-height: 0;
+  padding: 0;
+}
+.chat-chip {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--text-md);
+  background: var(--bg-raised);
+  border: 1px solid var(--border-hi);
+  border-radius: 2px;
+  padding: 0.25rem 0.55rem;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  line-height: 1.5;
+}
+.chat-chip::before {
+  content: "> ";
+  color: var(--prompt);
+  opacity: 0.6;
+}
+.chat-chip:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--green-bg);
+}
+
+/* ════════════════════════════════
    MOBILE
    ════════════════════════════════ */
 @media (max-width: 700px) {
@@ -847,4 +950,5 @@ body::before {
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
   .chatbot { width: calc(100vw - 2rem); right: 1rem; bottom: calc(52px + 1rem + 0.75rem); }
   .chatbot-toggle { right: 1rem; bottom: 1rem; }
+  .chatbot-tooltip { right: 1rem; bottom: calc(1rem + 52px + 0.6rem); }
 }
