@@ -91,6 +91,26 @@
           <div class="uptime-line" id="uptime-line">${h.uptime} <span id="uptime-out"></span></div>
           <div class="avatar">
             <img src="photo.jpg" alt="${h.name}" />
+            <div class="avatar-bracket avatar-bracket--tl">
+              <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2H2V14" stroke="#00ff66" stroke-width="2" stroke-linecap="square"/>
+              </svg>
+            </div>
+            <div class="avatar-bracket avatar-bracket--tr">
+              <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2H2V14" stroke="#00ff66" stroke-width="2" stroke-linecap="square"/>
+              </svg>
+            </div>
+            <div class="avatar-bracket avatar-bracket--bl">
+              <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2H2V14" stroke="#00ff66" stroke-width="2" stroke-linecap="square"/>
+              </svg>
+            </div>
+            <div class="avatar-bracket avatar-bracket--br">
+              <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2H2V14" stroke="#00ff66" stroke-width="2" stroke-linecap="square"/>
+              </svg>
+            </div>
           </div>
           <h1 class="name">${h.name}</h1>
           <p class="title">${h.title}</p>
@@ -492,8 +512,6 @@
       }
 
       // ── Control positioning ────────────────────────────────────────────────
-      // Measures the actual container right edge and sets --container-right
-      // so all fixed controls (toggle, chatbot, lang) align to it exactly.
       function positionControls() {
         const vw  = document.documentElement.clientWidth
         const gap = vw > 760 ? Math.floor((vw - 760) / 2) : 8
