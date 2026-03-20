@@ -30,6 +30,7 @@
     <div class="boot-overlay" id="boot-overlay">
       <div class="boot-lines" id="boot-lines"></div>
       <div class="boot-prompt" id="boot-prompt"></div>
+      <div class="boot-skip" id="boot-skip">press any key to skip ↵</div>
     </div>
 
     <!-- MAIN CONTENT — rendered by JS from JSON -->
@@ -94,7 +95,6 @@
           return data
         } catch (err) {
           console.error(`Failed to load ${lang}.json:`, err)
-          // Show visible error on page so it's not a silent blank screen
           document.getElementById("main-container").innerHTML = `
             <div style="padding:2rem;font-family:monospace;color:#68d83e;">
               <p style="color:#d4a017;">[ ERROR ] failed to load ${lang}.json</p>
@@ -367,6 +367,7 @@
 
       // ── Boot sequence ──────────────────────────────────────────────────────
       function runBootSequence(bootData) {
+        // Returning visitors skip entirely
         if (sessionStorage.getItem("booted")) {
           document.getElementById("boot-overlay").style.display = "none"
           document.getElementById("main-container").style.visibility = ""
@@ -377,20 +378,75 @@
         const overlay  = document.getElementById("boot-overlay")
         const linesEl  = document.getElementById("boot-lines")
         const promptEl = document.getElementById("boot-prompt")
+        const skipHint = document.getElementById("boot-skip")
+        let skipped    = false
 
+        // Clamp total line animation to 1.6 s max, min 40 ms/line
+        const lineCount   = bootData.lines.length
+        const lineInterval = Math.max(40, Math.min(80, Math.floor(1600 / lineCount)))
+
+        function finishBoot() {
+          if (skipped) return
+          skipped = true
+          removeSkipListeners()
+          overlay.classList.add("boot-overlay--done")
+          setTimeout(() => {
+            overlay.style.display = "none"
+            document.getElementById("main-container").style.visibility = ""
+            document.getElementById("chatbot-toggle").style.visibility = ""
+            sessionStorage.setItem("booted", "1")
+          }, 350)
+        }
+
+        function skipBoot() {
+          if (skipped) return
+          skipped = true
+          removeSkipListeners()
+          overlay.style.transition = "opacity 0.15s"
+          overlay.style.opacity = "0"
+          setTimeout(() => {
+            overlay.style.display = "none"
+            document.getElementById("main-container").style.visibility = ""
+            document.getElementById("chatbot-toggle").style.visibility = ""
+            sessionStorage.setItem("booted", "1")
+          }, 150)
+        }
+
+        function onKey()   { skipBoot() }
+        function onTouch() { skipBoot() }
+
+        function removeSkipListeners() {
+          document.removeEventListener("keydown",     onKey)
+          document.removeEventListener("touchstart",  onTouch)
+          overlay.removeEventListener("click",        onTouch)
+        }
+
+        // Attach skip listeners after a brief grace period (avoid accidental skip)
+        setTimeout(() => {
+          if (skipped) return
+          skipHint.style.opacity = "1"
+          document.addEventListener("keydown",    onKey)
+          document.addEventListener("touchstart", onTouch)
+          overlay.addEventListener("click",       onTouch)
+        }, 400)
+
+        // Render lines
         bootData.lines.forEach(({ text, color }, i) => {
           setTimeout(() => {
+            if (skipped) return
             if (text === "") { linesEl.appendChild(document.createElement("br")); return }
             const line = document.createElement("div")
             line.className = `boot-line boot-line--${color}`
             line.textContent = text
             linesEl.appendChild(line)
             overlay.scrollTop = overlay.scrollHeight
-          }, i * 160)
+          }, i * lineInterval)
         })
 
-        const promptDelay = bootData.lines.length * 160 + 200
+        // Typing prompt starts right after lines finish
+        const promptDelay = lineCount * lineInterval + 100
         setTimeout(() => {
+          if (skipped) return
           let i = 0
           const prompt = bootData.prompt
           promptEl.textContent = ""
@@ -400,20 +456,13 @@
           promptEl.appendChild(cursor)
 
           const type = () => {
+            if (skipped) return
             if (i < prompt.length) {
               cursor.before(prompt[i])
               i++
-              setTimeout(type, 45)
+              setTimeout(type, 25)   // was 45 ms — tighter
             } else {
-              setTimeout(() => {
-                overlay.classList.add("boot-overlay--done")
-                setTimeout(() => {
-                  overlay.style.display = "none"
-                  document.getElementById("main-container").style.visibility = ""
-                  document.getElementById("chatbot-toggle").style.visibility = ""
-                  sessionStorage.setItem("booted", "1")
-                }, 600)
-              }, 400)
+              setTimeout(finishBoot, 200)  // was 400 ms
             }
           }
           type()
