@@ -37,7 +37,6 @@
     <div class="container" id="main-container" style="visibility:hidden"></div>
 
     <!-- CHATBOT -->
-    <div class="chatbot-tooltip" id="chatbot-tooltip">ask me anything →</div>
     <button class="chatbot-toggle" id="chatbot-toggle" onclick="toggleChat()" style="visibility:hidden"></button>
     <div class="chatbot" id="chatbot-panel">
       <div class="chatbot-header">
@@ -317,19 +316,7 @@
       }
 
       // ── Chatbot tooltip ────────────────────────────────────────────────────
-      function showChatbotTooltip() {
-        if (localStorage.getItem("chatbot-seen")) return
-        const tip    = document.getElementById("chatbot-tooltip")
-        const toggle = document.getElementById("chatbot-toggle")
-        if (!tip || !toggle) return
-        tip.classList.add("chatbot-tooltip--visible")
-        const hide = () => {
-          tip.classList.remove("chatbot-tooltip--visible")
-          tip.classList.add("chatbot-tooltip--gone")
-        }
-        const timer = setTimeout(hide, 4000)
-        toggle.addEventListener("click", () => { clearTimeout(timer); hide() }, { once: true })
-      }
+      function showChatbotTooltip() { /* removed */ }
 
       // ── Welcome message + shortcuts ────────────────────────────────────────
       const SHORTCUTS = {
@@ -485,6 +472,13 @@
         const log    = document.getElementById("gh-log")
         const status = document.getElementById("gh-status")
         if (!log) return
+
+        // file:// protocol blocks CORS — show friendly hint instead of error
+        if (location.protocol === "file:") {
+          log.innerHTML = `<div class="gh-line"><span class="gh-ts">[ local ]</span><span class="gh-badge gh-badge--event">info</span><span class="gh-detail">serve via <span class="gh-repo">http://</span> to load live activity</span></div>`
+          if (status) status.textContent = "unavailable on file://"
+          return
+        }
 
         try {
           const res = await fetch(

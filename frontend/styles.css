@@ -830,52 +830,6 @@ body::before {
 ::selection { background: var(--green); color: var(--bg); text-shadow: none; }
 
 /* ════════════════════════════════
-   CHATBOT TOOLTIP
-   ════════════════════════════════ */
-.chatbot-tooltip {
-  position: fixed;
-  bottom: calc(1.5rem + 52px + 0.6rem);
-  right: 1.5rem;
-  background: var(--bg-raised);
-  color: var(--green);
-  border: 1px solid var(--green-dim);
-  border-radius: 4px;
-  padding: 0.35rem 0.75rem;
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
-  z-index: 1001;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  box-shadow: var(--shadow-sm);
-}
-.chatbot-tooltip::after {
-  content: "";
-  position: absolute;
-  bottom: -5px;
-  right: 1.1rem;
-  width: 8px;
-  height: 8px;
-  background: var(--bg-raised);
-  border-right: 1px solid var(--green-dim);
-  border-bottom: 1px solid var(--green-dim);
-  transform: rotate(45deg);
-}
-.chatbot-tooltip--visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: none;
-}
-.chatbot-tooltip--gone {
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
-}
-
-/* ════════════════════════════════
    CHATBOT BUTTON PULSE
    ════════════════════════════════ */
 @keyframes chatPulse {
@@ -931,7 +885,18 @@ body::before {
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
   .chatbot { width: calc(100vw - 2rem); right: 1rem; bottom: calc(52px + 1rem + 0.75rem); }
   .chatbot-toggle { right: 1rem; bottom: 1rem; }
-  .chatbot-tooltip { right: 1rem; bottom: calc(1rem + 52px + 0.6rem); }
+}
+
+/* ════════════════════════════════
+   WIDE SCREEN — pin chatbot and
+   controls to edge of 760px container
+   so nothing floats outside the window
+   ════════════════════════════════ */
+@media (min-width: 820px) {
+  .chatbot-toggle  { right: calc(50% - 380px); }
+  .chatbot         { right: calc(50% - 380px); }
+  .theme-toggle    { right: calc(50% - 438px); }
+  .language-toggle { right: calc(50% - 438px); }
 }
 
 /* ════════════════════════════════
