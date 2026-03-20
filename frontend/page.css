@@ -203,9 +203,9 @@
     margin-left: -2.5rem;
     margin-right: -2.5rem;
     padding: 0 !important;      /* override the .container > * padding */
-    height: 520px;              /* taller crop to show more of the scene */
+    height: 480px;
     object-fit: cover;
-    object-position: center 30%; /* upper-mid — shows presenter + slide together */
+    object-position: center 45%; /* presenter is in the middle of the photo */
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     margin-top: 0.5rem;
