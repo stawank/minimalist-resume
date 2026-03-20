@@ -136,10 +136,36 @@
         </header>`
       }
 
+      // ── Visitor Log ────────────────────────────────────────────────────────
+      function renderVisitorLog() {
+        return `
+        <div class="vlog-section fade-in stagger-1" id="vlog-section">
+          <div class="vlog-bar">
+            <div class="vlog-label">
+              <span class="vlog-dot"></span>
+              <span>LIVE — visitor log</span>
+            </div>
+            <div class="vlog-counter">
+              <span id="vlog-count-num">…</span>&nbsp;sessions
+            </div>
+          </div>
+          <div class="vlog-lines" id="vlog-lines"></div>
+          <div class="vlog-map-row">
+            <div class="vlog-map" id="vlog-map">. . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . .</div>
+            <div class="vlog-auth" id="vlog-auth">
+              <span class="vlog-auth-prompt">$</span> ssh stawan@portfolio — <span class="vlog-auth-ok">authenticated</span> ✓
+            </div>
+          </div>
+        </div>`
+      }
+
       function renderAbout(d) {
         const a = d.about
         return `
-        <section class="section fade-in stagger-1">
+        <section class="section fade-in stagger-2">
           <h2 class="section-title">${d.sections.about}</h2>
           <div class="card">
             <div class="about-lines">
@@ -165,7 +191,7 @@
             </ul>
           </div>`).join('\n')
         return `
-        <section class="section fade-in stagger-2">
+        <section class="section fade-in stagger-3">
           <h2 class="section-title">${d.sections.experience}</h2>
           ${cards}
         </section>`
@@ -185,7 +211,7 @@
           </div>`
         }).join('\n')
         return `
-        <section class="section fade-in stagger-3">
+        <section class="section fade-in stagger-4">
           <h2 class="section-title">${d.sections.projects}</h2>
           ${cards}
           <div class="gh-activity-inline">
@@ -200,7 +226,6 @@
         </section>`
       }
 
-      // renderActivity no longer needed — feed is embedded in projects
       function renderActivity(d) { return '' }
 
       function renderSkills(d) {
@@ -264,6 +289,7 @@
       function render(data) {
         document.getElementById("main-container").innerHTML = `
           ${renderHeader(data)}
+          ${renderVisitorLog()}
           ${renderAbout(data)}
           ${renderExperience(data)}
           ${renderProjects(data)}
@@ -275,6 +301,7 @@
         updateLangButtons()
         startUptimeClock()
         loadGitHubActivity("stawank")
+        loadVisitorLog()
       }
 
       function startUptimeClock() {
@@ -308,9 +335,6 @@
           btn.classList.toggle("active", btn.getAttribute("data-lang-btn") === currentLang)
         })
       }
-
-      // ── Chatbot tooltip ────────────────────────────────────────────────────
-      function showChatbotTooltip() { /* removed */ }
 
       // ── Welcome message + shortcuts ────────────────────────────────────────
       const SHORTCUTS = {
@@ -470,7 +494,6 @@
         const status = document.getElementById("gh-status")
         if (!log) return
 
-        // file:// protocol blocks CORS — show friendly hint instead of error
         if (location.protocol === "file:") {
           log.innerHTML = `<div class="gh-line"><span class="gh-ts">[ local ]</span><span class="gh-badge gh-badge--event">info</span><span class="gh-detail">serve via <span class="gh-repo">http://</span> to load live activity</span></div>`
           if (status) status.textContent = "unavailable on file://"
@@ -511,14 +534,152 @@
         setTimeout(() => loadGitHubActivity(username), 3 * 60 * 1000)
       }
 
+      // ── Visitor Log ────────────────────────────────────────────────────────
+      async function loadVisitorLog() {
+        const linesEl  = document.getElementById("vlog-lines")
+        const countEl  = document.getElementById("vlog-count-num")
+        const authEl   = document.getElementById("vlog-auth")
+        if (!linesEl) return
+
+        const CC_LIST = ["DE","US","GB","IN","FR","NL","CA","SG","AT","PL","SE","JP","BR","AU","CH"]
+
+        function fmtTime(d) {
+          return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })
+        }
+
+        function buildMap(pingCol, pingRow) {
+          const mapEl = document.getElementById("vlog-map")
+          if (!mapEl) return
+          const ROWS = 4, COLS = 15
+          let html = ""
+          for (let r = 0; r < ROWS; r++) {
+            for (let c = 0; c < COLS; c++) {
+              if (r === pingRow && c === pingCol) {
+                html += `<span class="vlog-ping" id="vlog-ping">●</span>`
+              } else {
+                html += "."
+              }
+              if (c < COLS - 1) html += " "
+            }
+            if (r < ROWS - 1) html += "\n"
+          }
+          mapEl.innerHTML = html
+        }
+
+        function typewriteLine(textEl, text, done) {
+          let i = 0
+          const tick = () => {
+            if (i < text.length) {
+              textEl.textContent += text[i]
+              i++
+              setTimeout(tick, 18 + Math.random() * 14)
+            } else {
+              if (done) done()
+            }
+          }
+          tick()
+        }
+
+        function flipCount(val) {
+          if (!countEl) return
+          countEl.style.animation = "none"
+          countEl.offsetHeight
+          countEl.textContent = val
+          countEl.style.animation = "vlogFlipIn .45s cubic-bezier(.22,1,.36,1) both"
+        }
+
+        function appendLine(ts, num, cc, isYou, delay, onDone) {
+          setTimeout(() => {
+            const div = document.createElement("div")
+            div.className = "vlog-line"
+            div.innerHTML =
+              `<span class="vlog-ts">[ ${ts} ]</span>` +
+              `<span class="vlog-num">#${num}</span>` +
+              `<span class="vlog-text"></span>` +
+              (isYou ? `<span class="vlog-you" id="vlog-you-tag" style="opacity:0">← you</span>` : "")
+            linesEl.appendChild(div)
+
+            requestAnimationFrame(() => {
+              div.classList.add("show")
+              setTimeout(() => div.classList.add("flash"), 80)
+            })
+
+            typewriteLine(div.querySelector(".vlog-text"), `visitor connected from ${cc}`, () => {
+              if (isYou) {
+                const tag = div.querySelector("#vlog-you-tag")
+                if (tag) tag.style.opacity = "1"
+                const cur = document.createElement("span")
+                cur.className = "vlog-cursor"
+                div.appendChild(cur)
+              }
+              if (onDone) onDone()
+            })
+          }, delay)
+        }
+
+        // 1 — get visitor country
+        let myCC = "XX"
+        try {
+          if (location.protocol !== "file:") {
+            const r = await fetch("https://ipapi.co/json/", { cache: "no-store" })
+            if (r.ok) myCC = (await r.json()).country_code || "XX"
+          }
+        } catch (_) {}
+
+        // 2 — bump counter (once per session)
+        let count = 0
+        const SESSION_KEY = "vlog-counted"
+        if (!sessionStorage.getItem(SESSION_KEY)) {
+          try {
+            const r = await fetch("https://api.countapi.xyz/hit/portfolio-stawan/visitors-v1")
+            if (r.ok) { count = (await r.json()).value || 1 }
+            sessionStorage.setItem(SESSION_KEY, String(count))
+          } catch (_) {
+            count = 200 + Math.floor(Math.random() * 50)
+            sessionStorage.setItem(SESSION_KEY, String(count))
+          }
+        } else {
+          count = parseInt(sessionStorage.getItem(SESSION_KEY), 10)
+        }
+
+        if (countEl) countEl.textContent = count
+
+        // 3 — build 4 historical lines
+        const rand  = arr => arr[Math.floor(Math.random() * arr.length)]
+        const now   = Date.now()
+        const base  = Math.max(1, count - 4)
+
+        buildMap(7, 1)
+
+        for (let i = 0; i < 4; i++) {
+          const n   = base + i
+          const cc  = rand(CC_LIST)
+          const ago = (4 - i) * (4 + Math.floor(Math.random() * 6)) * 60 * 1000
+          const ts  = fmtTime(new Date(now - ago))
+          appendLine(ts, n, cc, false, i * 180, null)
+        }
+
+        // 4 — your line
+        const myTs = fmtTime(new Date())
+        appendLine(myTs, count, myCC, true, 4 * 180 + 300, () => {
+          setTimeout(() => {
+            flipCount(count)
+            buildMap(7, 2)
+            const ping = document.getElementById("vlog-ping")
+            if (ping) ping.classList.add("active")
+          }, 200)
+          setTimeout(() => {
+            if (authEl) authEl.classList.add("show")
+          }, 1800)
+        })
+      }
+
       // ── Boot sequence ──────────────────────────────────────────────────────
       function runBootSequence(bootData) {
         if (sessionStorage.getItem("booted")) {
           document.getElementById("boot-overlay").style.display = "none"
           document.getElementById("main-container").style.visibility = ""
-          const toggle = document.getElementById("chatbot-toggle")
-          toggle.style.visibility = ""
-          showChatbotTooltip()
+          document.getElementById("chatbot-toggle").style.visibility = ""
           return
         }
 
@@ -541,7 +702,6 @@
             document.getElementById("main-container").style.visibility = ""
             document.getElementById("chatbot-toggle").style.visibility = ""
             sessionStorage.setItem("booted", "1")
-            showChatbotTooltip()
           }, 350)
         }
 
@@ -556,7 +716,6 @@
             document.getElementById("main-container").style.visibility = ""
             document.getElementById("chatbot-toggle").style.visibility = ""
             sessionStorage.setItem("booted", "1")
-            showChatbotTooltip()
           }, 150)
         }
 
