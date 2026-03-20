@@ -127,7 +127,7 @@
   ],
 
   "chatbot": {
-    "toggle_label": "Chat with my resume",
+    "toggle_label": "ask stawan",
     "header":       "Ask about my work in ADAS & test automation",
     "placeholder":  "e.g. What testing frameworks have you used?",
     "footer":       "Self-hosted on Raspberry Pi 🥧"

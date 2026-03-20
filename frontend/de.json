@@ -127,7 +127,7 @@
   ],
 
   "chatbot": {
-    "toggle_label": "Mit meinem Lebenslauf chatten",
+    "toggle_label": " frag stawan",
     "header":       "Fragen zu meiner Arbeit in ADAS & Testautomatisierung",
     "placeholder":  "z.B. Welche Test-Frameworks haben Sie verwendet?",
     "footer":       "Self-hosted auf Raspberry Pi 🥧"
