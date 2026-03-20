@@ -450,10 +450,13 @@
         const repo = e.repo.name.split("/")[1]
         let detail = ""
         if (e.type === "PushEvent") {
-          const n = e.payload.commits?.length ?? 0
-          detail  = n + " commit" + (n !== 1 ? "s" : "") + " → "
+          const n      = e.payload.commits?.length ?? 0
+          const branch = e.payload.ref ? e.payload.ref.replace("refs/heads/", "") : ""
+          const commits = n > 0 ? n + " commit" + (n !== 1 ? "s" : "") + " → " : ""
+          detail = commits + (branch ? branch + " → " : "")
         } else if (e.type === "CreateEvent") {
-          detail = (e.payload.ref_type || "") + " → "
+          const ref = e.payload.ref || ""
+          detail = (e.payload.ref_type || "") + (ref ? " " + ref : "") + " → "
         } else if (e.type === "ForkEvent") {
           detail = "from → "
         } else {
