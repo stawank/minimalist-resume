@@ -262,10 +262,9 @@
             .join("")
           chipsEl.querySelectorAll(".chat-chip").forEach(btn => {
             btn.addEventListener("click", () => {
+              const question = btn.textContent.trim()
               hideChips()
-              const input = document.getElementById("chat-input")
-              input.value = btn.textContent
-              document.getElementById("chat-form").dispatchEvent(new Event("submit"))
+              sendStreamingMessage(question)
             })
           })
       }
