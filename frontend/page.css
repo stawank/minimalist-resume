@@ -205,7 +205,7 @@
     padding: 0 !important;      /* override the .container > * padding */
     height: 380px;              /* fixed height — forces crop regardless of image size */
     object-fit: cover;
-    object-position: center top; /* show top of image (presenter, not ceiling) */
+    object-position: center bottom; /* show bottom of image where presenter is standing */
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     margin-top: 0.5rem;
