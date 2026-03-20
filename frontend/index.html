@@ -17,6 +17,15 @@
   </head>
   <body>
 
+    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+      <span class="icon">☀️</span>
+    </div>
+    <div class="language-toggle">
+      <button type="button" data-lang-btn="en" onclick="setLanguage('en')">EN</button>
+      <span>|</span>
+      <button type="button" data-lang-btn="de" onclick="setLanguage('de')">DE</button>
+    </div>
+
     <!-- BOOT SEQUENCE OVERLAY -->
     <div class="boot-overlay" id="boot-overlay">
       <div class="boot-lines" id="boot-lines"></div>
@@ -24,41 +33,11 @@
       <div class="boot-skip" id="boot-skip">press any key to skip ↵</div>
     </div>
 
-    <!-- TERMINAL WINDOW: titlebar + content + statusbar as one unit -->
-    <div class="terminal-window" id="terminal-window">
+    <!-- MAIN CONTENT — rendered by JS from JSON -->
+    <div class="container" id="main-container" style="visibility:hidden"></div>
 
-      <div class="terminal-titlebar" id="terminal-titlebar" style="visibility:hidden">
-        <div class="titlebar-dots">
-          <span class="titlebar-dot titlebar-dot--r"></span>
-          <span class="titlebar-dot titlebar-dot--y"></span>
-          <span class="titlebar-dot titlebar-dot--g"></span>
-        </div>
-        <div class="titlebar-title">stawan@portfolio: ~/resume</div>
-        <div class="titlebar-controls">
-          <button type="button" class="titlebar-btn" data-lang-btn="en" onclick="setLanguage('en')">EN</button>
-          <button type="button" class="titlebar-btn" data-lang-btn="de" onclick="setLanguage('de')">DE</button>
-          <div class="titlebar-sep"></div>
-          <button type="button" class="titlebar-btn titlebar-btn--icon" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">☀️</button>
-        </div>
-      </div>
-
-      <!-- MAIN CONTENT — rendered by JS from JSON -->
-      <div class="container" id="main-container" style="visibility:hidden"></div>
-
-      <div class="terminal-statusbar" id="terminal-statusbar" style="visibility:hidden">
-        <div class="statusbar-left">
-          <span class="statusbar-dot"></span>
-          <span id="uptime-short">online</span>
-        </div>
-        <button type="button" class="statusbar-chatbot" id="chatbot-toggle" onclick="toggleChat()">
-          <span class="statusbar-prompt">$</span>
-          <span id="chatbot-toggle-label">ask me</span>
-        </button>
-      </div>
-
-    </div>
-
-    <!-- CHATBOT PANEL — sibling of container, positioned relative to it via JS -->
+    <!-- CHATBOT -->
+    <button class="chatbot-toggle" id="chatbot-toggle" onclick="toggleChat()" style="visibility:hidden"></button>
     <div class="chatbot" id="chatbot-panel">
       <div class="chatbot-header">
         <span id="chatbot-title"></span>
@@ -79,32 +58,30 @@
 
       // ── Theme ──────────────────────────────────────────────────────────────
       function toggleTheme() {
-        const html   = document.documentElement
+        const html = document.documentElement
+        const icon = document.querySelector(".theme-toggle .icon")
         const isDark = html.getAttribute("data-theme") === "dark"
         if (isDark) {
           html.removeAttribute("data-theme")
+          icon.textContent = "🌙"
           localStorage.setItem("theme", "light")
         } else {
           html.setAttribute("data-theme", "dark")
+          icon.textContent = "☀️"
           localStorage.setItem("theme", "dark")
         }
-        applyThemeIcon()
       }
 
       function loadTheme() {
         const saved = localStorage.getItem("theme")
+        const icon  = document.querySelector(".theme-toggle .icon")
         if (saved === "light") {
           document.documentElement.removeAttribute("data-theme")
+          icon.textContent = "🌙"
         } else {
           document.documentElement.setAttribute("data-theme", "dark")
+          icon.textContent = "☀️"
         }
-      }
-
-      function applyThemeIcon() {
-        const btn    = document.getElementById("theme-btn")
-        if (!btn) return
-        const isDark = document.documentElement.getAttribute("data-theme") === "dark"
-        btn.textContent = isDark ? "☀️" : "🌙"
       }
 
       // ── JSON loader ────────────────────────────────────────────────────────
@@ -270,27 +247,15 @@
       }
 
       function renderChatbot(d) {
-        const cb = d.chatbot
-
-        // update chatbot toggle label from JSON
-        const toggleLabel = document.getElementById("chatbot-toggle-label")
-        if (toggleLabel) toggleLabel.textContent = cb.toggle_label
-
+        const cb     = d.chatbot
+        const toggle = document.getElementById("chatbot-toggle")
+        toggle.innerHTML = `<span class="chatbot-toggle-label">${cb.toggle_label}</span>`
         document.getElementById("chatbot-title").textContent  = cb.header
         document.getElementById("chat-input").placeholder     = cb.placeholder
         document.getElementById("chatbot-footer").textContent = cb.footer
 
-        // make chrome visible now that page is ready
-        const titlebar  = document.getElementById("terminal-titlebar")
-        const statusbar = document.getElementById("terminal-statusbar")
-        if (titlebar)  titlebar.style.visibility  = ""
-        if (statusbar) statusbar.style.visibility = ""
-
-        applyThemeIcon()
-        updateLangButtons()
-
         if (!localStorage.getItem("chatbot-seen")) {
-          document.getElementById("chatbot-toggle")?.classList.add("chatbot-toggle-pulse")
+          toggle.classList.add("chatbot-toggle-pulse")
         }
       }
 
@@ -306,6 +271,7 @@
           ${renderEof()}
         `
         renderChatbot(data)
+        updateLangButtons()
         startUptimeClock()
         loadGitHubActivity("stawank")
       }
@@ -370,13 +336,11 @@
         chatOpen = !chatOpen
         const panel  = document.getElementById("chatbot-panel")
         const toggle = document.getElementById("chatbot-toggle")
-        const sb     = document.getElementById("terminal-statusbar")
         panel.classList.toggle("chatbot-open", chatOpen)
-        toggle?.classList.toggle("chatbot-toggle-active", chatOpen)
-        sb?.classList.toggle("statusbar--chat-open", chatOpen)
+        toggle.classList.toggle("chatbot-toggle-active", chatOpen)
         if (chatOpen) {
-          toggle?.classList.add("chatbot-toggle-seen")
-          toggle?.classList.remove("chatbot-toggle-pulse")
+          toggle.classList.add("chatbot-toggle-seen")
+          toggle.classList.remove("chatbot-toggle-pulse")
           localStorage.setItem("chatbot-seen", "1")
           showWelcomeMessage()
           document.getElementById("chat-input").focus()
