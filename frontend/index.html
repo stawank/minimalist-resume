@@ -400,20 +400,30 @@
         const t    = GH_TYPE[e.type] || { tag: "event", label: e.type.replace("Event", "").toLowerCase() }
         const repo = e.repo.name.split("/")[1]
         let detail = ""
+        let message = ""
         if (e.type === "PushEvent") {
           const n      = e.payload.commits?.length ?? 0
           const branch = e.payload.ref ? e.payload.ref.replace("refs/heads/", "") : ""
           const commits = n > 0 ? n + " commit" + (n !== 1 ? "s" : "") + " → " : ""
           detail = commits + (branch ? branch + " → " : "")
+          // grab first commit message if available
+          if (e.payload.commits && e.payload.commits.length > 0) {
+            message = e.payload.commits[e.payload.commits.length - 1].message
+              .split("\n")[0]   // first line only
+              .slice(0, 72)     // cap length
+          }
         } else if (e.type === "CreateEvent") {
           const ref = e.payload.ref || ""
           detail = (e.payload.ref_type || "") + (ref ? " " + ref : "") + " → "
+          if (e.payload.description) {
+            message = e.payload.description.slice(0, 72)
+          }
         } else if (e.type === "ForkEvent") {
           detail = "from → "
         } else {
           detail = "→ "
         }
-        return { tag: t.tag, label: t.label, detail, repo }
+        return { tag: t.tag, label: t.label, detail, repo, message }
       }
 
       async function loadGitHubActivity(username) {
@@ -442,11 +452,14 @@
           }
 
           log.innerHTML = top5.map(e => {
-            const { tag, label, detail, repo } = ghDescribe(e)
+            const { tag, label, detail, repo, message } = ghDescribe(e)
+            const msgLine = message
+              ? `<span class="gh-commit-msg">"${message}"</span>`
+              : ""
             return `<div class="gh-line">
               <span class="gh-ts">[ ${ghTimeAgo(e.created_at)} ]</span>
               <span class="gh-badge gh-badge--${tag}">${label}</span>
-              <span class="gh-detail">${detail}<span class="gh-repo">${repo}</span></span>
+              <span class="gh-detail">${detail}<span class="gh-repo">${repo}</span>${msgLine}</span>
             </div>`
           }).join("")
 
