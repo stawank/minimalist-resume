@@ -188,18 +188,10 @@
         <section class="section fade-in stagger-3">
           <h2 class="section-title">${d.sections.projects}</h2>
           ${cards}
-        </section>`
-      }
-
-      // ── GitHub Activity renderer ───────────────────────────────────────────
-      function renderActivity(d) {
-        const title = (d.sections && d.sections.activity) ? d.sections.activity : "recent activity"
-        return `
-        <section class="section fade-in stagger-4" id="activity-section">
-          <h2 class="section-title">${title}</h2>
-          <div class="card gh-activity-card">
+          <div class="gh-activity-inline">
+            <div class="gh-activity-divider">── recent activity ──</div>
             <div class="gh-log" id="gh-log">
-              <span class="card-meta" style="margin:0;opacity:0.6;">fetching activity...</span>
+              <span class="gh-loading">fetching activity...</span>
             </div>
             <div class="gh-status-row">
               <span class="gh-status" id="gh-status"></span>
@@ -207,6 +199,9 @@
           </div>
         </section>`
       }
+
+      // renderActivity no longer needed — feed is embedded in projects
+      function renderActivity(d) { return '' }
 
       function renderSkills(d) {
         const groups = d.skills.map(g => `
@@ -272,7 +267,6 @@
           ${renderAbout(data)}
           ${renderExperience(data)}
           ${renderProjects(data)}
-          ${renderActivity(data)}
           ${renderSkills(data)}
           ${renderEducation(data)}
           ${renderEof()}
