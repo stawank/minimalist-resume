@@ -280,6 +280,15 @@
         }
       }
 
+      // ── Control positioning ────────────────────────────────────────────────
+      function positionControls() {
+        const container = document.getElementById("main-container")
+        if (!container) return
+        const rect = container.getBoundingClientRect()
+        const gap  = Math.max(8, window.innerWidth - rect.right)
+        document.documentElement.style.setProperty("--container-right", gap + "px")
+      }
+
       // ── i18n ───────────────────────────────────────────────────────────────
       const translations = {
         en: {
@@ -536,6 +545,8 @@
         loadTheme()
         setLanguage(localStorage.getItem("lang") || "en")
         runBootSequence()
+        positionControls()
+        window.addEventListener("resize", positionControls)
 
         const form  = document.getElementById("chat-form")
         const input = document.getElementById("chat-input")

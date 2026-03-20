@@ -146,7 +146,7 @@
 
     </div><!-- /container -->
 
-    <!-- Chatbot widget — same as index.html -->
+    <!-- Chatbot widget -->
     <button class="chatbot-toggle" id="chatbot-toggle" onclick="toggleChat()" style="visibility:hidden">
       <span class="chatbot-toggle-label"> ask stawan</span>
     </button>
@@ -190,6 +190,15 @@
           document.documentElement.setAttribute("data-theme", "dark")
           icon.textContent = "☀️"
         }
+      }
+
+      // ── Control positioning ────────────────────────────────────────────────
+      function positionControls() {
+        const container = document.getElementById("main-container")
+        if (!container) return
+        const rect = container.getBoundingClientRect()
+        const gap  = Math.max(8, window.innerWidth - rect.right)
+        document.documentElement.style.setProperty("--container-right", gap + "px")
       }
 
       // ── i18n ───────────────────────────────────────────────────────────────
@@ -368,6 +377,8 @@
         loadTheme()
         setLanguage(localStorage.getItem("lang") || "en")
         runBootSequence()
+        positionControls()
+        window.addEventListener("resize", positionControls)
 
         const form  = document.getElementById("chat-form")
         const input = document.getElementById("chat-input")

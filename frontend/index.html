@@ -293,6 +293,7 @@
         document.documentElement.setAttribute("lang", lang)
         const data = await loadData(lang)
         render(data)
+        positionControls()
       }
 
       function updateLangButtons() {
@@ -516,6 +517,17 @@
         }, promptDelay)
       }
 
+      // ── Control positioning ────────────────────────────────────────────────
+      // Measures the actual container right edge and sets --container-right
+      // so all fixed controls (toggle, chatbot, lang) align to it exactly.
+      function positionControls() {
+        const container = document.getElementById("main-container")
+        if (!container) return
+        const rect = container.getBoundingClientRect()
+        const gap  = Math.max(8, window.innerWidth - rect.right)
+        document.documentElement.style.setProperty("--container-right", gap + "px")
+      }
+
       // ── Init ───────────────────────────────────────────────────────────────
       document.addEventListener("DOMContentLoaded", async () => {
         loadTheme()
@@ -527,6 +539,8 @@
         const data = await loadData(lang)
         if (!data) return
         render(data)
+        positionControls()
+        window.addEventListener("resize", positionControls)
 
         const form  = document.getElementById("chat-form")
         const input = document.getElementById("chat-input")
