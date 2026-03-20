@@ -893,48 +893,35 @@ body::before {
   animation: chatPulse 2s ease-out infinite;
 }
 
-/* ════════════════════════════════
-   PROMPT CHIPS
-   ════════════════════════════════ */
-.chat-chips {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  padding: 0.5rem 0.6rem 0.4rem;
+/* ── Chat message markdown ── */
+.chat-message strong {
+  color: var(--text-hi);
+  font-weight: 600;
+}
+.chat-message em {
+  font-style: italic;
+  opacity: 0.85;
+}
+.chat-message code {
   background: var(--bg-sunken);
-  border-top: 1px solid var(--border);
-  transition: opacity 0.2s ease, max-height 0.25s ease;
-  max-height: 160px;
-  overflow: hidden;
-}
-.chat-chips--gone {
-  opacity: 0;
-  max-height: 0;
-  padding: 0;
-}
-.chat-chip {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.04em;
-  color: var(--text-md);
-  background: var(--bg-raised);
-  border: 1px solid var(--border-hi);
+  border: 1px solid var(--border);
   border-radius: 2px;
-  padding: 0.25rem 0.55rem;
-  cursor: pointer;
-  text-align: left;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
-  line-height: 1.5;
-}
-.chat-chip::before {
-  content: "> ";
-  color: var(--prompt);
-  opacity: 0.6;
-}
-.chat-chip:hover {
-  border-color: var(--green);
+  padding: 0 0.3em;
+  font-size: 0.85em;
   color: var(--green);
-  background: var(--green-bg);
+}
+
+/* ── Welcome message inline spans ── */
+.chat-hint {
+  color: var(--green);
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+}
+.chat-dim {
+  color: var(--text-lo);
+  opacity: 0.5;
+  font-size: 0.72rem;
 }
 
 /* ════════════════════════════════
