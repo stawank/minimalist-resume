@@ -484,15 +484,14 @@
         if (e.type === "PushEvent") {
           const n      = e.payload.commits?.length ?? 0
           const branch = e.payload.ref ? e.payload.ref.replace("refs/heads/", "") : ""
-          const commits = n > 0 ? n + " commit" + (n !== 1 ? "s" : "") + " → " : ""
-          detail = commits + (branch ? branch + " → " : "")
+          detail = (n > 0 ? n + " commit" + (n !== 1 ? "s" : "") : "") + (branch ? " on " + branch : "")
         } else if (e.type === "CreateEvent") {
           const ref = e.payload.ref || ""
-          detail = (e.payload.ref_type || "") + (ref ? " " + ref : "") + " → "
+          detail = (e.payload.ref_type || "") + (ref ? " " + ref : "")
         } else if (e.type === "ForkEvent") {
-          detail = "from → "
+          detail = "forked"
         } else {
-          detail = "→ "
+          detail = ""
         }
         return { tag: t.tag, label: t.label, detail, repo }
       }
@@ -527,7 +526,7 @@
             return `<div class="gh-line">
               <span class="gh-ts">[ ${ghTimeAgo(e.created_at)} ]</span>
               <span class="gh-badge gh-badge--${tag}">${label}</span>
-              <span class="gh-detail">${detail}<span class="gh-repo">${repo}</span></span>
+              <span class="gh-repo">${repo}</span>${detail ? `<span class="gh-detail">${detail}</span>` : ""}
             </div>`
           }).join("")
 
