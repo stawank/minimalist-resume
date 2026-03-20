@@ -804,10 +804,10 @@ body::before {
    ════════════════════════════════ */
 
 .chatbot {
-  position: absolute;
-  right: 1rem;
-  bottom: calc(var(--statusbar-h, 36px) + 0.5rem);
-  width: min(320px, calc(100% - 2rem));
+  position: fixed;
+  right: max(1.5rem, calc((100vw - 760px) / 2 + 1rem));
+  bottom: 3rem;
+  width: 320px;
   max-height: 52vh;
   display: flex;
   flex-direction: column;
@@ -816,7 +816,7 @@ body::before {
   border-radius: 6px;
   box-shadow: var(--shadow-md), 0 0 30px rgba(168,192,96,0.06);
   overflow: hidden;
-  z-index: 100;
+  z-index: 200;
   opacity: 0;
   pointer-events: none;
   transform: translateY(10px) scale(0.97);
@@ -1124,7 +1124,7 @@ body::before {
   .contact-links { align-items: center; }
   .contact-row { flex-direction: column; align-items: center; }
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
-  .chatbot { width: calc(100% - 1.5rem); right: 0.75rem; }
+  .chatbot { width: calc(100vw - 2rem); right: 1rem; bottom: 3rem; }
   .vlog-section { padding: 0.75rem 1.25rem; }
   .vlog-map { display: none; }
   .titlebar-title { font-size: 0.6rem; }

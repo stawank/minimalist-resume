@@ -25,20 +25,20 @@
     </div>
 
     <!-- MAIN CONTENT — rendered by JS from JSON -->
-    <div class="container" id="main-container" style="visibility:hidden">
-      <!-- chatbot panel lives inside the terminal window -->
-      <div class="chatbot" id="chatbot-panel">
-        <div class="chatbot-header">
-          <span id="chatbot-title"></span>
-          <button class="chatbot-close" onclick="toggleChat()" title="Close">✕</button>
-        </div>
-        <div class="chatbot-messages" id="chat-messages"></div>
-        <form id="chat-form">
-          <input type="text" id="chat-input" autocomplete="off" required />
-          <button type="submit" id="chat-submit">Send</button>
-        </form>
-        <div class="chatbot-footer" id="chatbot-footer"></div>
+    <div class="container" id="main-container" style="visibility:hidden"></div>
+
+    <!-- CHATBOT PANEL — sibling of container, positioned relative to it via JS -->
+    <div class="chatbot" id="chatbot-panel">
+      <div class="chatbot-header">
+        <span id="chatbot-title"></span>
+        <button class="chatbot-close" onclick="toggleChat()" title="Close">✕</button>
       </div>
+      <div class="chatbot-messages" id="chat-messages"></div>
+      <form id="chat-form">
+        <input type="text" id="chat-input" autocomplete="off" required />
+        <button type="submit" id="chat-submit">Send</button>
+      </form>
+      <div class="chatbot-footer" id="chatbot-footer"></div>
     </div>
 
     <script>
