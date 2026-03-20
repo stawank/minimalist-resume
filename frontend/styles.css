@@ -563,7 +563,6 @@ body::before {
    CHATBOT — floating toggle + panel
    ════════════════════════════════ */
 
-/* Toggle button — terminal style, always visible */
 .chatbot-toggle {
   position: fixed;
   bottom: 1.5rem;
@@ -602,11 +601,8 @@ body::before {
   color: var(--green);
 }
 .chatbot-toggle-icon { display: none; }
-
-/* Pulse ring — hidden, not terminal-like */
 .chatbot-toggle-ping { display: none; }
 
-/* Chat panel */
 .chatbot {
   position: fixed;
   right: 1.5rem;
@@ -753,7 +749,7 @@ body::before {
   justify-content: center;
   padding: 3rem 4rem;
   overflow: hidden;
-  transition: opacity 0.35s ease;   /* was 0.6s — matches JS 350 ms */
+  transition: opacity 0.35s ease;
 }
 
 .boot-overlay--done {
@@ -795,7 +791,6 @@ body::before {
   font-size: 0.88rem;
 }
 
-/* Skip hint — fades in after grace period, JS controls opacity */
 .boot-skip {
   position: absolute;
   bottom: 1.5rem;
@@ -803,7 +798,7 @@ body::before {
   font-family: "JetBrains Mono", monospace;
   font-size: 0.68rem;
   color: var(--text-lo);
-  opacity: 0;               /* JS sets to 1 after 400 ms grace period */
+  opacity: 0;
   transition: opacity 0.4s ease;
   letter-spacing: 0.06em;
   pointer-events: none;
@@ -839,7 +834,7 @@ body::before {
    ════════════════════════════════ */
 .chatbot-tooltip {
   position: fixed;
-  bottom: calc(1.5rem + 52px + 0.6rem);  /* sits just above the toggle */
+  bottom: calc(1.5rem + 52px + 0.6rem);
   right: 1.5rem;
   background: var(--bg-raised);
   color: var(--green);
@@ -857,7 +852,6 @@ body::before {
   transition: opacity 0.3s ease, transform 0.3s ease;
   box-shadow: var(--shadow-sm);
 }
-/* Arrow pointing down */
 .chatbot-tooltip::after {
   content: "";
   position: absolute;
@@ -938,4 +932,103 @@ body::before {
   .chatbot { width: calc(100vw - 2rem); right: 1rem; bottom: calc(52px + 1rem + 0.75rem); }
   .chatbot-toggle { right: 1rem; bottom: 1rem; }
   .chatbot-tooltip { right: 1rem; bottom: calc(1rem + 52px + 0.6rem); }
+}
+
+/* ════════════════════════════════
+   GITHUB ACTIVITY
+   ════════════════════════════════ */
+.gh-activity-card { padding-bottom: 0.75rem; }
+
+.gh-log {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.gh-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.gh-line:last-child { border-bottom: none; }
+
+.gh-ts {
+  color: var(--text-lo);
+  min-width: 82px;
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  opacity: 0.7;
+}
+
+.gh-detail {
+  color: var(--text-md);
+  flex: 1;
+  font-size: 0.78rem;
+}
+
+.gh-repo {
+  color: var(--green);
+  font-weight: 500;
+}
+[data-theme="dark"] .gh-repo {
+  text-shadow: 0 0 8px rgba(104,216,62,0.25);
+}
+
+/* Badge — terminal ref pill */
+.gh-badge {
+  font-size: 0.65rem;
+  padding: 0 0.45rem;
+  border-radius: 2px;
+  flex-shrink: 0;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  border: 1px solid;
+  line-height: 1.6;
+}
+
+/* Light mode */
+.gh-badge--push,
+.gh-badge--create  { color: var(--green);  border-color: var(--border-hi);          background: var(--green-bg); }
+.gh-badge--pr      { color: #7a5af8;       border-color: rgba(122,90,248,0.3);      background: rgba(122,90,248,0.06); }
+.gh-badge--issue,
+.gh-badge--release { color: #2a7a2a;       border-color: rgba(42,122,42,0.3);       background: rgba(42,122,42,0.06); }
+.gh-badge--fork,
+.gh-badge--star    { color: #8a6e00;       border-color: rgba(138,110,0,0.3);       background: rgba(138,110,0,0.05); }
+.gh-badge--comment,
+.gh-badge--delete,
+.gh-badge--event   { color: var(--text-lo); border-color: var(--border);            background: transparent; }
+
+/* Dark mode overrides */
+[data-theme="dark"] .gh-badge--push,
+[data-theme="dark"] .gh-badge--create  { color: var(--green); border-color: var(--border-hi); }
+[data-theme="dark"] .gh-badge--pr      { color: #a78bfa; border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.08); }
+[data-theme="dark"] .gh-badge--issue,
+[data-theme="dark"] .gh-badge--release { color: #68d83e; border-color: rgba(104,216,62,0.3); }
+[data-theme="dark"] .gh-badge--fork,
+[data-theme="dark"] .gh-badge--star    { color: #d4a017; border-color: rgba(212,160,23,0.3); background: rgba(212,160,23,0.06); }
+
+.gh-status-row {
+  margin-top: 0.55rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid var(--border);
+}
+
+.gh-status {
+  font-size: 0.65rem;
+  color: var(--text-lo);
+  letter-spacing: 0.06em;
+  opacity: 0.55;
+}
+.gh-status::before { content: "[ "; }
+.gh-status::after  { content: " ]"; }
+
+/* Phosphor glow on activity lines — dark mode */
+[data-theme="dark"] .gh-line .gh-detail,
+[data-theme="dark"] .gh-line .gh-ts {
+  text-shadow: 0 0 8px rgba(104,216,62,0.15);
 }

@@ -148,5 +148,6 @@
       { "text": "All systems nominal. Loading profile...",   "color": "lo" }
     ],
     "prompt": "$ cat ~/resume/profile.json"
-  }
+  },
+  "activity": "recent activity"
 }

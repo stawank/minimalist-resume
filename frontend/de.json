@@ -148,5 +148,7 @@
       { "text": "Alle Systeme bereit. Profil wird geladen...",  "color": "lo" }
     ],
     "prompt": "$ cat ~/resume/profile.json"
-  }
+  },
+
+  "activity": "aktuelle aktivität"
 }

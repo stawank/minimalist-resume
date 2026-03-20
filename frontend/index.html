@@ -141,7 +141,7 @@
         const a = d.about
         return `
         <section class="section fade-in stagger-1">
-          <h2 class="section-title">[ ${d.sections.about} ]</h2>
+          <h2 class="section-title">${d.sections.about}</h2>
           <div class="card">
             <div class="about-lines">
               <div class="about-line"><span class="about-key">role</span><span class="about-val">${a.role}</span></div>
@@ -167,7 +167,7 @@
           </div>`).join('\n')
         return `
         <section class="section fade-in stagger-2">
-          <h2 class="section-title">[ ${d.sections.experience} ]</h2>
+          <h2 class="section-title">${d.sections.experience}</h2>
           ${cards}
         </section>`
       }
@@ -187,8 +187,25 @@
         }).join('\n')
         return `
         <section class="section fade-in stagger-3">
-          <h2 class="section-title">[ ${d.sections.projects} ]</h2>
+          <h2 class="section-title">${d.sections.projects}</h2>
           ${cards}
+        </section>`
+      }
+
+      // ── GitHub Activity renderer ───────────────────────────────────────────
+      function renderActivity(d) {
+        const title = (d.sections && d.sections.activity) ? d.sections.activity : "recent activity"
+        return `
+        <section class="section fade-in stagger-4" id="activity-section">
+          <h2 class="section-title">${title}</h2>
+          <div class="card gh-activity-card">
+            <div class="gh-log" id="gh-log">
+              <span class="card-meta" style="margin:0;opacity:0.6;">fetching activity...</span>
+            </div>
+            <div class="gh-status-row">
+              <span class="gh-status" id="gh-status"></span>
+            </div>
+          </div>
         </section>`
       }
 
@@ -202,7 +219,7 @@
           </div>`).join('\n')
         return `
         <section class="section fade-in stagger-4">
-          <h2 class="section-title">[ ${d.sections.skills} ]</h2>
+          <h2 class="section-title">${d.sections.skills}</h2>
           <div class="skills-groups">${groups}</div>
         </section>`
       }
@@ -223,7 +240,7 @@
         }).join('\n')
         return `
         <section class="section fade-in stagger-5">
-          <h2 class="section-title">[ ${d.sections.education} ]</h2>
+          <h2 class="section-title">${d.sections.education}</h2>
           ${cards}
         </section>`
       }
@@ -244,7 +261,6 @@
         document.getElementById("chat-input").placeholder     = cb.placeholder
         document.getElementById("chatbot-footer").textContent = cb.footer
 
-        // Pulse on button for first-time visitors
         if (!localStorage.getItem("chatbot-seen")) {
           toggle.classList.add("chatbot-toggle-pulse")
         }
@@ -257,6 +273,7 @@
           ${renderAbout(data)}
           ${renderExperience(data)}
           ${renderProjects(data)}
+          ${renderActivity(data)}
           ${renderSkills(data)}
           ${renderEducation(data)}
           ${renderEof()}
@@ -264,6 +281,7 @@
         renderChatbot(data)
         updateLangButtons()
         startUptimeClock()
+        loadGitHubActivity("stawank")
       }
 
       function startUptimeClock() {
@@ -304,14 +322,12 @@
         const tip    = document.getElementById("chatbot-tooltip")
         const toggle = document.getElementById("chatbot-toggle")
         if (!tip || !toggle) return
-        // Position is pure CSS (absolute relative to toggle), just show it
         tip.classList.add("chatbot-tooltip--visible")
         const hide = () => {
           tip.classList.remove("chatbot-tooltip--visible")
           tip.classList.add("chatbot-tooltip--gone")
         }
         const timer = setTimeout(hide, 4000)
-        // Dismiss early if user clicks toggle
         toggle.addEventListener("click", () => { clearTimeout(timer); hide() }, { once: true })
       }
 
@@ -324,7 +340,7 @@
 
       function showWelcomeMessage() {
         const container = document.getElementById("chat-messages")
-        if (container.querySelector(".chat-message")) return  // already shown
+        if (container.querySelector(".chat-message")) return
         const msg = document.createElement("div")
         msg.className = "chat-message chat-message-assistant"
         msg.innerHTML =
@@ -354,7 +370,7 @@
         }
       }
 
-      // ── Minimal markdown renderer (bold, italic, inline code, newlines) ──────
+      // ── Minimal markdown renderer ──────────────────────────────────────────
       function renderMarkdown(text) {
         return text
           .replace(/&/g, "&amp;")
@@ -426,9 +442,86 @@
         container.scrollTop = container.scrollHeight
       }
 
+      // ── GitHub Activity ────────────────────────────────────────────────────
+      const GH_TYPE = {
+        PushEvent:              { tag: "push",    label: "pushed"       },
+        PullRequestEvent:       { tag: "pr",      label: "pull-request" },
+        IssuesEvent:            { tag: "issue",   label: "issue"        },
+        ForkEvent:              { tag: "fork",    label: "forked"       },
+        WatchEvent:             { tag: "star",    label: "starred"      },
+        CreateEvent:            { tag: "create",  label: "created"      },
+        ReleaseEvent:           { tag: "release", label: "released"     },
+        IssueCommentEvent:      { tag: "comment", label: "commented"    },
+        PullRequestReviewEvent: { tag: "pr",      label: "reviewed-pr"  },
+        DeleteEvent:            { tag: "delete",  label: "deleted"      },
+      }
+
+      function ghTimeAgo(iso) {
+        const s = Math.floor((Date.now() - new Date(iso)) / 1000)
+        if (s < 60)    return s + "s ago"
+        if (s < 3600)  return Math.floor(s / 60) + "m ago"
+        if (s < 86400) return Math.floor(s / 3600) + "h ago"
+        return Math.floor(s / 86400) + "d ago"
+      }
+
+      function ghDescribe(e) {
+        const t    = GH_TYPE[e.type] || { tag: "event", label: e.type.replace("Event", "").toLowerCase() }
+        const repo = e.repo.name.split("/")[1]
+        let detail = ""
+        if (e.type === "PushEvent") {
+          const n = e.payload.commits?.length ?? 0
+          detail  = n + " commit" + (n !== 1 ? "s" : "") + " → "
+        } else if (e.type === "CreateEvent") {
+          detail = (e.payload.ref_type || "") + " → "
+        } else if (e.type === "ForkEvent") {
+          detail = "from → "
+        } else {
+          detail = "→ "
+        }
+        return { tag: t.tag, label: t.label, detail, repo }
+      }
+
+      async function loadGitHubActivity(username) {
+        const log    = document.getElementById("gh-log")
+        const status = document.getElementById("gh-status")
+        if (!log) return
+
+        try {
+          const res = await fetch(
+            `https://api.github.com/users/${username}/events/public?per_page=10`,
+            { headers: { Accept: "application/vnd.github+json" } }
+          )
+          if (!res.ok) throw new Error("HTTP " + res.status)
+          const events = await res.json()
+          const top5   = Array.isArray(events) ? events.slice(0, 5) : []
+
+          if (!top5.length) {
+            log.innerHTML = `<span class="card-meta" style="margin:0;opacity:0.5;">no public events found</span>`
+            return
+          }
+
+          log.innerHTML = top5.map(e => {
+            const { tag, label, detail, repo } = ghDescribe(e)
+            return `<div class="gh-line">
+              <span class="gh-ts">[ ${ghTimeAgo(e.created_at)} ]</span>
+              <span class="gh-badge gh-badge--${tag}">${label}</span>
+              <span class="gh-detail">${detail}<span class="gh-repo">${repo}</span></span>
+            </div>`
+          }).join("")
+
+          if (status) {
+            const now = new Date()
+            status.textContent = "synced at " + now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+          }
+        } catch (err) {
+          if (log) log.innerHTML = `<span class="card-meta" style="margin:0;opacity:0.5;">could not load — ${err.message}</span>`
+        }
+
+        setTimeout(() => loadGitHubActivity(username), 3 * 60 * 1000)
+      }
+
       // ── Boot sequence ──────────────────────────────────────────────────────
       function runBootSequence(bootData) {
-        // Returning visitors skip entirely
         if (sessionStorage.getItem("booted")) {
           document.getElementById("boot-overlay").style.display = "none"
           document.getElementById("main-container").style.visibility = ""
@@ -444,8 +537,7 @@
         const skipHint = document.getElementById("boot-skip")
         let skipped    = false
 
-        // Clamp total line animation to 1.6 s max, min 40 ms/line
-        const lineCount   = bootData.lines.length
+        const lineCount    = bootData.lines.length
         const lineInterval = Math.max(40, Math.min(80, Math.floor(1600 / lineCount)))
 
         function finishBoot() {
@@ -481,12 +573,11 @@
         function onTouch() { skipBoot() }
 
         function removeSkipListeners() {
-          document.removeEventListener("keydown",     onKey)
-          document.removeEventListener("touchstart",  onTouch)
-          overlay.removeEventListener("click",        onTouch)
+          document.removeEventListener("keydown",    onKey)
+          document.removeEventListener("touchstart", onTouch)
+          overlay.removeEventListener("click",       onTouch)
         }
 
-        // Attach skip listeners after a brief grace period (avoid accidental skip)
         setTimeout(() => {
           if (skipped) return
           skipHint.style.opacity = "1"
@@ -495,7 +586,6 @@
           overlay.addEventListener("click",       onTouch)
         }, 400)
 
-        // Render lines
         bootData.lines.forEach(({ text, color }, i) => {
           setTimeout(() => {
             if (skipped) return
@@ -508,7 +598,6 @@
           }, i * lineInterval)
         })
 
-        // Typing prompt starts right after lines finish
         const promptDelay = lineCount * lineInterval + 100
         setTimeout(() => {
           if (skipped) return
@@ -525,9 +614,9 @@
             if (i < prompt.length) {
               cursor.before(prompt[i])
               i++
-              setTimeout(type, 25)   // was 45 ms — tighter
+              setTimeout(type, 25)
             } else {
-              setTimeout(finishBoot, 200)  // was 400 ms
+              setTimeout(finishBoot, 200)
             }
           }
           type()
@@ -553,7 +642,6 @@
             e.preventDefault()
             let q = input.value.trim()
             if (!q) return
-            // Expand numeric shortcuts
             if (SHORTCUTS[q]) q = SHORTCUTS[q]
             input.value = ""
             await sendStreamingMessage(q)
