@@ -788,116 +788,117 @@ body::before {
 
 /* ════════════════════════════════
    GITHUB ACTIVITY — inline in projects
-   styled to match [ skills ] section
    ════════════════════════════════ */
 .gh-activity-inline {
-  margin-top: 1.5rem;
-  padding: 0;
+  margin-top: 0.5rem;
+  padding: 1rem 1.25rem 0.75rem;
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--border-hi);
+  border-radius: 2px;
+  background: var(--bg-sunken);
 }
 
-/* prominent — matches .skill-group-label "# languages" */
 .gh-activity-divider {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: var(--text-lo);
-  letter-spacing: 0.12em;
-  margin-bottom: 0.5rem;
-  opacity: 0.8;
-}
-.gh-activity-divider::before {
-  content: "# ";
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
   opacity: 0.6;
 }
 
 .gh-loading {
-  font-size: 0.75rem;
-  color: var(--text-lo);
-  opacity: 0.4;
-  letter-spacing: 0.03em;
-}
-
-/* log container — wrapping row like .skills-grid */
-.gh-log {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.2rem 1.25rem;
-  margin-bottom: 0.35rem;
-}
-
-/* each event — smaller + dimmer than skill items */
-.gh-line {
-  font-family: "JetBrains Mono", monospace;
   font-size: 0.72rem;
   color: var(--text-lo);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  letter-spacing: 0.02em;
-  opacity: 0.7;
-  cursor: default;
-  transition: opacity 0.15s, color 0.15s;
-  border-bottom: none;
-  padding: 0;
-}
-.gh-line:hover { opacity: 1; color: var(--text-md); }
-
-/* $ prefix — same as skill-item::before but more muted */
-.gh-line::before {
-  content: "$";
-  color: var(--prompt);
-  font-size: 0.65rem;
-  flex-shrink: 0;
   opacity: 0.5;
+  letter-spacing: 0.04em;
 }
+
+.gh-log {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.gh-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  line-height: 1.7;
+  padding: 0.28rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.gh-line:last-child { border-bottom: none; }
 
 .gh-ts {
   color: var(--text-lo);
-  font-size: 0.68rem;
-  opacity: 0.6;
+  min-width: 80px;
   flex-shrink: 0;
+  font-size: 0.7rem;
+  opacity: 0.7;
 }
 
 .gh-detail {
-  color: inherit;
-  font-size: 0.72rem;
+  color: var(--text-md);
+  flex: 1;
+  font-size: 0.75rem;
 }
 
-/* repo name — slight green accent */
 .gh-repo {
-  color: var(--green-dim);
+  color: var(--green);
   font-weight: 500;
-  opacity: 0.85;
+}
+[data-theme="dark"] .gh-repo {
+  text-shadow: 0 0 8px rgba(104,216,62,0.25);
 }
 
-/* hide badges — too noisy in this compact layout */
-.gh-badge { display: none; }
+.gh-badge {
+  font-size: 0.63rem;
+  padding: 0 0.4rem;
+  border-radius: 2px;
+  flex-shrink: 0;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  border: 1px solid;
+  line-height: 1.6;
+}
+
+.gh-badge--push,
+.gh-badge--create  { color: var(--green);   border-color: var(--border-hi);        background: var(--green-bg); }
+.gh-badge--pr      { color: #7a5af8;        border-color: rgba(122,90,248,0.3);    background: rgba(122,90,248,0.06); }
+.gh-badge--issue,
+.gh-badge--release { color: #2a7a2a;        border-color: rgba(42,122,42,0.3);     background: rgba(42,122,42,0.06); }
+.gh-badge--fork,
+.gh-badge--star    { color: #8a6e00;        border-color: rgba(138,110,0,0.3);     background: rgba(138,110,0,0.05); }
+.gh-badge--comment,
+.gh-badge--delete,
+.gh-badge--event   { color: var(--text-lo); border-color: var(--border);           background: transparent; }
+
+[data-theme="dark"] .gh-badge--push,
+[data-theme="dark"] .gh-badge--create  { color: var(--green); border-color: var(--border-hi); }
+[data-theme="dark"] .gh-badge--pr      { color: #a78bfa; border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.08); }
+[data-theme="dark"] .gh-badge--issue,
+[data-theme="dark"] .gh-badge--release { color: #68d83e; border-color: rgba(104,216,62,0.3); }
+[data-theme="dark"] .gh-badge--fork,
+[data-theme="dark"] .gh-badge--star    { color: #d4a017; border-color: rgba(212,160,23,0.3); background: rgba(212,160,23,0.06); }
 
 .gh-status-row {
-  margin-top: 0.4rem;
-}
-
-/* commit message — italic, dimmer, inline after repo */
-.gh-commit-msg {
-  display: block;
-  font-size: 0.65rem;
-  color: var(--text-lo);
-  opacity: 0.55;
-  font-style: italic;
-  letter-spacing: 0.02em;
-  margin-top: 0.1rem;
-  padding-left: 0.2rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 420px;
+  margin-top: 0.5rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--border);
 }
 
 .gh-status {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.62rem;
+  font-size: 0.63rem;
   color: var(--text-lo);
   letter-spacing: 0.06em;
-  opacity: 0.35;
+  opacity: 0.45;
 }
-.gh-status::before { content: ""; }
-.gh-status::after  { content: ""; }
+.gh-status::before { content: "[ "; }
+.gh-status::after  { content: " ]"; }
+
+[data-theme="dark"] .gh-line .gh-detail,
+[data-theme="dark"] .gh-line .gh-ts {
+  text-shadow: 0 0 8px rgba(104,216,62,0.15);
+}
