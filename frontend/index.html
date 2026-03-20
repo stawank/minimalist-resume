@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,9 +17,6 @@
   </head>
   <body>
 
-    <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
-      <span class="icon">☀️</span>
-    </div>
     <div class="language-toggle">
       <button type="button" data-lang-btn="en" onclick="setLanguage('en')">EN</button>
       <span>|</span>
@@ -56,31 +53,8 @@
       const cache = {}
 
       // ── Theme ──────────────────────────────────────────────────────────────
-      function toggleTheme() {
-        const html = document.documentElement
-        const icon = document.querySelector(".theme-toggle .icon")
-        const isDark = html.getAttribute("data-theme") === "dark"
-        if (isDark) {
-          html.removeAttribute("data-theme")
-          icon.textContent = "🌙"
-          localStorage.setItem("theme", "light")
-        } else {
-          html.setAttribute("data-theme", "dark")
-          icon.textContent = "☀️"
-          localStorage.setItem("theme", "dark")
-        }
-      }
-
       function loadTheme() {
-        const saved = localStorage.getItem("theme")
-        const icon  = document.querySelector(".theme-toggle .icon")
-        if (saved === "light") {
-          document.documentElement.removeAttribute("data-theme")
-          icon.textContent = "🌙"
-        } else {
-          document.documentElement.setAttribute("data-theme", "dark")
-          icon.textContent = "☀️"
-        }
+        document.documentElement.setAttribute("data-theme", "dark")
       }
 
       // ── JSON loader ────────────────────────────────────────────────────────
@@ -521,10 +495,8 @@
       // Measures the actual container right edge and sets --container-right
       // so all fixed controls (toggle, chatbot, lang) align to it exactly.
       function positionControls() {
-        const container = document.getElementById("main-container")
-        if (!container) return
-        const rect = container.getBoundingClientRect()
-        const gap  = Math.max(8, window.innerWidth - rect.right)
+        const vw  = document.documentElement.clientWidth
+        const gap = vw > 760 ? Math.floor((vw - 760) / 2) : 8
         document.documentElement.style.setProperty("--container-right", gap + "px")
       }
 
