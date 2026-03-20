@@ -1,15 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap");
 
-/* ═══════════════════════════════════════════
-   EVERYTHING is JetBrains Mono.
-   The page IS a terminal window.
-   Light = clean white terminal (bright, IDE-like)
-   Dark  = classic green phosphor
-   ═══════════════════════════════════════════ */
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* ── LIGHT ── */
 :root {
   --bg:           #f4f5f0;
   --bg-raised:    #ffffff;
@@ -31,7 +23,6 @@
   --scanline:     rgba(0,0,0,0.02);
 }
 
-/* ── DARK: classic green phosphor terminal ── */
 [data-theme="dark"] {
   --bg:           #090d09;
   --bg-raised:    #0e140e;
@@ -52,7 +43,6 @@
   --scanline:     rgba(0,0,0,0.2);
 }
 
-/* ── KEYFRAMES ── */
 @keyframes blink   { 0%,49%{opacity:1} 50%,100%{opacity:0} }
 @keyframes fadeUp  { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 @keyframes flicker {
@@ -75,7 +65,6 @@ body {
 
 [data-theme="dark"] body { animation: flicker 12s infinite; }
 
-/* Phosphor glow — dark mode only */
 [data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3,
 [data-theme="dark"] p, [data-theme="dark"] a, [data-theme="dark"] span,
 [data-theme="dark"] button, [data-theme="dark"] label, [data-theme="dark"] small,
@@ -89,7 +78,6 @@ body {
   text-shadow: 0 0 8px rgba(104,216,62,0.2);
 }
 
-/* Scanlines overlay */
 body::before {
   content: "";
   position: fixed;
@@ -106,9 +94,6 @@ body::before {
   animation: flicker 8s infinite;
 }
 
-/* ════════════════════════════════
-   TERMINAL WINDOW WRAPPER
-   ════════════════════════════════ */
 .container {
   max-width: 760px;
   margin: 2rem auto;
@@ -125,7 +110,6 @@ body::before {
   box-shadow: var(--shadow-md), 0 0 0 1px var(--border), 0 0 60px rgba(106,216,64,0.06);
 }
 
-/* Terminal title bar */
 .container::before {
   content: "● ● ●   stawan@portfolio: ~/resume";
   display: block;
@@ -138,14 +122,10 @@ body::before {
   text-align: center;
 }
 
-/* Inner padding */
 .container > * {
   padding: 2.25rem 2.5rem;
 }
 
-/* ════════════════════════════════
-   CONTROLS
-   ════════════════════════════════ */
 .theme-toggle {
   position: fixed;
   top: 1.25rem;
@@ -198,7 +178,6 @@ body::before {
 .language-toggle button:hover:not(.active) { color: var(--text-md); }
 .language-toggle span { color: var(--border-hi); font-size: 0.65rem; }
 
-/* ── UPTIME LINE ── */
 .uptime-line {
   font-size: 0.7rem;
   color: var(--text-lo);
@@ -213,9 +192,6 @@ body::before {
   opacity: 0.8;
 }
 
-/* ════════════════════════════════
-   HEADER
-   ════════════════════════════════ */
 .header {
   margin-bottom: 2.5rem;
   display: flex;
@@ -224,7 +200,6 @@ body::before {
   text-align: center;
 }
 
-/* ── AVATAR ── */
 .avatar {
   width: 96px;
   height: 96px;
@@ -283,7 +258,6 @@ body::before {
 }
 .location::before { content: "> "; color: var(--prompt); }
 
-/* ── EOF LINE ── */
 .eof-line {
   display: flex;
   justify-content: space-between;
@@ -315,9 +289,8 @@ body::before {
   opacity: 0.65;
   font-size: 0.7rem;
 }
-.contact-row--secondary .contact-link:hover {
-  opacity: 1;
-}
+.contact-row--secondary .contact-link:hover { opacity: 1; }
+
 .contact-link {
   font-size: 0.75rem;
   color: var(--text-md);
@@ -338,9 +311,6 @@ body::before {
   background: var(--green-bg);
 }
 
-/* ════════════════════════════════
-   SECTIONS
-   ════════════════════════════════ */
 .section { margin-bottom: 3rem; }
 
 .section-title {
@@ -369,9 +339,6 @@ body::before {
   font-size: 0.82rem;
 }
 
-/* ════════════════════════════════
-   CARDS
-   ════════════════════════════════ */
 .card {
   background: var(--bg-raised);
   border: 1px solid var(--border);
@@ -446,9 +413,6 @@ body::before {
   font-size: 0.8rem;
 }
 
-/* ════════════════════════════════
-   SKILLS — grouped like --help output
-   ════════════════════════════════ */
 .skills-groups {
   display: flex;
   flex-direction: column;
@@ -493,9 +457,6 @@ body::before {
 }
 .skill-item:hover { color: var(--green); }
 
-/* ════════════════════════════════
-   PROJECT LINKS
-   ════════════════════════════════ */
 .project-links { display: flex; gap: 0.4rem; margin-top: 0.65rem; flex-wrap: wrap; }
 .project-link {
   font-size: 0.72rem;
@@ -516,9 +477,6 @@ body::before {
   text-shadow: none;
 }
 
-/* ════════════════════════════════
-   ABOUT — terminal key:value lines
-   ════════════════════════════════ */
 .about-lines {
   display: flex;
   flex-direction: column;
@@ -559,11 +517,6 @@ body::before {
   line-height: 1.6;
 }
 
-/* ════════════════════════════════
-   CHATBOT — floating toggle + panel
-   ════════════════════════════════ */
-
-/* Toggle button — terminal style, always visible */
 .chatbot-toggle {
   position: fixed;
   bottom: 1.5rem;
@@ -602,11 +555,8 @@ body::before {
   color: var(--green);
 }
 .chatbot-toggle-icon { display: none; }
-
-/* Pulse ring — hidden, not terminal-like */
 .chatbot-toggle-ping { display: none; }
 
-/* Chat panel */
 .chatbot {
   position: fixed;
   right: 1.5rem;
@@ -740,9 +690,6 @@ body::before {
   text-align: center;
 }
 
-/* ════════════════════════════════
-   BOOT SEQUENCE OVERLAY
-   ════════════════════════════════ */
 .boot-overlay {
   position: fixed;
   inset: 0;
@@ -800,9 +747,6 @@ body::before {
   to   { opacity: 1; transform: translateX(0); }
 }
 
-/* ════════════════════════════════
-   ANIMATIONS
-   ════════════════════════════════ */
 .fade-in { opacity: 0; animation: fadeUp 0.4s ease-out forwards; }
 .stagger-1 { animation-delay: 0.06s; }
 .stagger-2 { animation-delay: 0.13s; }
@@ -810,9 +754,6 @@ body::before {
 .stagger-4 { animation-delay: 0.29s; }
 .stagger-5 { animation-delay: 0.37s; }
 
-/* ════════════════════════════════
-   SCROLLBAR + SELECTION
-   ════════════════════════════════ */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border-hi); }
@@ -832,4 +773,132 @@ body::before {
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
   .chatbot { width: calc(100vw - 2rem); right: 1rem; bottom: calc(52px + 1rem + 0.75rem); }
   .chatbot-toggle { right: 1rem; bottom: 1rem; }
+}
+
+/* ════════════════════════════════
+   WIDE SCREEN — pin chatbot to
+   right edge of 760px container
+   ════════════════════════════════ */
+@media (min-width: 820px) {
+  .chatbot-toggle  { right: calc(50% - 380px); }
+  .chatbot         { right: calc(50% - 380px); }
+  .theme-toggle    { right: calc(50% - 438px); }
+  .language-toggle { right: calc(50% - 438px); }
+}
+
+/* ════════════════════════════════
+   GITHUB ACTIVITY — inline in projects
+   ════════════════════════════════ */
+.gh-activity-inline {
+  margin-top: 0.5rem;
+  padding: 1rem 1.25rem 0.75rem;
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--border-hi);
+  border-radius: 2px;
+  background: var(--bg-sunken);
+}
+
+.gh-activity-divider {
+  font-size: 0.68rem;
+  color: var(--text-lo);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+  opacity: 0.6;
+}
+
+.gh-loading {
+  font-size: 0.72rem;
+  color: var(--text-lo);
+  opacity: 0.5;
+  letter-spacing: 0.04em;
+}
+
+.gh-log {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.gh-line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  line-height: 1.7;
+  padding: 0.28rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.gh-line:last-child { border-bottom: none; }
+
+.gh-ts {
+  color: var(--text-lo);
+  min-width: 80px;
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  opacity: 0.7;
+}
+
+.gh-detail {
+  color: var(--text-md);
+  flex: 1;
+  font-size: 0.75rem;
+}
+
+.gh-repo {
+  color: var(--green);
+  font-weight: 500;
+}
+[data-theme="dark"] .gh-repo {
+  text-shadow: 0 0 8px rgba(104,216,62,0.25);
+}
+
+.gh-badge {
+  font-size: 0.63rem;
+  padding: 0 0.4rem;
+  border-radius: 2px;
+  flex-shrink: 0;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  border: 1px solid;
+  line-height: 1.6;
+}
+
+.gh-badge--push,
+.gh-badge--create  { color: var(--green);   border-color: var(--border-hi);        background: var(--green-bg); }
+.gh-badge--pr      { color: #7a5af8;        border-color: rgba(122,90,248,0.3);    background: rgba(122,90,248,0.06); }
+.gh-badge--issue,
+.gh-badge--release { color: #2a7a2a;        border-color: rgba(42,122,42,0.3);     background: rgba(42,122,42,0.06); }
+.gh-badge--fork,
+.gh-badge--star    { color: #8a6e00;        border-color: rgba(138,110,0,0.3);     background: rgba(138,110,0,0.05); }
+.gh-badge--comment,
+.gh-badge--delete,
+.gh-badge--event   { color: var(--text-lo); border-color: var(--border);           background: transparent; }
+
+[data-theme="dark"] .gh-badge--push,
+[data-theme="dark"] .gh-badge--create  { color: var(--green); border-color: var(--border-hi); }
+[data-theme="dark"] .gh-badge--pr      { color: #a78bfa; border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.08); }
+[data-theme="dark"] .gh-badge--issue,
+[data-theme="dark"] .gh-badge--release { color: #68d83e; border-color: rgba(104,216,62,0.3); }
+[data-theme="dark"] .gh-badge--fork,
+[data-theme="dark"] .gh-badge--star    { color: #d4a017; border-color: rgba(212,160,23,0.3); background: rgba(212,160,23,0.06); }
+
+.gh-status-row {
+  margin-top: 0.5rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--border);
+}
+
+.gh-status {
+  font-size: 0.63rem;
+  color: var(--text-lo);
+  letter-spacing: 0.06em;
+  opacity: 0.45;
+}
+.gh-status::before { content: "[ "; }
+.gh-status::after  { content: " ]"; }
+
+[data-theme="dark"] .gh-line .gh-detail,
+[data-theme="dark"] .gh-line .gh-ts {
+  text-shadow: 0 0 8px rgba(104,216,62,0.15);
 }

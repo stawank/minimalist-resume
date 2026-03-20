@@ -94,7 +94,6 @@
           return data
         } catch (err) {
           console.error(`Failed to load ${lang}.json:`, err)
-          // Show visible error on page so it's not a silent blank screen
           document.getElementById("main-container").innerHTML = `
             <div style="padding:2rem;font-family:monospace;color:#68d83e;">
               <p style="color:#d4a017;">[ ERROR ] failed to load ${lang}.json</p>
@@ -188,6 +187,15 @@
         <section class="section fade-in stagger-3">
           <h2 class="section-title">[ ${d.sections.projects} ]</h2>
           ${cards}
+          <div class="gh-activity-inline">
+            <div class="gh-activity-divider">── recent activity ──</div>
+            <div class="gh-log" id="gh-log">
+              <span class="gh-loading">fetching activity...</span>
+            </div>
+            <div class="gh-status-row">
+              <span class="gh-status" id="gh-status"></span>
+            </div>
+          </div>
         </section>`
       }
 
@@ -258,6 +266,7 @@
         renderChatbot(data)
         updateLangButtons()
         startUptimeClock()
+        loadGitHubActivity("stawank")
       }
 
       function startUptimeClock() {
@@ -363,6 +372,93 @@
         submitBtn.disabled = false
         submitBtn.textContent = "Send"
         container.scrollTop = container.scrollHeight
+      }
+
+      // ── GitHub Activity ────────────────────────────────────────────────────
+      const GH_TYPE = {
+        PushEvent:              { tag: "push",    label: "pushed"       },
+        PullRequestEvent:       { tag: "pr",      label: "pull-request" },
+        IssuesEvent:            { tag: "issue",   label: "issue"        },
+        ForkEvent:              { tag: "fork",    label: "forked"       },
+        WatchEvent:             { tag: "star",    label: "starred"      },
+        CreateEvent:            { tag: "create",  label: "created"      },
+        ReleaseEvent:           { tag: "release", label: "released"     },
+        IssueCommentEvent:      { tag: "comment", label: "commented"    },
+        PullRequestReviewEvent: { tag: "pr",      label: "reviewed-pr"  },
+        DeleteEvent:            { tag: "delete",  label: "deleted"      },
+      }
+
+      function ghTimeAgo(iso) {
+        const s = Math.floor((Date.now() - new Date(iso)) / 1000)
+        if (s < 60)    return s + "s ago"
+        if (s < 3600)  return Math.floor(s / 60) + "m ago"
+        if (s < 86400) return Math.floor(s / 3600) + "h ago"
+        return Math.floor(s / 86400) + "d ago"
+      }
+
+      function ghDescribe(e) {
+        const t    = GH_TYPE[e.type] || { tag: "event", label: e.type.replace("Event", "").toLowerCase() }
+        const repo = e.repo.name.split("/")[1]
+        let detail = ""
+        if (e.type === "PushEvent") {
+          const n      = e.payload.commits?.length ?? 0
+          const branch = e.payload.ref ? e.payload.ref.replace("refs/heads/", "") : ""
+          const commits = n > 0 ? n + " commit" + (n !== 1 ? "s" : "") + " → " : ""
+          detail = commits + (branch ? branch + " → " : "")
+        } else if (e.type === "CreateEvent") {
+          const ref = e.payload.ref || ""
+          detail = (e.payload.ref_type || "") + (ref ? " " + ref : "") + " → "
+        } else if (e.type === "ForkEvent") {
+          detail = "from → "
+        } else {
+          detail = "→ "
+        }
+        return { tag: t.tag, label: t.label, detail, repo }
+      }
+
+      async function loadGitHubActivity(username) {
+        const log    = document.getElementById("gh-log")
+        const status = document.getElementById("gh-status")
+        if (!log) return
+
+        if (location.protocol === "file:") {
+          log.innerHTML = `<div class="gh-line"><span class="gh-ts">[ local ]</span><span class="gh-badge gh-badge--event">info</span><span class="gh-detail">serve via <span class="gh-repo">http://</span> to load live activity</span></div>`
+          if (status) status.textContent = "unavailable on file://"
+          return
+        }
+
+        try {
+          const res = await fetch(
+            `https://api.github.com/users/${username}/events/public?per_page=10`,
+            { headers: { Accept: "application/vnd.github+json" } }
+          )
+          if (!res.ok) throw new Error("HTTP " + res.status)
+          const events = await res.json()
+          const top5   = Array.isArray(events) ? events.slice(0, 5) : []
+
+          if (!top5.length) {
+            log.innerHTML = `<span class="gh-loading">no public events found</span>`
+            return
+          }
+
+          log.innerHTML = top5.map(e => {
+            const { tag, label, detail, repo } = ghDescribe(e)
+            return `<div class="gh-line">
+              <span class="gh-ts">[ ${ghTimeAgo(e.created_at)} ]</span>
+              <span class="gh-badge gh-badge--${tag}">${label}</span>
+              <span class="gh-detail">${detail}<span class="gh-repo">${repo}</span></span>
+            </div>`
+          }).join("")
+
+          if (status) {
+            const now = new Date()
+            status.textContent = "synced at " + now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+          }
+        } catch (err) {
+          if (log) log.innerHTML = `<span class="gh-loading">could not load — ${err.message}</span>`
+        }
+
+        setTimeout(() => loadGitHubActivity(username), 3 * 60 * 1000)
       }
 
       // ── Boot sequence ──────────────────────────────────────────────────────
