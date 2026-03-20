@@ -45,7 +45,6 @@
         <button class="chatbot-close" onclick="toggleChat()" title="Close">✕</button>
       </div>
       <div class="chatbot-messages" id="chat-messages"></div>
-      <div class="chat-chips" id="chat-chips"></div>
       <form id="chat-form">
         <input type="text" id="chat-input" autocomplete="off" required />
         <button type="submit" id="chat-submit">Send</button>
@@ -249,29 +248,6 @@
         if (!localStorage.getItem("chatbot-seen")) {
           toggle.classList.add("chatbot-toggle-pulse")
         }
-
-        // Render starter chips — from JSON or sensible fallback
-        const chipsEl = document.getElementById("chat-chips")
-        const chipList = (cb.chips && cb.chips.length) ? cb.chips : [
-          "What's your strongest skill?",
-          "Tell me about your AUTOSAR experience",
-          "Are you open to work?"
-        ]
-        chipsEl.innerHTML = chipList
-            .map(q => `<button class="chat-chip" type="button">${q}</button>`)
-            .join("")
-          chipsEl.querySelectorAll(".chat-chip").forEach(btn => {
-            btn.addEventListener("click", () => {
-              const question = btn.textContent.trim()
-              hideChips()
-              sendStreamingMessage(question)
-            })
-          })
-      }
-
-      function hideChips() {
-        const el = document.getElementById("chat-chips")
-        if (el) { el.classList.add("chat-chips--gone"); setTimeout(() => el.remove(), 250) }
       }
 
       // ── Full render ────────────────────────────────────────────────────────
@@ -339,6 +315,27 @@
         toggle.addEventListener("click", () => { clearTimeout(timer); hide() }, { once: true })
       }
 
+      // ── Welcome message + shortcuts ────────────────────────────────────────
+      const SHORTCUTS = {
+        "1": "What's your strongest skill?",
+        "2": "Tell me about your AUTOSAR experience",
+        "3": "Are you open to work?"
+      }
+
+      function showWelcomeMessage() {
+        const container = document.getElementById("chat-messages")
+        if (container.querySelector(".chat-message")) return  // already shown
+        const msg = document.createElement("div")
+        msg.className = "chat-message chat-message-assistant"
+        msg.innerHTML =
+          `initialized. i know everything about stawan.<br><br>` +
+          `<span class="chat-hint">[1]</span> strongest skill?<br>` +
+          `<span class="chat-hint">[2]</span> AUTOSAR experience<br>` +
+          `<span class="chat-hint">[3]</span> open to work?<br><br>` +
+          `<span class="chat-dim">— or just type anything</span>`
+        container.appendChild(msg)
+      }
+
       // ── Chatbot toggle ─────────────────────────────────────────────────────
       let chatOpen = false
 
@@ -352,6 +349,7 @@
           toggle.classList.add("chatbot-toggle-seen")
           toggle.classList.remove("chatbot-toggle-pulse")
           localStorage.setItem("chatbot-seen", "1")
+          showWelcomeMessage()
           document.getElementById("chat-input").focus()
         }
       }
@@ -539,10 +537,11 @@
         if (form && input) {
           form.addEventListener("submit", async e => {
             e.preventDefault()
-            const q = input.value.trim()
+            let q = input.value.trim()
             if (!q) return
+            // Expand numeric shortcuts
+            if (SHORTCUTS[q]) q = SHORTCUTS[q]
             input.value = ""
-            hideChips()
             await sendStreamingMessage(q)
           })
         }
