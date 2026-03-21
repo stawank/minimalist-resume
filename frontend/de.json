@@ -77,7 +77,7 @@
     {
       "title":       "LLM Lebenslauf-Chatbot — Self-hosted auf Raspberry Pi",
       "stack":       "Python · LLM API · Nginx · SSE · HTML · CSS · JavaScript · Raspberry Pi 4",
-      "description": "Self-hosted Lebenslauf-Website auf einem Raspberry Pi 4 mit Nginx, Hell/Dunkel-Theme und zweisprachiger (EN/DE) Unterstützung. LLM-API beantwortet Recruiterfragen in Echtzeit über ein SSE-Chat-Widget. Demonstriert serverseitiges Python und Full-Stack-Deployment auf eingeschränkter Hardware.",
+      "description": "Self-hosted Lebenslauf-Website auf einem Raspberry Pi 4 mit Nginx, Terminal-Theme und zweisprachiger (EN/DE) Unterstützung. LLM-API beantwortet Recruiterfragen in Echtzeit über ein SSE-Chat-Widget. Demonstriert serverseitiges Python und Full-Stack-Deployment auf eingeschränkter Hardware.",
       "links": [
         { "label": "GitHub →", "url": "https://github.com/stawank/minimalist-resume" }
       ]
