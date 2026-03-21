@@ -394,8 +394,4 @@ sudo systemctl start resume-backend
 # If still not showing, hard refresh in browser: Ctrl + Shift + R
 ```
 
----
 
-## License
-
-MIT
