@@ -4,6 +4,8 @@ backend/uvicorn.log
 backend/venv/
 backend/*.xlsx
 
+.vscode/
+
 *.pyc
 *.log
 .env
