@@ -22,6 +22,7 @@
   --shadow-md:    0 4px 32px rgba(0,0,0,0.9);
   --t:            all 0.25s ease;
   --scanline:     rgba(0,0,0,0.2);
+  --container-right: max(1rem, calc((100vw - 760px) / 2));
 }
 
 @keyframes blink   { 0%,49%{opacity:1} 50%,100%{opacity:0} }
@@ -711,12 +712,15 @@ body::before {
 
 /* ════════════════════════════════
    FIXED CONTROLS — aligned to
-   right edge of 760px container
-   via --container-right set by JS
+   right edge of 760px container.
+   --container-right is initialised
+   in :root with CSS max() so it is
+   correct at every screen size even
+   before JS runs. JS positionControls()
+   still overrides on load/resize
+   using the same formula.
    ════════════════════════════════ */
-:root { --container-right: 1.25rem; }
 
-/* ── Language toggle — fixed top-right, aligned to container edge ── */
 .language-toggle {
   position: fixed;
   top: 1rem;
@@ -741,12 +745,12 @@ body::before {
   letter-spacing: 0.08em;
   transition: color 0.15s;
 }
-.language-toggle button:hover { color: var(--green); }
+.language-toggle button:hover  { color: var(--green); }
 .language-toggle button.active { color: var(--green); font-weight: 600; }
-.language-toggle span { color: var(--text-lo); opacity: 0.4; }
+.language-toggle span          { color: var(--text-lo); opacity: 0.4; }
 
-.chatbot-toggle  { right: var(--container-right); }
-.chatbot         { right: var(--container-right); }
+.chatbot-toggle { right: var(--container-right); }
+.chatbot        { right: var(--container-right); }
 
 @media (max-width: 700px) {
   .container { margin: 0; border-radius: 0; border-left: none; border-right: none; }
@@ -757,7 +761,7 @@ body::before {
   .contact-row { flex-direction: column; align-items: center; }
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
   .chatbot { width: calc(100vw - 2rem); right: 1rem; bottom: calc(52px + 1rem + 0.75rem); }
-  .chatbot-toggle { right: 1rem; bottom: 1rem; }
+  .chatbot-toggle  { right: 1rem; bottom: 1rem; }
   .language-toggle { right: 1rem; }
 }
 
