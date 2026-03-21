@@ -716,7 +716,35 @@ body::before {
    ════════════════════════════════ */
 :root { --container-right: 1.25rem; }
 
-.language-toggle { right: var(--container-right); }
+/* ── Language toggle — fixed top-right, aligned to container edge ── */
+.language-toggle {
+  position: fixed;
+  top: 1rem;
+  right: var(--container-right);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--text-lo);
+}
+
+.language-toggle button {
+  background: transparent;
+  border: none;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  color: var(--text-lo);
+  cursor: pointer;
+  padding: 0.1rem 0.2rem;
+  letter-spacing: 0.08em;
+  transition: color 0.15s;
+}
+.language-toggle button:hover { color: var(--green); }
+.language-toggle button.active { color: var(--green); font-weight: 600; }
+.language-toggle span { color: var(--text-lo); opacity: 0.4; }
+
 .chatbot-toggle  { right: var(--container-right); }
 .chatbot         { right: var(--container-right); }
 
@@ -730,6 +758,7 @@ body::before {
   .skills-grid { grid-template-columns: repeat(2, 1fr); }
   .chatbot { width: calc(100vw - 2rem); right: 1rem; bottom: calc(52px + 1rem + 0.75rem); }
   .chatbot-toggle { right: 1rem; bottom: 1rem; }
+  .language-toggle { right: 1rem; }
 }
 
 /* ════════════════════════════════
