@@ -1,551 +1,108 @@
+Portfolio Website
+/
+
+considering the current state of project (from uploaded files), what could be top 3 low effort high value improvements in this webpge
+1:54 PM
+Check frontend design skill
+
+Having looked through all the files carefully, here are the top 3 low-effort, high-value improvements:
+
+1. Add Open Graph / meta tags for social sharing — currently zero. When anyone shares a link on LinkedIn, Twitter, or WhatsApp, it shows a blank preview. A portfolio site needs this. Adding 6–8 lines in <head> with og:title, og:description, og:image, and twitter:card turns every share into a proper branded card. Effort: ~10 minutes. Impact: huge for a job-seeker's portfolio.
+
+2. The chatbot toggle has no attention-getting behavior on first load — it just appears silently. Right now there's a chatbot-toggle-ping class in the CSS that's set to display: none. A subtle pulsing ring animation on the button after the boot sequence finishes would dramatically increase engagement. The infrastructure is literally already there — it just needs to be turned on and given a CSS keyframe animation. Effort: ~15 minutes. Impact: more visitors actually discover and use the AI chatbot, which is the most differentiating feature of the site.
+
+3. The boot sequence fires every page navigation, not just first visit — sessionStorage.getItem("booted") is checked, which should prevent repeat boots. But each sub-page (thesis.html, baja.html) has its own hardcoded boot sequence that also checks sessionStorage, meaning navigating back from the main page and then to thesis.html shows the boot again. This creates UX friction. A single shared booted key across all pages would fix it — or better, storing the booted key as a simple global skip on sub-pages after the main page has booted. Effort: ~10 minutes. Impact: much smoother multi-page browsing experience.
+
+Want me to implement any of these? I can write the code changes for whichever you'd like to prioritize.
+
+Can you explain 1, and shw mw
+1:56 PM
+
+Sure! Right now if someone pastes your portfolio URL into LinkedIn, iMessage, Twitter/X, or Slack, they get a blank/generic preview — just a URL with no image, no title, no description.
+
+Open Graph tags are just a few <meta> lines in the <head> that tell social platforms and messaging apps what to show when your link is shared. Here's what they control:
+
+The one extra thing you need beyond the code is the og-image.png — a 1200×630px image (roughly 2:1 ratio) that acts as the thumbnail. Since your site is already green-on-black terminal aesthetic, the simplest approach is a dark background with your name, title, and maybe your photo. You could make it in Figma, Canva, or even just screenshot your header section at the right size.
+
+A few notes on the sub-pages:
+
+    thesis.html and baja.html should each get their own version with a different og:title and og:url — so sharing a thesis link shows "Master Thesis — Stawan Kulkarni" rather than the generic resume title
+    The og:image can be the same across all pages for simplicity
+
+Want me to generate the actual code patch for all three HTML files, or help design what the og-image.png should look like?
+
+yes sure
+1:58 PM
+
+Let me write the actual patches for all three files plus sketch out what the og-image should look like.
+Edited 3 files, viewed a file, ran a command
+
+Now let's create the og-image as an SVG (you can export it as PNG at 1200×630):
+Created a file, ran a command, read a file
+
+Here's what was done and how to deploy it:
+
+Files changed — only the <head> of each file, nothing else touched:
+
+    index.html — main resume OG tags, URL stawank.de
+    thesis.html — thesis-specific title/description, URL stawank.de/thesis.html
+    baja.html — Baja-specific title/description, URL stawank.de/baja.html
+
+To deploy:
+
+    Drop the three HTML files into your server (replacing the existing ones)
+    Convert og-image.svg → og-image.png at 1200×630px and put it at your web root. You can do this with Figma (import SVG → export PNG), or use a free tool like svgexport or Inkscape
+    After deploying, test it at opengraph.xyz or paste your URL into the LinkedIn post composer — it'll show you the preview live
+
+The og-image.svg matches your exact terminal aesthetic — dark background, green phosphor text, corner brackets, scanlines, key/value layout. Should look very cohesive when it appears in someone's feed.
+Og image
+Image · SVG 
+Index
+Code · HTML 
+Thesis
+Code · HTML 
+Baja
+Code · HTML 
+
+dont mention location in svg
+2:02 PM
+Edited a file, ran a command, read a file
+
+Done — location line removed. The SVG now just shows stack and domain, keeping it clean and non-specific.
+Og image
+Image · SVG 
+
+
+Claude is AI and can make mistakes. Please double-check responses.
+Index · HTML
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Stawan Kulkarni - Automotive Software Engineer</title>
+    <meta name="description" content="Automotive Software Engineer specialising in ADAS test automation, SysML, and Python. Based in Regensburg, Germany." />
+    <meta property="og:title"       content="Stawan Kulkarni — Automotive Software Engineer" />
+    <meta property="og:description" content="ADAS test automation · SysML · Python · Regensburg, Germany" />
+    <meta property="og:image"       content="https://stawank.cv/og-image.png" />
+    <meta property="og:url"         content="https://stawank.cv" />
+    <meta property="og:type"        content="website" />
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content="Stawan Kulkarni — Automotive Software Engineer" />
+    <meta name="twitter:description" content="ADAS test automation · SysML · Python · Regensburg, Germany" />
+    <meta name="twitter:image"       content="https://stawank.cv/og-image.png" />
+    <meta name="description" content="Automotive Software Engineer specialising in ADAS test automation, SysML, and Python. Based in Regensburg, Germany." />
+    <meta property="og:title"       content="Stawan Kulkarni — Automotive Software Engineer" />
+    <meta property="og:description" content="ADAS test automation · SysML · Python · Regensburg, Germany" />
+    <meta property="og:image"       content="https://stawank.cv/og-image.png" />
+    <meta property="og:url"         content="https://stawank.cv" />
+    <meta property="og:type"        content="website" />
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content="Stawan Kulkarni — Automotive Software Engineer" />
+    <meta name="twitter:description" content="ADAS test automation · SysML · Python · Regensburg, Germany" />
+    <meta name="twitter:image"       content="https://stawank.cv/og-image.png" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="favicon.ico" sizes="32x32" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S8FDWEFYGB"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-S8FDWEFYGB');
-    </script>
-  </head>
-  <body>
+ 
 
-    <div class="language-toggle">
-      <button type="button" data-lang-btn="en" onclick="setLanguage('en')">EN</button>
-      <span>|</span>
-      <button type="button" data-lang-btn="de" onclick="setLanguage('de')">DE</button>
-    </div>
-
-    <!-- BOOT SEQUENCE OVERLAY -->
-    <div class="boot-overlay" id="boot-overlay">
-      <div class="boot-lines" id="boot-lines"></div>
-      <div class="boot-prompt" id="boot-prompt"></div>
-    </div>
-
-    <!-- MAIN CONTENT — rendered by JS from JSON -->
-    <div class="container" id="main-container" style="visibility:hidden"></div>
-
-    <!-- CHATBOT -->
-    <button class="chatbot-toggle" id="chatbot-toggle" onclick="toggleChat()" style="visibility:hidden"></button>
-    <div class="chatbot" id="chatbot-panel">
-      <div class="chatbot-header">
-        <span id="chatbot-title"></span>
-        <button class="chatbot-close" onclick="toggleChat()" title="Close">✕</button>
-      </div>
-      <div class="chatbot-messages" id="chat-messages"></div>
-      <form id="chat-form">
-        <input type="text" id="chat-input" autocomplete="off" required />
-        <button type="submit" id="chat-submit">Send</button>
-      </form>
-      <div class="chatbot-footer" id="chatbot-footer"></div>
-    </div>
-
-    <script>
-      // ── State ──────────────────────────────────────────────────────────────
-      let currentLang = 'en'
-      const cache = {}
-
-      // ── Theme ──────────────────────────────────────────────────────────────
-      function loadTheme() {
-        document.documentElement.setAttribute("data-theme", "dark")
-      }
-
-      // ── JSON loader ────────────────────────────────────────────────────────
-      async function loadData(lang) {
-        if (cache[lang]) return cache[lang]
-        try {
-          const res = await fetch(`${lang}.json`)
-          if (!res.ok) throw new Error(`HTTP ${res.status}`)
-          const data = await res.json()
-          cache[lang] = data
-          return data
-        } catch (err) {
-          console.error(`Failed to load ${lang}.json:`, err)
-          document.getElementById("main-container").innerHTML = `
-            <div style="padding:2rem;font-family:monospace;color:#68d83e;">
-              <p style="color:#d4a017;">[ ERROR ] failed to load ${lang}.json</p>
-              <p style="opacity:0.6;margin-top:0.5rem;">${err.message}</p>
-              <p style="opacity:0.5;margin-top:1rem;font-size:0.8rem;">
-                Make sure en.json and de.json are in the same folder as index.html<br>
-                and served via a web server (not opened as file://)
-              </p>
-            </div>`
-          document.getElementById("main-container").style.visibility = ""
-          document.getElementById("boot-overlay").style.display = "none"
-          return null
-        }
-      }
-
-      // ── Renderers ──────────────────────────────────────────────────────────
-      function renderHeader(d) {
-        const h = d.header
-        return `
-        <header class="header fade-in">
-          <div class="uptime-line" id="uptime-line">${h.uptime} <span id="uptime-out"></span></div>
-          <div class="avatar">
-            <img src="photo.jpg" alt="${h.name}" />
-            <div class="avatar-bracket avatar-bracket--tl">
-              <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 2H2V14" stroke="#00ff66" stroke-width="2" stroke-linecap="square"/>
-              </svg>
-            </div>
-            <div class="avatar-bracket avatar-bracket--tr">
-              <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 2H2V14" stroke="#00ff66" stroke-width="2" stroke-linecap="square"/>
-              </svg>
-            </div>
-            <div class="avatar-bracket avatar-bracket--bl">
-              <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 2H2V14" stroke="#00ff66" stroke-width="2" stroke-linecap="square"/>
-              </svg>
-            </div>
-            <div class="avatar-bracket avatar-bracket--br">
-              <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M14 2H2V14" stroke="#00ff66" stroke-width="2" stroke-linecap="square"/>
-              </svg>
-            </div>
-          </div>
-          <h1 class="name">${h.name}</h1>
-          <p class="title">${h.title}</p>
-          <p class="location">${h.location}</p>
-          <div class="contact-links">
-            <div class="contact-row contact-row--primary">
-              <a href="mailto:${h.contact.email}" class="contact-link">mail: ${h.contact.email}</a>
-              <a href="${h.contact.linkedin_url}" target="_blank" class="contact-link">${h.contact.linkedin_label}</a>
-              <a href="${h.contact.github_url}" target="_blank" class="contact-link">${h.contact.github_label}</a>
-            </div>
-            <div class="contact-row contact-row--secondary">
-              <a href="tel:${h.contact.phone_de.replace(/\s/g,'')}" class="contact-link">tel: ${h.contact.phone_de}</a>
-              <a href="tel:${h.contact.phone_in.replace(/\s/g,'')}" class="contact-link">tel: ${h.contact.phone_in}</a>
-            </div>
-          </div>
-        </header>`
-      }
-
-      function renderAbout(d) {
-        const a = d.about
-        return `
-        <section class="section fade-in stagger-1">
-          <h2 class="section-title">[ ${d.sections.about} ]</h2>
-          <div class="card">
-            <div class="about-lines">
-              <div class="about-line"><span class="about-key">role</span><span class="about-val">${a.role}</span></div>
-              <div class="about-line"><span class="about-key">stack</span><span class="about-val">${a.stack}</span></div>
-              <div class="about-line"><span class="about-key">exp</span><span class="about-val">${a.exp}</span></div>
-              <div class="about-line"><span class="about-key">currently</span><span class="about-val">${a.current}</span></div>
-            </div>
-          </div>
-        </section>`
-      }
-
-      function renderExperience(d) {
-        const cards = d.experience.map(job => `
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">${job.title}</h3>
-              <p class="card-subtitle">${job.company}</p>
-            </div>
-            <p class="card-meta">${job.period}</p>
-            <ul class="card-bullets">
-              ${job.bullets.map(b => `<li>${b}</li>`).join('\n')}
-            </ul>
-          </div>`).join('\n')
-        return `
-        <section class="section fade-in stagger-2">
-          <h2 class="section-title">[ ${d.sections.experience} ]</h2>
-          ${cards}
-        </section>`
-      }
-
-      function renderProjects(d) {
-        const cards = d.projects.map(p => {
-          const links = p.links.map(l =>
-            `<a href="${l.url}" class="project-link"${l.url.startsWith('http') ? ' target="_blank"' : ''}>${l.label}</a>`
-          ).join('\n')
-          return `
-          <div class="card">
-            <h3 class="card-title">${p.title}</h3>
-            <p class="card-meta">${p.stack}</p>
-            <p class="card-description">${p.description}</p>
-            <div class="project-links">${links}</div>
-          </div>`
-        }).join('\n')
-        return `
-        <section class="section fade-in stagger-3">
-          <h2 class="section-title">[ ${d.sections.projects} ]</h2>
-          ${cards}
-          <div class="gh-activity-inline">
-            <div class="gh-activity-divider">── recent activity ──</div>
-            <div class="gh-log" id="gh-log">
-              <span class="gh-loading">fetching activity...</span>
-            </div>
-            <div class="gh-status-row">
-              <span class="gh-status" id="gh-status"></span>
-            </div>
-          </div>
-        </section>`
-      }
-
-      function renderSkills(d) {
-        const groups = d.skills.map(g => `
-          <div class="skill-group">
-            <div class="skill-group-label">${g.group}</div>
-            <div class="skills-grid">
-              ${g.items.map(i => `<div class="skill-item">${i}</div>`).join('\n')}
-            </div>
-          </div>`).join('\n')
-        return `
-        <section class="section fade-in stagger-4">
-          <h2 class="section-title">[ ${d.sections.skills} ]</h2>
-          <div class="skills-groups">${groups}</div>
-        </section>`
-      }
-
-      function renderEducation(d) {
-        const cards = d.education.map(e => {
-          const links = e.links.length
-            ? `<div class="project-links">${e.links.map(l => `<a href="${l.url}" class="project-link">${l.label}</a>`).join('')}</div>`
-            : ''
-          return `
-          <div class="card">
-            <h3 class="card-title">${e.degree}</h3>
-            <p class="card-subtitle">${e.school}</p>
-            <p class="card-meta">${e.period}</p>
-            <p class="card-description">${e.description}</p>
-            ${links}
-          </div>`
-        }).join('\n')
-        return `
-        <section class="section fade-in stagger-5">
-          <h2 class="section-title">[ ${d.sections.education} ]</h2>
-          ${cards}
-        </section>`
-      }
-
-      function renderEof() {
-        return `
-        <div class="eof-line fade-in stagger-5">
-          <span>-- end of file --</span>
-          <span class="eof-exit">[exit 0]</span>
-        </div>`
-      }
-
-      function renderChatbot(d) {
-        const cb = d.chatbot
-        const toggle = document.getElementById("chatbot-toggle")
-        toggle.innerHTML = `<span class="chatbot-toggle-label">${cb.toggle_label}</span>`
-        document.getElementById("chatbot-title").textContent  = cb.header
-        document.getElementById("chat-input").placeholder     = cb.placeholder
-        document.getElementById("chatbot-footer").textContent = cb.footer
-      }
-
-      // ── Full render ────────────────────────────────────────────────────────
-      function render(data) {
-        document.getElementById("main-container").innerHTML = `
-          ${renderHeader(data)}
-          ${renderAbout(data)}
-          ${renderExperience(data)}
-          ${renderProjects(data)}
-          ${renderSkills(data)}
-          ${renderEducation(data)}
-          ${renderEof()}
-        `
-        renderChatbot(data)
-        updateLangButtons()
-        startUptimeClock()
-        loadGitHubActivity("stawank")
-      }
-
-      function startUptimeClock() {
-        const el = document.getElementById("uptime-out")
-        if (!el) return
-        const start = Date.now()
-        const fmt = (n) => String(n).padStart(2, "0")
-        const tick = () => {
-          const s = Math.floor((Date.now() - start) / 1000)
-          const h = Math.floor(s / 3600)
-          const m = Math.floor((s % 3600) / 60)
-          const sec = s % 60
-          const now = new Date()
-          el.textContent = `${now.toLocaleTimeString()} up ${fmt(h)}:${fmt(m)}:${fmt(sec)}, load avg: 0.42`
-        }
-        tick()
-        setInterval(tick, 1000)
-      }
-
-      // ── Language ───────────────────────────────────────────────────────────
-      async function setLanguage(lang) {
-        currentLang = lang
-        localStorage.setItem("lang", lang)
-        document.documentElement.setAttribute("lang", lang)
-        const data = await loadData(lang)
-        render(data)
-        positionControls()
-      }
-
-      function updateLangButtons() {
-        document.querySelectorAll("[data-lang-btn]").forEach(btn => {
-          btn.classList.toggle("active", btn.getAttribute("data-lang-btn") === currentLang)
-        })
-      }
-
-      // ── Chatbot toggle ─────────────────────────────────────────────────────
-      let chatOpen = false
-
-      function toggleChat() {
-        chatOpen = !chatOpen
-        const panel  = document.getElementById("chatbot-panel")
-        const toggle = document.getElementById("chatbot-toggle")
-        panel.classList.toggle("chatbot-open", chatOpen)
-        toggle.classList.toggle("chatbot-toggle-active", chatOpen)
-        if (chatOpen) {
-          toggle.classList.add("chatbot-toggle-seen")
-          document.getElementById("chat-input").focus()
-        }
-      }
-
-      // ── Chat streaming ─────────────────────────────────────────────────────
-      async function sendStreamingMessage(question) {
-        const container = document.getElementById("chat-messages")
-        const submitBtn = document.getElementById("chat-submit")
-
-        const userDiv = document.createElement("div")
-        userDiv.className = "chat-message chat-message-user"
-        userDiv.textContent = question
-        container.appendChild(userDiv)
-
-        submitBtn.disabled = true
-        submitBtn.textContent = "..."
-
-        const botDiv = document.createElement("div")
-        botDiv.className = "chat-message chat-message-assistant"
-        botDiv.textContent = "▍"
-        container.appendChild(botDiv)
-        container.scrollTop = container.scrollHeight
-
-        try {
-          const res = await fetch("/chat/stream", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ question }),
-          })
-          if (!res.ok) throw new Error("Server error")
-
-          const reader  = res.body.getReader()
-          const decoder = new TextDecoder()
-          let fullText  = ""
-
-          while (true) {
-            const { done, value } = await reader.read()
-            if (done) break
-            const lines = decoder.decode(value).split("\n")
-            for (const line of lines) {
-              if (!line.startsWith("data: ")) continue
-              const data = line.slice(6).trim()
-              if (data === "[DONE]") break
-              try {
-                const parsed = JSON.parse(data)
-                fullText += parsed.token
-                botDiv.textContent = fullText + "▍"
-                container.scrollTop = container.scrollHeight
-              } catch {}
-            }
-          }
-          botDiv.textContent = fullText || "I don't have that information."
-        } catch (err) {
-          botDiv.textContent = "Could not reach the chatbot backend."
-          console.error(err)
-        }
-
-        submitBtn.disabled = false
-        submitBtn.textContent = "Send"
-        container.scrollTop = container.scrollHeight
-      }
-
-      // ── GitHub Activity ────────────────────────────────────────────────────
-      const GH_TYPE = {
-        PushEvent:              { tag: "push",    label: "pushed"       },
-        PullRequestEvent:       { tag: "pr",      label: "pull-request" },
-        IssuesEvent:            { tag: "issue",   label: "issue"        },
-        ForkEvent:              { tag: "fork",    label: "forked"       },
-        WatchEvent:             { tag: "star",    label: "starred"      },
-        CreateEvent:            { tag: "create",  label: "created"      },
-        ReleaseEvent:           { tag: "release", label: "released"     },
-        IssueCommentEvent:      { tag: "comment", label: "commented"    },
-        PullRequestReviewEvent: { tag: "pr",      label: "reviewed-pr"  },
-        DeleteEvent:            { tag: "delete",  label: "deleted"      },
-      }
-
-      function ghTimeAgo(iso) {
-        const s = Math.floor((Date.now() - new Date(iso)) / 1000)
-        if (s < 60)    return s + "s ago"
-        if (s < 3600)  return Math.floor(s / 60) + "m ago"
-        if (s < 86400) return Math.floor(s / 3600) + "h ago"
-        return Math.floor(s / 86400) + "d ago"
-      }
-
-      function ghDescribe(e) {
-        const t    = GH_TYPE[e.type] || { tag: "event", label: e.type.replace("Event", "").toLowerCase() }
-        const repo = e.repo.name.split("/")[1]
-        let detail = ""
-        if (e.type === "PushEvent") {
-          const n      = e.payload.commits?.length ?? 0
-          const branch = e.payload.ref ? e.payload.ref.replace("refs/heads/", "") : ""
-          const commits = n > 0 ? n + " commit" + (n !== 1 ? "s" : "") + " → " : ""
-          detail = commits + (branch ? branch + " → " : "")
-        } else if (e.type === "CreateEvent") {
-          const ref = e.payload.ref || ""
-          detail = (e.payload.ref_type || "") + (ref ? " " + ref : "") + " → "
-        } else if (e.type === "ForkEvent") {
-          detail = "from → "
-        } else {
-          detail = "→ "
-        }
-        return { tag: t.tag, label: t.label, detail, repo }
-      }
-
-      async function loadGitHubActivity(username) {
-        const log    = document.getElementById("gh-log")
-        const status = document.getElementById("gh-status")
-        if (!log) return
-
-        if (location.protocol === "file:") {
-          log.innerHTML = `<div class="gh-line"><span class="gh-ts">[ local ]</span><span class="gh-badge gh-badge--event">info</span><span class="gh-detail">serve via <span class="gh-repo">http://</span> to load live activity</span></div>`
-          if (status) status.textContent = "unavailable on file://"
-          return
-        }
-
-        try {
-          const res = await fetch(
-            `https://api.github.com/users/${username}/events/public?per_page=10`,
-            { headers: { Accept: "application/vnd.github+json" } }
-          )
-          if (!res.ok) throw new Error("HTTP " + res.status)
-          const events = await res.json()
-          const top5   = Array.isArray(events) ? events.slice(0, 5) : []
-
-          if (!top5.length) {
-            log.innerHTML = `<span class="gh-loading">no public events found</span>`
-            return
-          }
-
-          log.innerHTML = top5.map(e => {
-            const { tag, label, detail, repo } = ghDescribe(e)
-            return `<div class="gh-line">
-              <span class="gh-ts">[ ${ghTimeAgo(e.created_at)} ]</span>
-              <span class="gh-badge gh-badge--${tag}">${label}</span>
-              <span class="gh-detail">${detail}<span class="gh-repo">${repo}</span></span>
-            </div>`
-          }).join("")
-
-          if (status) {
-            const now = new Date()
-            status.textContent = "synced at " + now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-          }
-        } catch (err) {
-          if (log) log.innerHTML = `<span class="gh-loading">could not load — ${err.message}</span>`
-        }
-
-        setTimeout(() => loadGitHubActivity(username), 3 * 60 * 1000)
-      }
-
-      // ── Boot sequence ──────────────────────────────────────────────────────
-      function runBootSequence(bootData) {
-        if (sessionStorage.getItem("booted")) {
-          document.getElementById("boot-overlay").style.display = "none"
-          document.getElementById("main-container").style.visibility = ""
-          document.getElementById("chatbot-toggle").style.visibility = ""
-          return
-        }
-
-        const overlay  = document.getElementById("boot-overlay")
-        const linesEl  = document.getElementById("boot-lines")
-        const promptEl = document.getElementById("boot-prompt")
-
-        bootData.lines.forEach(({ text, color }, i) => {
-          setTimeout(() => {
-            if (text === "") { linesEl.appendChild(document.createElement("br")); return }
-            const line = document.createElement("div")
-            line.className = `boot-line boot-line--${color}`
-            line.textContent = text
-            linesEl.appendChild(line)
-            overlay.scrollTop = overlay.scrollHeight
-          }, i * 160)
-        })
-
-        const promptDelay = bootData.lines.length * 160 + 200
-        setTimeout(() => {
-          let i = 0
-          const prompt = bootData.prompt
-          promptEl.textContent = ""
-          const cursor = document.createElement("span")
-          cursor.className = "boot-cursor"
-          cursor.textContent = "█"
-          promptEl.appendChild(cursor)
-
-          const type = () => {
-            if (i < prompt.length) {
-              cursor.before(prompt[i])
-              i++
-              setTimeout(type, 45)
-            } else {
-              setTimeout(() => {
-                overlay.classList.add("boot-overlay--done")
-                setTimeout(() => {
-                  overlay.style.display = "none"
-                  document.getElementById("main-container").style.visibility = ""
-                  document.getElementById("chatbot-toggle").style.visibility = ""
-                  sessionStorage.setItem("booted", "1")
-                }, 600)
-              }, 400)
-            }
-          }
-          type()
-        }, promptDelay)
-      }
-
-      // ── Control positioning ────────────────────────────────────────────────
-      function positionControls() {
-        const vw  = document.documentElement.clientWidth
-        const gap = vw > 760 ? Math.floor((vw - 760) / 2) : 8
-        document.documentElement.style.setProperty("--container-right", gap + "px")
-      }
-
-      // ── Init ───────────────────────────────────────────────────────────────
-      document.addEventListener("DOMContentLoaded", async () => {
-        loadTheme()
-
-        const lang = localStorage.getItem("lang") || "en"
-        currentLang = lang
-        document.documentElement.setAttribute("lang", lang)
-
-        const data = await loadData(lang)
-        if (!data) return
-        render(data)
-        positionControls()
-        window.addEventListener("resize", positionControls)
-
-        const form  = document.getElementById("chat-form")
-        const input = document.getElementById("chat-input")
-        if (form && input) {
-          form.addEventListener("submit", async e => {
-            e.preventDefault()
-            const q = input.value.trim()
-            if (!q) return
-            input.value = ""
-            await sendStreamingMessage(q)
-          })
-        }
-
-        runBootSequence(data.boot)
-      })
-    </script>
-  </body>
-</html>
