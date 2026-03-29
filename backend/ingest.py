@@ -29,9 +29,9 @@ GITHUB_REPOS = [
 ]
 
 WEBSITE = [
-    "https://raspberrypi.tail1b2b1f.ts.net/",
-    "https://raspberrypi.tail1b2b1f.ts.net/thesis.html",
-    "https://raspberrypi.tail1b2b1f.ts.net/baja.html",
+    "https://www.stawank.cv",
+    "https://www.stawank.cv/thesis.html",
+    "https://www.stawank.cv/baja.html",
 ]
 
 # ── Setup ─────────────────────────────────────────────────────────────────────
